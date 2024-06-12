@@ -149,7 +149,7 @@
     
     
     <article
-  id="post-git使用说明"
+  id="post-云访问博客"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -160,8 +160,8 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="/2024/06/11/git%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/"
-    >git使用说明</a> 
+  <a class="article-title" href="/2024/06/12/%E4%BA%91%E8%AE%BF%E9%97%AE%E5%8D%9A%E5%AE%A2/"
+    >云访问博客 - using GitHub Pages</a> 
 </h2>
  
 
@@ -169,7 +169,70 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2024/06/11/git%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" class="article-date">
+      <a href="/2024/06/12/%E4%BA%91%E8%AE%BF%E9%97%AE%E5%8D%9A%E5%AE%A2/" class="article-date">
+  <time datetime="2024-06-12T01:07:12.000Z" itemprop="datePublished">2024-06-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/web%E5%89%8D%E7%AB%AF/">web前端</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="新建仓库"><a href="#新建仓库" class="headerlink" title="新建仓库"></a>新建仓库</h2><p>新建仓库，填写内容如下，<strong>特别注意红框位置</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240520143122990.png" alt="image-20240520143122990"></p>
+<p>保证仓库<strong>public</strong>，名称填写正确<strong>用户名.github.io</strong>，系统自动变更为<strong>Pages</strong></p>
+<p>在仓库设置中找到<strong>Pages</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240520143142668.png" alt="image-20240520143142668"></p>
+<p>记住仓库地址，我们会将本地的文件上传到仓库</p>
+<h2 id="配置Git"><a href="#配置Git" class="headerlink" title="配置Git"></a>配置Git</h2><h2 id="Hexo中配置GitHub"><a href="#Hexo中配置GitHub" class="headerlink" title="Hexo中配置GitHub"></a>Hexo中配置GitHub</h2><p>在Hexo项目主目录中修改<code>_config.yml</code></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> url: https://hmmmmmya.github.io</span><br><span class="line"></span><br><span class="line">deploy:</span><br><span class="line"><span class="code">    type: git # 不要使用github, 没有双引号</span></span><br><span class="line"><span class="code">    repo: git@github.com:hmmmmmya/hmmmmmya.github.io.git # 使用ssh连接</span></span><br><span class="line"><span class="code">    branch: main # 分支</span></span><br><span class="line"><span class="code">    message: add new blog # 自动部署commit备注，可不填</span></span><br></pre></td></tr></table></figure>
+
+<p>注意url不能直接拷贝仓库地址<code>https://github.com/hmmmmmya/hmmmmmya.github.io</code>, 否则显示会有问题</p>
+<p>url要写成<code>https://hmmmmmya.github.io</code></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
+
+    
+    <article
+  id="post-git连接github"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2024/06/11/git%E8%BF%9E%E6%8E%A5github/"
+    >git连接github</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/06/11/git%E8%BF%9E%E6%8E%A5github/" class="article-date">
   <time datetime="2024-06-11T08:46:43.000Z" itemprop="datePublished">2024-06-11</time>
 </a>    
     </div>
