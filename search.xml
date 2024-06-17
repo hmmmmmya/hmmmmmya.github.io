@@ -312,4 +312,78 @@
         <tag>typora</tag>
       </tags>
   </entry>
+  <entry>
+    <title>windows下搭建C++编译环境</title>
+    <url>/2024/06/17/windows%E4%B8%8B%E6%90%AD%E5%BB%BACpp%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<p>using CMake + MinGW + VSCode</p>
+<p>CMake is an open-source, cross-platform tool that uses compiler and platform independent configuration files to generate native build tool files specific to your compiler and platform.</p>
+<p>The CMake Tools extension integrates Visual Studio Code and CMake to make it easy to configure, build, and debug your C++ project.</p>
+<span id="more"></span>
+
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><ol>
+<li><p>安装VSCode</p>
+<p> 配置VSCode终端<br> <img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240614104906.png" alt="配置VSCode终端"></p>
+</li>
+<li><p>安装VSCode插件C&#x2F;C++</p>
+</li>
+<li><p>安装VSCode插件CMake和CMake Tools</p>
+<ul>
+<li><p>CMake插件主要功能是CMake语法高亮、自动补全</p>
+</li>
+<li><p>CMake Tools的功能主要是结合VSCode IDE使用CMake这个工具，比如生成CMake项目、构建、调试CMake项目等。不能跨平台。</p>
+</li>
+</ul>
+</li>
+<li><p>安装CMake</p>
+<p> The VS Code CMake Tools extension does its work by using CMake installed on your system. For best results, use CMake version 3.27 or greater.</p>
+<p> 下载地址：<a href="https://cmake.org/download/">https://cmake.org/download/</a></p>
+<p> 下载zip版本“cmake-3.xx-win64-x64.zip”，下载完成解压到指定目录并添加bin所在目录到环境变量。</p>
+<p> 在终端输入“cmake –help”或 “cmake –version”查看是否配置成功。</p>
+<p> <img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240614105048.png" alt="查看cmake是否配置成功"></p>
+</li>
+<li><p>安装编译器MinGW</p>
+<ul>
+<li><p>MSVC即Microsoft Visual C++ Compiler，即微软自己的编译器。</p>
+</li>
+<li><p>MinGW则是指Minimalist GNU for Windows的缩写它是将GNU开发工具移植到Win32平台下的产物，即一套Windows上的GNU工具集。能够跨平台，能够在linux、arm等平台使用，这些平台使用的编译器都是g++、gcc。</p>
+</li>
+<li><p>跨平台开发的话，用的库基本上一定是Linux能用的库，而Linux能用的库一定是在mingw下支持会比较好。</p>
+</li>
+<li><p>MinGW-w64</p>
+<p>  下载地址：<a href="https://sourceforge.net/projects/mingw-w64/files/mingw-w64/mingw-w64-release/">https://sourceforge.net/projects/mingw-w64/files/mingw-w64/mingw-w64-release/</a></p>
+<p>  页面往下滑，选择MinGW-W64 Online Installer下面的最新版本，现在是MinGW-W64 GCC-8.1.0</p>
+<p>  推荐下载 离线版本“x86_64-posix-seh”</p>
+<p>  <img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240614110612.png" alt="选择mingw版本"></p>
+<p>  下载完成解压到指定目录并添加bin所在目录到环境变量。</p>
+<p>  <img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240614111327.png" alt="添加到环境变量"></p>
+<p>  将mingw64\bin目录下的“mingw32-make.exe”复制一份并改名为 “make.exe”，就可以在终端直接使用 “make”指令而不必使用“mingw32-make”指令。</p>
+<p>  在终端输入 “gcc -v”（或输入“make -v”查看版本信息）</p>
+<p>  <img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240614111656.png" alt="make -v"></p>
+</li>
+</ul>
+</li>
+<li><p>VSCode配置</p>
+<p> 两种方式配置CMake Tools extension，参考Ref_1</p>
+<ul>
+<li>Use CMake Presets (recommended)<ul>
+<li>通过JSON配置，可以跨IDE和操作系统使用</li>
+</ul>
+</li>
+<li>Use CMake Kits&#x2F;Variants</li>
+</ul>
+</li>
+</ol>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><ol>
+<li><a href="https://code.visualstudio.com/docs/cpp/CMake-linux">CMake Tools for VSCode documentation</a></li>
+<li><a href="https://vector-of-bool.github.io/docs/vscode-cmake-tools/getting_started.html#">vscode-cmake-tools getting started</a></li>
+<li><a href="https://blog.csdn.net/dcrmg/article/details/103918543">windows下 CMake+MinGW 搭建C&#x2F;C++编译环境</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+      </tags>
+  </entry>
 </search>
