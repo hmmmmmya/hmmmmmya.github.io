@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">127</span>
+            <span class="post-count">148</span>
         </span>
     </span>
 
@@ -110,22 +110,37 @@
 <p>工具: vscode, rust-analyzer插件, rust环境</p>
 <span id="more"></span>
 
-<ol>
+<ul>
 <li><p>安装vscode插件: rust-analyzer</p>
 </li>
-<li><p>使用<code>cargo run</code>或者<code>cargo build</code>命令编译项目, 生成可执行文件<code>target/debug/rustdebugging.exe</code></p>
-<p>注意: 必须编译通过生成可执行文件后才能进行debug</p>
+<li><p>创建rust项目</p>
+<ul>
+<li>终端输入命令 <code>cargo new ProjectName</code></li>
+</ul>
 </li>
-<li><p>将exe的路径添加到<code>.vscode/launch.json</code>文件</p>
-<p>例如: <code>&quot;program&quot;: &quot;$&#123;workspaceFolder&#125;/hello/target/debug/hello&quot;</code><br><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620151058.png" alt="配置json"></p>
+<li><p>使用<code>cargo run</code>或者<code>cargo build</code>命令编译项目, 生成可执行文件<code>target/debug/ProjectName.exe</code></p>
+<p> 注意: 必须编译通过生成可执行文件后才能进行debug</p>
+</li>
+<li><p>创建 launch.json文件</p>
+<ul>
+<li><p>debug点击创建 launch.json文件<br><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620164934.png" alt="创建 launch.json文件"></p>
+</li>
+<li><p>调试器选择LLDB</p>
+</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620165044.png" alt="调试器选择LLDB"></p>
+<ul>
+<li>选择yes, 调试环境会自动配置好</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620165225.png" alt="选择yes"></p>
 </li>
 <li><p>设置断点</p>
 </li>
 <li><p>F5或者 运行-&gt;终端-&gt;开启调试</p>
 </li>
-<li><p>在左侧查看debug的变量和堆栈<br><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620150545.png" alt="debug结果"></p>
+<li><p>在左侧查看debug的变量和堆栈<br> <img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620150545.png" alt="debug结果"></p>
 </li>
-</ol>
+</ul>
  
       <!-- reward -->
       
