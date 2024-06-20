@@ -477,6 +477,11 @@
 <li>Docker</li>
 </ul>
 </li>
+<li><p>Rust</p>
+<ul>
+<li>rust-analyzer</li>
+</ul>
+</li>
 </ul>
 ]]></content>
       <categories>
