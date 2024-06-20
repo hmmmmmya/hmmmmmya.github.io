@@ -486,4 +486,37 @@
         <tag>vscode</tag>
       </tags>
   </entry>
+  <entry>
+    <title>使用vscode调试rust项目</title>
+    <url>/2024/06/20/%E4%BD%BF%E7%94%A8vscode%E8%B0%83%E8%AF%95rust%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<p>windows下, 使用vscode调试rust项目</p>
+<p>工具: vscode, rust-analyzer插件, rust环境</p>
+<span id="more"></span>
+
+<ol>
+<li><p>安装vscode插件: rust-analyzer</p>
+</li>
+<li><p>使用<code>cargo run</code>或者<code>cargo build</code>命令编译项目, 生成可执行文件<code>target/debug/rustdebugging.exe</code></p>
+<p>注意: 必须编译通过生成可执行文件后才能进行debug</p>
+</li>
+<li><p>将exe的路径添加到<code>.vscode/launch.json</code>文件</p>
+<p>例如: <code>&quot;program&quot;: &quot;$&#123;workspaceFolder&#125;/hello/target/debug/hello&quot;</code><br><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620151058.png" alt="配置json"></p>
+</li>
+<li><p>设置断点</p>
+</li>
+<li><p>F5或者 运行-&gt;终端-&gt;开启调试</p>
+</li>
+<li><p>在左侧查看debug的变量和堆栈<br><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620150545.png" alt="debug结果"></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>rust</category>
+      </categories>
+      <tags>
+        <tag>vscode</tag>
+        <tag>rust</tag>
+        <tag>debug</tag>
+      </tags>
+  </entry>
 </search>
