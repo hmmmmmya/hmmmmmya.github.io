@@ -513,7 +513,7 @@
 <ul>
 <li><p>debug点击创建 launch.json文件<br><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620164934.png" alt="创建 launch.json文件"></p>
 </li>
-<li><p>调试器选择LLDB</p>
+<li><p>调试器选择LLDB (rust调试器为LLDB)</p>
 </li>
 </ul>
 <p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620165044.png" alt="调试器选择LLDB"></p>
@@ -537,6 +537,121 @@
         <tag>vscode</tag>
         <tag>rust</tag>
         <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用vscode连接wsl2</title>
+    <url>/2024/06/21/%E4%BD%BF%E7%94%A8vscode%E8%BF%9E%E6%8E%A5wsl2/</url>
+    <content><![CDATA[<p>适用于 Linux 的 Windows 子系统 (WSL) 是 Windows 的一项功能，可用于在 Windows 计算机上运行 Linux 环境，而无需单独的虚拟机或双引导。 WSL 旨在为希望同时使用 Windows 和 Linux 的开发人员提供无缝高效的体验。比 VMWare 或 Virtual Box 等虚拟机更轻量, 最主要是Windows原生支持。</p>
+<span id="more"></span>
+
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>开发人员可以在 Windows 计算机上同时访问 Windows 和 Linux 的强大功能。</p>
+<ul>
+<li><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install#step-1---enable-the-windows-subsystem-for-linux">安装 WSL2</a></li>
+</ul>
+<h2 id="管理-Linux"><a href="#管理-Linux" class="headerlink" title="管理 Linux"></a>管理 Linux</h2><p><a href="https://learn.microsoft.com/zh-cn/windows/wsl/basic-commands">WSL 的基本命令</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">安装</span><br><span class="line">将目录更改为主页</span><br><span class="line">Help 命令</span><br><span class="line">以特定用户的身份运行</span><br><span class="line">更改发行版的默认用户</span><br><span class="line">标识 IP 地址</span><br><span class="line">导出分发版</span><br><span class="line">导入分发版</span><br><span class="line">就地导入发行版</span><br><span class="line">装载磁盘或设备</span><br><span class="line">卸载磁盘</span><br><span class="line">已弃用的 WSL 命令</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>列出可用(可在线安装)的 Linux 发行版</td>
+<td><code>wsl --list --online</code></td>
+</tr>
+<tr>
+<td>列出已安装的 Linux 发行版</td>
+<td><code>wsl --list --verbose</code></td>
+</tr>
+<tr>
+<td>安装指定 Linux 发行版</td>
+<td><code>wsl --install &lt;Distribution Name&gt;</code></td>
+</tr>
+<tr>
+<td>检查正在运行的 WSL 版本</td>
+<td><code>wsl -l -v</code></td>
+</tr>
+<tr>
+<td>将 WSL 版本设置为 1 或 2</td>
+<td><code>wsl --set-version &lt;distribution name&gt; &lt;versionNumber&gt;</code></td>
+</tr>
+<tr>
+<td>检查 WSL 版本</td>
+<td><code>wsl --version</code></td>
+</tr>
+<tr>
+<td>设置默认版本为 WSL 1 或 WSL 2</td>
+<td><code>wsl --set-default-version &lt;Version#&gt;</code>，将 <code>Version#</code> 替换为 1 或 2</td>
+</tr>
+<tr>
+<td>检查 WSL 状态</td>
+<td><code>wsl --status</code></td>
+</tr>
+<tr>
+<td>更新 WSL</td>
+<td><code>wsl --update</code></td>
+</tr>
+<tr>
+<td>设置默认 Linux 发行版</td>
+<td><code>wsl --set-default &lt;Distribution Name&gt;</code></td>
+</tr>
+<tr>
+<td>通过 PowerShell 或 CMD 运行特定的 Linux 发行版</td>
+<td><code>wsl --distribution &lt;Distribution Name&gt; --user &lt;User Name&gt;</code></td>
+</tr>
+<tr>
+<td>关闭</td>
+<td><code>wsl --shutdown</code></td>
+</tr>
+<tr>
+<td>Terminate</td>
+<td><code>wsl --terminate &lt;Distribution Name&gt;</code></td>
+</tr>
+<tr>
+<td>注销或卸载 Linux 发行版</td>
+<td><code>wsl --unregister &lt;DistributionName&gt;</code></td>
+</tr>
+</tbody></table>
+<h3 id="设置-Linux-用户名和密码"><a href="#设置-Linux-用户名和密码" class="headerlink" title="设置 Linux 用户名和密码"></a>设置 Linux 用户名和密码</h3><p>参考: <a href="https://learn.microsoft.com/zh-cn/windows/wsl/setup/environment#set-up-your-linux-username-and-password">https://learn.microsoft.com/zh-cn/windows/wsl/setup/environment#set-up-your-linux-username-and-password</a></p>
+<h3 id="vscode中连接wsl"><a href="#vscode中连接wsl" class="headerlink" title="vscode中连接wsl"></a>vscode中连接wsl</h3><ul>
+<li><p>安装 WSL 插件</p>
+</li>
+<li><p>安装 Remote - SSH 插件</p>
+</li>
+<li><p>F9输入<code>WSL</code>, 选择<code>WSL:Connect to WSL using Distro</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240621145853.png" alt="命名面板输入WSL"></p>
+</li>
+<li><p>选择已安装的版本</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240621145749.png" alt="选择已安装的版本"></p>
+</li>
+<li><p>连接成功后, 打开wsl文件夹</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240621150828.png" alt="打开wsl文件夹"></p>
+</li>
+</ul>
+<h2 id="Q-A"><a href="#Q-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h2><ul>
+<li><p>wsl: 检测到 localhost 代理配置，但未镜像到 WSL。NAT 模式下的 WSL 不支持 localhost 代理。</p>
+<ul>
+<li><code>wsl.exe --update</code></li>
+</ul>
+</li>
+<li><p>进入不了root</p>
+<ul>
+<li>使用sudo su进入root, 账号密码都是创建时的, 即管理员账号</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240621143616.png" alt="使用sudo su进入root"></p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>后端工具</category>
+      </categories>
+      <tags>
+        <tag>vscode</tag>
+        <tag>wsl2</tag>
       </tags>
   </entry>
 </search>
