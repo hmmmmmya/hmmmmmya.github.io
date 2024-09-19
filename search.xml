@@ -821,4 +821,24 @@
         <tag>linux</tag>
       </tags>
   </entry>
+  <entry>
+    <title>修改wsl环境下的docker container 端口</title>
+    <url>/2024/09/19/%E4%BF%AE%E6%94%B9wsl%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84docker%20container%20%E7%AB%AF%E5%8F%A3/</url>
+    <content><![CDATA[<p>wsl 下, 修改已创建容器的端口</p>
+<p>工具: wsl, docker</p>
+<span id="more"></span>
+
+<p>路径: <code>\\wsl.localhost\docker-desktop-data\data\docker\containers\</code></p>
+<p>容器文件名参考 <code>docker desktop</code> 的容器名下的序列号</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240919100031.png" alt="容器文件名"></p>
+<p>修改文件: <code>hostconfig.json</code> 中的 <code>PortBindings</code> 的 <code>HostPort</code></p>
+<p>重启 <code>docker desktop</code>, 注意需要退出后再开启, 不能仅 restart docker, 否则修改被抹除</p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
 </search>
