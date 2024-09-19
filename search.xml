@@ -393,96 +393,10 @@
   <entry>
     <title>vscode插件推荐</title>
     <url>/2024/06/17/vscode%E6%8F%92%E4%BB%B6%E6%8E%A8%E8%8D%90/</url>
-    <content><![CDATA[<p>自用vscode插件推荐</p>
+    <content><![CDATA[<p>自用 vscode 插件推荐</p>
 <span id="more"></span>
 
-<ul>
-<li><p>中文</p>
-<ul>
-<li>Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code</li>
-</ul>
-</li>
-<li><p>主题</p>
-<ul>
-<li>Material Icon Theme (图标)</li>
-<li>Night Owl (主题)</li>
-<li>One Dark Pro (主题)</li>
-</ul>
-</li>
-<li><p>C++</p>
-<ul>
-<li>C&#x2F;C++ Extension Pack<ul>
-<li>包含了C++最受欢迎的扩展, 如C&#x2F;C++, C&#x2F;C++ Themes, CMake, CMake Tools</li>
-</ul>
-</li>
-<li>C&#x2F;C++<ul>
-<li>C++ 编译、调试 (需提前安装编译工具, 如MinGW)</li>
-</ul>
-</li>
-<li>CMake<ul>
-<li>语法高亮, 代码补全</li>
-</ul>
-</li>
-<li>CMake Tools<ul>
-<li>CMake工具包</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>文件路径</p>
-<ul>
-<li>Path Intellisense</li>
-</ul>
-</li>
-<li><p>Git</p>
-<ul>
-<li>GitLens (查看修改, Git blame)</li>
-</ul>
-</li>
-<li><p>SVN</p>
-<ul>
-<li>SVN</li>
-<li>SVN Lens (SVN blame)</li>
-</ul>
-</li>
-<li><p>项目管理</p>
-<ul>
-<li>Project Manager (项目之间快速切换, 支持标签)</li>
-</ul>
-</li>
-<li><p>远程</p>
-<ul>
-<li>Remote - SSH</li>
-</ul>
-</li>
-<li><p>代码补全</p>
-<ul>
-<li>Codeium (支持多行代码补全)</li>
-</ul>
-</li>
-<li><p>Markdown</p>
-<ul>
-<li>Markdown All in One (markdown快速编辑)</li>
-<li>markdownlint (markdown语法检查、格式化)</li>
-</ul>
-</li>
-<li><p>格式化</p>
-<ul>
-<li>Prettier - Code formatter</li>
-<li>markdownlint (markdown)</li>
-</ul>
-</li>
-<li><p>Docker</p>
-<ul>
-<li>Docker</li>
-</ul>
-</li>
-<li><p>Rust</p>
-<ul>
-<li>rust-analyzer</li>
-</ul>
-</li>
-</ul>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">| 类别     | 插件名称             | 备注                                           |</span><br><span class="line">| -------- | -------------------- | ---------------------------------------------- |</span><br><span class="line">| C++      | C/C++ Extension Pack | 包含了 C/C++, C/C++ Themes, CMake, CMake Tools |</span><br><span class="line">|          | C/C++                | C++ 编译、调试 (需提前安装编译器, 如 MinGW)    |</span><br><span class="line">|          | CMake                | 语法高亮, 代码补全                             |</span><br><span class="line">|          | CMake Tools          | CMake 工具包                                   |</span><br><span class="line">|          | Code Runner          | -                                              |</span><br><span class="line">| Rust     | rust-analyzer        | -                                              |</span><br><span class="line">| Path     | Path Intellisense    | -                                              |</span><br><span class="line">| Git      | GitLens              | 查看修改, Git blame                            |</span><br><span class="line">| SVN      | SVN                  | -                                              |</span><br><span class="line">|          | SVN Lens             | SVN blame                                      |</span><br><span class="line">| 项目管理 | Project Manager      | 项目之间快速切换, 支持标签                     |</span><br><span class="line">| 远程     | Remote - SSH         | -                                              |</span><br><span class="line">| 代码补全 | Codeium              | -                                              |</span><br><span class="line">| Markdown | Markdown All in One  | -                                              |</span><br><span class="line">| Docker   | Docker               | -                                              |</span><br><span class="line">| WSL      | WSL                  | -                                              |</span><br><span class="line"></span><br><span class="line">| 美观   | 插件名称                   | 备注     |</span><br><span class="line">| ------ | -------------------------- | -------- |</span><br><span class="line">| 中文   | Chinese (Simplified)       | -        |</span><br><span class="line">| 主题   | Material Icon Theme (图标) | -        |</span><br><span class="line">|        | Night Owl (主题)           | -        |</span><br><span class="line">|        | One Dark Pro (主题)        | -        |</span><br><span class="line">| 格式化 | Prettier                   | -        |</span><br><span class="line">|        | markdownlint               | markdown |</span><br><span class="line">| 可视化 | JSON Crack                 | -        |</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>开发工具</category>
