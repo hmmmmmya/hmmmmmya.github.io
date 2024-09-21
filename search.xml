@@ -896,4 +896,33 @@
         <tag>docker</tag>
       </tags>
   </entry>
+  <entry>
+    <title>内网穿透工具</title>
+    <url>/2024/09/21/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<p>localtunnel 是一款基于 node.js 的内网穿透工具，非常流行，可以方便快捷的将本地 Localhost 暴露给全世界，无需修改 DNS 和防火墙设置</p>
+<span id="more"></span>
+
+<p>github 地址: <code>https://github.com/localtunnel/localtunnel</code></p>
+<h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><ol>
+<li><p>安装: <code>npm install -g localtunnel</code></p>
+</li>
+<li><p>绑定端口: <code>lt --port 8000</code>, 绑定要访问内网服务的端口, 即本地访问该服务的端口</p>
+</li>
+<li><p>公网 ip:之后会生成一个 https 的公网 ip 地址, 通过该地址可以访问内网</p>
+</li>
+<li><p>访问密码: 本地访问该 ip, 点击查看密码, 即可看到。从外网访问 ip，并输出密码即可</p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240921095753.png" alt="获取并输入密码"></p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ol>
+<li>服务关闭后, 外网不可访问, 再次开启后会分配新的 ip</li>
+</ol>
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>内网穿透</tag>
+      </tags>
+  </entry>
 </search>
