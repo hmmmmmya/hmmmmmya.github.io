@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>使用vscode调试rust项目 |  Hexo</title>
+      <title>云访问图片 |  Hexo</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -53,7 +53,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-使用vscode调试rust项目"
+  id="post-006_云访问图片"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  使用vscode调试rust项目
+  云访问图片
 </h1>
  
 
@@ -72,11 +72,11 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2024/06/20/%E4%BD%BF%E7%94%A8vscode%E8%B0%83%E8%AF%95rust%E9%A1%B9%E7%9B%AE/" class="article-date">
-  <time datetime="2024-06-20T06:44:58.000Z" itemprop="datePublished">2024-06-20</time>
+      <a href="/2024/06/12/006_%E4%BA%91%E8%AE%BF%E9%97%AE%E5%9B%BE%E7%89%87/" class="article-date">
+  <time datetime="2024-06-12T03:03:04.000Z" itemprop="datePublished">2024-06-12</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/rust/">rust</a>
+    <a class="article-category-link" href="/categories/web%E5%90%8E%E7%AB%AF/">web后端</a>
   </div>
   
 <div class="word_count">
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">153</span>
+            <span class="post-count">885</span>
         </span>
     </span>
 
@@ -93,53 +93,91 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">1 min</span>
+            <span class="post-count">3 min</span>
         </span>
     </span>
 </div>
  
     </div>
       
+    <div class="tocbot"></div>
+
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>windows下, 使用vscode调试rust项目</p>
-<p>工具: vscode, rust-analyzer插件, rust环境</p>
+  <p>使用 PicGo + GitHub + Typora 来搭建图床，实现云访问图片</p>
 <span id="more"></span>
 
+<p>图床简介:</p>
+<p>如果没有图床，markdown插入图片的保存位置是本地，例如c盘某个位置，发布到网上后是找不到对应图片的。</p>
+<p>图床将图片存储在云服务器，markdown插入图片在云服务器内的链接地址，这样任何人都可以访问到了。</p>
+<h2 id="一、配置GitHub"><a href="#一、配置GitHub" class="headerlink" title="一、配置GitHub"></a>一、配置GitHub</h2><h3 id="1-1-创建一个新的仓库-用于存放图片"><a href="#1-1-创建一个新的仓库-用于存放图片" class="headerlink" title="1.1 创建一个新的仓库, 用于存放图片"></a>1.1 创建一个新的仓库, 用于存放图片</h3><p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240612120448018.png" alt="image-20240612120448018"></p>
+<p>填写仓库名称和描述，且仓库必须是public的，否则存储的图片不能正常访问。</p>
+<h3 id="2-2-生成一个token，用于picGo访问github"><a href="#2-2-生成一个token，用于picGo访问github" class="headerlink" title="2.2 生成一个token，用于picGo访问github"></a>2.2 生成一个token，用于picGo访问github</h3><p>仓库 -&gt; settings</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240612120807226.png" alt="image-20240612120807226"></p>
+<p>选择Developer settings</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240612120845815.png" alt="image-20240612120845815"></p>
+<p>选择Personal access tokens</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240612121032553.png" alt="image-20240612121032553"></p>
+<p>点击右侧的Generate new token</p>
+<p>把repo的勾打上即可。然后翻到页面最底部，点击<code>Generate token</code>的绿色按钮生成token。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240612121746408.png" alt="image-20240612121746408"></p>
+<p><strong>注意:</strong> 这个token生成后只会显示一次！你要把这个token复制一下存到其他地方以备以后要用。</p>
+<h2 id="二、配置PicGo"><a href="#二、配置PicGo" class="headerlink" title="二、配置PicGo"></a>二、配置PicGo</h2><h3 id="2-1-下载PicGo"><a href="#2-1-下载PicGo" class="headerlink" title="2.1 下载PicGo"></a>2.1 下载PicGo</h3><p><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/PicGo/releases">GitHub链接</a></p>
+<h3 id="2-2-设置GitHub图床"><a href="#2-2-设置GitHub图床" class="headerlink" title="2.2 设置GitHub图床"></a>2.2 设置GitHub图床</h3><p>打开PicGo桌面应用，选择图床设置 -&gt; GitHub</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240612122325497.png" alt="image-20240612122325497"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240612141946042.png" alt="image-20240612141946042"></p>
+<p><strong>注意:</strong></p>
 <ul>
-<li><p>安装vscode插件: rust-analyzer</p>
-</li>
-<li><p>创建rust项目</p>
-<ul>
-<li>终端输入命令 <code>cargo new ProjectName</code></li>
+<li>仓库名的格式是<code>用户名/仓库</code>，比如我创建了一个叫做<code>test</code>的仓库，在PicGo里我要设定的仓库名就是<code>Molunerfinn/test</code>。</li>
+<li>分支: 一般我们选择<code>main</code>分支即可。</li>
+<li>设定Token: 将刚才保存的Token粘贴到这里</li>
+<li>存储路径是GitHub仓库里面的指定目录</li>
+<li>点击确定以生效，然后可以点击<code>设为默认图床</code>来确保上传的图床是GitHub。</li>
 </ul>
-</li>
-<li><p>使用<code>cargo run</code>或者<code>cargo build</code>命令编译项目, 生成可执行文件<code>target/debug/ProjectName.exe</code></p>
-<p> 注意: 必须编译通过生成可执行文件后才能进行debug</p>
-</li>
-<li><p>创建 launch.json文件</p>
+<h3 id="2-3-使用cdn加速"><a href="#2-3-使用cdn加速" class="headerlink" title="2.3 使用cdn加速"></a>2.3 使用cdn加速</h3><h4 id="2-3-1-cdn简介"><a href="#2-3-1-cdn简介" class="headerlink" title="2.3.1 cdn简介"></a>2.3.1 cdn简介</h4><p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240612151908.png" alt="cdn分发原理图"></p>
 <ul>
-<li><p>debug点击创建 launch.json文件<br><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620164934.png" alt="创建 launch.json文件"></p>
+<li><p>CDN全称Content Delivery Network即内容分发网络，是一组分布在多个不同地方的WEB服务器，会根据用户距离的远近来选择最近的服务器 。</p>
 </li>
-<li><p>调试器选择LLDB (rust调试器为LLDB)</p>
+<li><p>是一个免费、快速和可信赖的CDN加速服务，声称它每个月可以支撑680亿次的请求。服务在Github上是开源的。</p>
+</li>
+<li><p>只要我们的项目中用到了第三方的静态资源，譬如JavaScript脚本，css样式表，图片，图标，Flash等静态资源文件都应该考虑接入到CDN中</p>
+</li>
+<li><p>jsDelivr + Github便是免费且好用的CDN，非常适合博客网站使用</p>
 </li>
 </ul>
-<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620165044.png" alt="调试器选择LLDB"></p>
-<ul>
-<li>选择yes, 调试环境会自动配置好</li>
-</ul>
-<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620165225.png" alt="选择yes"></p>
-</li>
-<li><p>设置断点</p>
-</li>
-<li><p>F5或者 运行-&gt;终端-&gt;开启调试</p>
-</li>
-<li><p>在左侧查看debug的变量和堆栈<br> <img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240620150545.png" alt="debug结果"></p>
-</li>
+<h4 id="2-3-2-cdn使用"><a href="#2-3-2-cdn使用" class="headerlink" title="2.3.2 cdn使用"></a>2.3.2 cdn使用</h4><p>通过如下地址应用资源</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@发布的版本号/文件路径</span><br></pre></td></tr></table></figure>
+
+<p>举个栗子,获取source&#x2F;bgimg路径下的back-rain.png</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/gh/xiezhr/mycdn/source/bgimg/back-rain.png       ## 获取最新资源</span><br><span class="line">https://cdn.jsdelivr.net/gh/xiezhr/mycdn@1.0/source/bgimg/back-rain.png   ## 获取1.0版本的资源</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意:</strong> 版本号不是必需的，是为了区分新旧资源</p>
+<h4 id="2-3-3-使用cdn加速PicGo中的静态资源"><a href="#2-3-3-使用cdn加速PicGo中的静态资源" class="headerlink" title="2.3.3 使用cdn加速PicGo中的静态资源"></a>2.3.3 使用cdn加速PicGo中的静态资源</h4><p>PicGo -&gt; 设置自定义域名</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4上传图片"><a href="#2-4上传图片" class="headerlink" title="2.4上传图片"></a>2.4上传图片</h3><p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240612122804700.png" alt="image-20240612122804700"></p>
+<p>至此配置完毕，已经可以使用了。当你上传的时候，你会发现你的仓库里也会增加新的图片了</p>
+<h3 id="2-5-编辑相册的图片信息"><a href="#2-5-编辑相册的图片信息" class="headerlink" title="2.5 编辑相册的图片信息"></a>2.5 编辑相册的图片信息</h3><p>选择相册</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240612122946564.png" alt="image-20240612122946564"></p>
+<p>选择复制的链接格式</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240612123028558.png" alt="image-20240612123028558"></p>
+<h2 id="三、配置Typora"><a href="#三、配置Typora" class="headerlink" title="三、配置Typora"></a>三、配置Typora</h2><p>Typora偏好设置 -&gt; 图像</p>
+<ol>
+<li>插入图片时，选择上传图片，对本地图片应用上述规则</li>
+<li>上传服务: 选择PicGo（app）</li>
+<li>PicGo路径: 选择安装路径</li>
+<li>验证: 验证图片上传选项</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20240612140917028.png" alt="image-20240612140917028"></p>
+<p>总结: github+picGo+typora他们三个是好基友</p>
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://picgo.github.io/PicGo-Doc/zh/guide/config.html">PicGo配置手册</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/489236769">使用Github+picGo搭建图床，保姆级教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiezhr/p/17343616.html">如何使用jsDelivr+Github 实现免费CDN加速?</a></li>
 </ul>
  
       <!-- reward -->
@@ -205,12 +243,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hmmmmmya.github.io/2024/06/20/%E4%BD%BF%E7%94%A8vscode%E8%B0%83%E8%AF%95rust%E9%A1%B9%E7%9B%AE/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hmmmmmya.github.io/2024/06/12/006_%E4%BA%91%E8%AE%BF%E9%97%AE%E5%9B%BE%E7%89%87/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/debug/" rel="tag">debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rust/" rel="tag">rust</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/typora/" rel="tag">typora</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%BE%E5%BA%8A/" rel="tag">图床</a></li></ul>
 
     </footer>
   </div>
@@ -218,19 +256,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2024/06/21/wsl2%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/" class="article-nav-link">
+      <a href="/2024/06/17/007_windows%E4%B8%8B%E6%90%AD%E5%BB%BACpp%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            wsl2使用介绍
+            windows下搭建C++编译环境
           
         </div>
       </a>
     
     
-      <a href="/2024/06/17/vscode%E6%8F%92%E4%BB%B6%E6%8E%A8%E8%8D%90/" class="article-nav-link">
+      <a href="/2024/06/12/005_%E4%BA%91%E8%AE%BF%E9%97%AE%E5%8D%9A%E5%AE%A2/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">vscode插件推荐</div>
+        <div class="article-nav-title">云访问博客</div>
       </a>
     
   </nav>
