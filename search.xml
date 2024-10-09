@@ -467,7 +467,12 @@
 <tr>
 <td><strong>WSL</strong></td>
 <td>WSL</td>
-<td>-</td>
+<td>轻量化 Linux, 省去了安装虚拟机</td>
+</tr>
+<tr>
+<td><strong>Database</strong></td>
+<td>SQLite</td>
+<td>数据库</td>
 </tr>
 </tbody></table>
 <table>
