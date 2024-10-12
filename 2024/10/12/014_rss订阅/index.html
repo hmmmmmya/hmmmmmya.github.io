@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>013_内网穿透工具 |  Hexo</title>
+      <title>014_rss订阅 |  Hexo</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -53,7 +53,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-013_内网穿透工具"
+  id="post-014_rss订阅"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  013_内网穿透工具
+  014_rss订阅
 </h1>
  
 
@@ -72,8 +72,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2024/09/21/013_%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B7%A5%E5%85%B7/" class="article-date">
-  <time datetime="2024-09-21T02:24:14.000Z" itemprop="datePublished">2024-09-21</time>
+      <a href="/2024/10/12/014_rss%E8%AE%A2%E9%98%85/" class="article-date">
+  <time datetime="2024-10-12T02:09:14.000Z" itemprop="datePublished">2024-10-12</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a>
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">180</span>
+            <span class="post-count">212</span>
         </span>
     </span>
 
@@ -108,24 +108,19 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>localtunnel 是一款基于 node.js 的内网穿透工具，非常流行，可以方便快捷的将本地 Localhost 暴露给全世界，无需修改 DNS 和防火墙设置</p>
+  <p>rss 可以绕过算法推荐, 并且不遗漏地接收关注的动态, 重新成为订阅的主人</p>
 <span id="more"></span>
 
-<p>github 地址: <code>https://github.com/localtunnel/localtunnel</code></p>
-<h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><ol>
-<li><p>安装: <code>npm install -g localtunnel</code></p>
-</li>
-<li><p>绑定端口: <code>lt --port 8000</code>, 绑定要访问内网服务的端口, 即本地访问该服务的端口</p>
-</li>
-<li><p>公网 ip:之后会生成一个 https 的公网 ip 地址, 通过该地址可以访问内网</p>
-</li>
-<li><p>访问密码: 本地访问该 ip, 点击查看密码, 即可看到。从外网访问 ip，并输出密码即可</p>
-</li>
+<p>工具:</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/yang991178/fluent-reader">Fluent</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/DIYgod/RSSHub">RssHub</a></li>
+<li><a target="_blank" rel="noopener" href="https://vercel.com/">Vercel</a></li>
 </ol>
-<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20240921095753.png" alt="获取并输入密码"></p>
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ol>
-<li>服务关闭后, 外网不可访问, 再次开启后会分配新的 ip</li>
-</ol>
+<h3 id="Fluent"><a href="#Fluent" class="headerlink" title="Fluent"></a>Fluent</h3><p>Fluent 有 PC 端和安卓应用, 功能是 rss 阅读器, 可以添加 rss 订阅源。</p>
+<h3 id="RssHub"><a href="#RssHub" class="headerlink" title="RssHub"></a>RssHub</h3><p>集成了最新的 rss 订阅源, 号称是让每一个网站都能做成 rss 订阅。当前绝大部分的网站都不主动公开 rss 订阅的方式了, RssHub 可以弥补这一点。</p>
+<h3 id="Vercel"><a href="#Vercel" class="headerlink" title="Vercel"></a>Vercel</h3><p>很多网站对爬虫源进行了屏蔽, RssHub 也是一种网络爬虫的方式。将 RssHub 部署到自己的服务器, 有了新的域名, 便可以绕过这一层。Vercel 可以部署 RssHub 项目, 从而省去了购买服务器的花销。</p>
+<p>Vercel 部署 RssHub 的教程可以参考: <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2432561">手把手教你用 Vercel 免费部署 RSSHub</a></p>
  
       <!-- reward -->
       
@@ -190,12 +185,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hmmmmmya.github.io/2024/09/21/013_%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B7%A5%E5%85%B7/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hmmmmmya.github.io/2024/10/12/014_rss%E8%AE%A2%E9%98%85/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag">内网穿透</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rss/" rel="tag">rss</a></li></ul>
 
     </footer>
   </div>
@@ -203,19 +198,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2024/10/12/014_rss%E8%AE%A2%E9%98%85/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            014_rss订阅
-          
-        </div>
-      </a>
     
-    
-      <a href="/2024/09/19/012_%E4%BF%AE%E6%94%B9wsl%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84docker%20container%20%E7%AB%AF%E5%8F%A3/" class="article-nav-link">
+      <a href="/2024/09/21/013_%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B7%A5%E5%85%B7/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">012_修改wsl环境下的docker container 端口</div>
+        <div class="article-nav-title">013_内网穿透工具</div>
       </a>
     
   </nav>

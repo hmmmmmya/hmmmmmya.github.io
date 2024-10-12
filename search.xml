@@ -930,4 +930,28 @@
         <tag>内网穿透</tag>
       </tags>
   </entry>
+  <entry>
+    <title>014_rss订阅</title>
+    <url>/2024/10/12/014_rss%E8%AE%A2%E9%98%85/</url>
+    <content><![CDATA[<p>rss 可以绕过算法推荐, 并且不遗漏地接收关注的动态, 重新成为订阅的主人</p>
+<span id="more"></span>
+
+<p>工具:</p>
+<ol>
+<li><a href="https://github.com/yang991178/fluent-reader">Fluent</a></li>
+<li><a href="https://github.com/DIYgod/RSSHub">RssHub</a></li>
+<li><a href="https://vercel.com/">Vercel</a></li>
+</ol>
+<h3 id="Fluent"><a href="#Fluent" class="headerlink" title="Fluent"></a>Fluent</h3><p>Fluent 有 PC 端和安卓应用, 功能是 rss 阅读器, 可以添加 rss 订阅源。</p>
+<h3 id="RssHub"><a href="#RssHub" class="headerlink" title="RssHub"></a>RssHub</h3><p>集成了最新的 rss 订阅源, 号称是让每一个网站都能做成 rss 订阅。当前绝大部分的网站都不主动公开 rss 订阅的方式了, RssHub 可以弥补这一点。</p>
+<h3 id="Vercel"><a href="#Vercel" class="headerlink" title="Vercel"></a>Vercel</h3><p>很多网站对爬虫源进行了屏蔽, RssHub 也是一种网络爬虫的方式。将 RssHub 部署到自己的服务器, 有了新的域名, 便可以绕过这一层。Vercel 可以部署 RssHub 项目, 从而省去了购买服务器的花销。</p>
+<p>Vercel 部署 RssHub 的教程可以参考: <a href="https://cloud.tencent.com/developer/article/2432561">手把手教你用 Vercel 免费部署 RSSHub</a></p>
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>rss</tag>
+      </tags>
+  </entry>
 </search>
