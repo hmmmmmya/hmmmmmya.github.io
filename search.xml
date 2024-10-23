@@ -564,6 +564,11 @@
 <td>markmap</td>
 <td>将 Markdown 转换为思维导图</td>
 </tr>
+<tr>
+<td>PDF 阅读</td>
+<td>vscode-pdf</td>
+<td>PDF 阅读工具</td>
+</tr>
 </tbody></table>
 ]]></content>
       <categories>
