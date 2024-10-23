@@ -62,7 +62,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>web前端</category>
+        <category>博客</category>
       </categories>
       <tags>
         <tag>博客</tag>
@@ -165,7 +165,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>web前端</category>
+        <category>博客</category>
       </categories>
       <tags>
         <tag>博客</tag>
@@ -224,7 +224,7 @@
 <p>url 要写成<code>https://hmmmmmya.github.io</code></p>
 ]]></content>
       <categories>
-        <category>web前端</category>
+        <category>博客</category>
       </categories>
       <tags>
         <tag>博客</tag>
@@ -307,7 +307,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>web后端</category>
+        <category>博客</category>
       </categories>
       <tags>
         <tag>github</tag>
@@ -954,7 +954,7 @@
   </entry>
   <entry>
     <title>014_rss订阅</title>
-    <url>/2024/10/12/014_rss%E8%AE%A2%E9%98%85/</url>
+    <url>/2024/10/12/014_rss%E8%AE%A2%E9%98%85%20copy/</url>
     <content><![CDATA[<p>rss 可以绕过算法推荐, 并且不遗漏地接收关注的动态, 重新成为订阅的主人</p>
 <span id="more"></span>
 
@@ -974,6 +974,125 @@
       </categories>
       <tags>
         <tag>rss</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>015_windows实用工具推荐</title>
+    <url>/2024/10/23/015_windows%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/</url>
+    <content><![CDATA[<p>windows 实用工具推荐</p>
+<span id="more"></span>
+
+<h3 id="Windows-实用工具推荐"><a href="#Windows-实用工具推荐" class="headerlink" title="Windows 实用工具推荐"></a>Windows 实用工具推荐</h3><table>
+<thead>
+<tr>
+<th>分类</th>
+<th>工具名称</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文件管理</td>
+<td>Everything</td>
+<td>快速文件搜索工具，比 Windows 自带搜索更快</td>
+</tr>
+<tr>
+<td>系统维护</td>
+<td>Geek Uninstaller</td>
+<td>卸载软件工具，可彻底清理残留文件</td>
+</tr>
+<tr>
+<td>截图工具</td>
+<td>Snipaste</td>
+<td>支持截图后贴图，贴图后可继续截图</td>
+</tr>
+<tr>
+<td>桌面管理</td>
+<td>DeskPins</td>
+<td>桌面置顶工具，可置顶任何窗口</td>
+</tr>
+<tr>
+<td>翻译工具</td>
+<td>网易有道翻译</td>
+<td>多语言翻译工具</td>
+</tr>
+<tr>
+<td>聊天工具</td>
+<td>CleanMyWechat</td>
+<td>微信清理工具</td>
+</tr>
+</tbody></table>
+<p>这些工具可以大大提高 Windows 系统的使用效率和体验。根据个人需求，选择合适的工具来优化您的工作流程。</p>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>016_笔记工具推荐</title>
+    <url>/2024/10/23/016_%E7%AC%94%E8%AE%B0%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/</url>
+    <content><![CDATA[<p>笔记工具推荐</p>
+<span id="more"></span>
+
+<h3 id="笔记工具推荐"><a href="#笔记工具推荐" class="headerlink" title="笔记工具推荐"></a>笔记工具推荐</h3><table>
+<thead>
+<tr>
+<th>平台</th>
+<th>工具名称</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>windows</td>
+<td>vnote</td>
+<td>方便切换不同笔记本</td>
+</tr>
+<tr>
+<td>windows</td>
+<td>typora</td>
+<td>界面优雅</td>
+</tr>
+<tr>
+<td>windows</td>
+<td>heynote</td>
+<td>可以从头看到尾</td>
+</tr>
+<tr>
+<td>windows</td>
+<td>navicat</td>
+<td>数据库</td>
+</tr>
+<tr>
+<td>跨平台</td>
+<td>wps</td>
+<td>表格</td>
+</tr>
+<tr>
+<td>跨平台</td>
+<td>flomo</td>
+<td>简短, 方便同步</td>
+</tr>
+<tr>
+<td>跨平台</td>
+<td>幕布</td>
+<td>思维导图</td>
+</tr>
+<tr>
+<td>跨平台</td>
+<td>github</td>
+<td>笔记托管</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>笔记</tag>
       </tags>
   </entry>
 </search>
