@@ -6,7 +6,7 @@
   <link href="https://hmmmmmya.github.io/atom.xml" rel="self"/>
   
   <link href="https://hmmmmmya.github.io/"/>
-  <updated>2024-10-23T06:49:58.876Z</updated>
+  <updated>2024-10-24T01:33:48.744Z</updated>
   <id>https://hmmmmmya.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://hmmmmmya.github.io/2024/10/23/017_%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/"/>
     <id>https://hmmmmmya.github.io/2024/10/23/017_%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/</id>
     <published>2024-10-23T06:30:00.000Z</published>
-    <updated>2024-10-23T06:49:58.876Z</updated>
+    <updated>2024-10-24T01:33:48.744Z</updated>
     
-    <content type="html"><![CDATA[<p>开发工具推荐</p><span id="more"></span><h3 id="开发工具推荐"><a href="#开发工具推荐" class="headerlink" title="开发工具推荐"></a>开发工具推荐</h3><table><thead><tr><th>平台</th><th>工具名称</th><th>功能描述</th></tr></thead><tbody><tr><td><strong>IDE</strong></td><td>cursor</td><td>内置大模型, 完美兼容 vscode</td></tr><tr><td></td><td>vscode</td><td>插件丰富</td></tr><tr><td><strong>Git</strong></td><td>git</td><td>版本控制</td></tr><tr><td></td><td>github desktop</td><td>github 桌面客户端</td></tr><tr><td><strong>比较</strong></td><td>Beyond Compare</td><td>文件对比</td></tr><tr><td><strong>远程</strong></td><td>MobaXterm</td><td>远程连接</td></tr><tr><td><strong>数据库</strong></td><td>navicat</td><td>数据库管理</td></tr><tr><td><strong>容器</strong></td><td>docker</td><td>容器化</td></tr><tr><td><strong>代理</strong></td><td>clash</td><td>代理工具</td></tr><tr><td><strong>抓包</strong></td><td>wireshark</td><td>抓包工具</td></tr></tbody></table>]]></content>
+    <content type="html"><![CDATA[<p>开发工具推荐</p><span id="more"></span><h3 id="开发工具推荐"><a href="#开发工具推荐" class="headerlink" title="开发工具推荐"></a>开发工具推荐</h3><table><thead><tr><th>平台</th><th>工具名称</th><th>功能描述</th><th>网址</th></tr></thead><tbody><tr><td><strong>IDE</strong></td><td>cursor</td><td>内置大模型, 完美兼容 vscode</td><td></td></tr><tr><td></td><td>vscode</td><td>插件丰富</td><td></td></tr><tr><td><strong>Git</strong></td><td>git</td><td>版本控制</td><td></td></tr><tr><td></td><td>Github Desktop</td><td>github 桌面客户端</td><td></td></tr><tr><td><strong>比较</strong></td><td>Beyond Compare</td><td>文件对比</td><td></td></tr><tr><td><strong>远程</strong></td><td>MobaXterm</td><td>远程连接</td><td></td></tr><tr><td><strong>数据库</strong></td><td>Navicat Premium Lite</td><td>数据库管理</td><td><a href="https://www.navicat.com.cn/download/navicat-premium-lite">https://www.navicat.com.cn/download/navicat-premium-lite</a></td></tr><tr><td><strong>容器</strong></td><td>Docker Desktop</td><td>容器化</td><td></td></tr><tr><td><strong>代理</strong></td><td>clash</td><td>代理工具</td><td></td></tr><tr><td><strong>抓包</strong></td><td>wireshark</td><td>抓包工具</td><td></td></tr></tbody></table>]]></content>
     
     
     <summary type="html">&lt;p&gt;开发工具推荐&lt;/p&gt;</summary>
@@ -63,9 +63,9 @@
     <link href="https://hmmmmmya.github.io/2024/10/23/015_windows%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/"/>
     <id>https://hmmmmmya.github.io/2024/10/23/015_windows%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/</id>
     <published>2024-10-23T02:09:14.000Z</published>
-    <updated>2024-10-23T06:53:11.746Z</updated>
+    <updated>2024-10-24T01:32:46.825Z</updated>
     
-    <content type="html"><![CDATA[<p>windows 实用工具推荐</p><span id="more"></span><h3 id="Windows-实用工具推荐"><a href="#Windows-实用工具推荐" class="headerlink" title="Windows 实用工具推荐"></a>Windows 实用工具推荐</h3><table><thead><tr><th>分类</th><th>工具名称</th><th>功能描述</th></tr></thead><tbody><tr><td>文件管理</td><td>Everything</td><td>快速文件搜索工具，比 Windows 自带搜索更快</td></tr><tr><td>系统维护</td><td>Geek Uninstaller</td><td>卸载软件工具，可彻底清理残留文件</td></tr><tr><td>截图工具</td><td>Snipaste</td><td>支持截图后贴图，贴图后可继续截图</td></tr><tr><td>桌面管理</td><td>DeskPins</td><td>桌面置顶工具，可置顶任何窗口</td></tr><tr><td>翻译工具</td><td>网易有道翻译</td><td>多语言翻译工具</td></tr><tr><td>网盘</td><td>百度网盘</td><td>文件存储与下载</td></tr><tr><td>聊天工具</td><td>CleanMyWechat</td><td>微信清理工具</td></tr></tbody></table><p>这些工具可以大大提高 Windows 系统的使用效率和体验。根据个人需求，选择合适的工具来优化您的工作流程。</p>]]></content>
+    <content type="html"><![CDATA[<p>windows 实用工具推荐</p><span id="more"></span><h3 id="Windows-实用工具推荐"><a href="#Windows-实用工具推荐" class="headerlink" title="Windows 实用工具推荐"></a>Windows 实用工具推荐</h3><table><thead><tr><th>分类</th><th>工具名称</th><th>功能描述</th><th>网址</th></tr></thead><tbody><tr><td>截图工具</td><td>Snipaste</td><td>支持截图后贴图，贴图后可继续截图</td><td><a href="https://zh.snipaste.com/download.html">https://zh.snipaste.com/download.html</a></td></tr><tr><td>文件管理</td><td>Everything</td><td>快速文件搜索工具，比 Windows 自带搜索更快</td><td><a href="https://www.voidtools.com/zh-cn/downloads/">https://www.voidtools.com/zh-cn/downloads/</a></td></tr><tr><td>系统维护</td><td>Geek Uninstaller</td><td>卸载软件工具，可彻底清理残留文件</td><td></td></tr><tr><td>桌面管理</td><td>DeskPins</td><td>桌面置顶工具，可置顶任何窗口</td><td></td></tr><tr><td>翻译工具</td><td>网易有道翻译</td><td>多语言翻译工具</td><td></td></tr><tr><td>网盘</td><td>百度网盘</td><td>文件存储与下载</td><td></td></tr><tr><td>聊天工具</td><td>CleanMyWechat</td><td>微信清理工具</td><td></td></tr></tbody></table><p>这些工具可以大大提高 Windows 系统的使用效率和体验。根据个人需求，选择合适的工具来优化您的工作流程。</p>]]></content>
     
     
     <summary type="html">&lt;p&gt;windows 实用工具推荐&lt;/p&gt;</summary>
