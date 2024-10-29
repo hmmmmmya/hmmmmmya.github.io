@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>018_为什么我们常见的 IP 都是 192.168 开头的 |  Hexo</title>
+      <title>019_Linux 查看库中是否包含指定函数 |  Hexo</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -54,7 +54,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-018_为什么我们常见的 IP 都是 192.168 开头的"
+  id="post-019_Linux 查看库中是否包含指定函数"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -65,7 +65,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  018_为什么我们常见的 IP 都是 192.168 开头的
+  019_Linux 查看库中是否包含指定函数
 </h1>
  
 
@@ -73,11 +73,11 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2024/10/29/018_%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E5%B8%B8%E8%A7%81%E7%9A%84%20IP%20%E9%83%BD%E6%98%AF%20192.168%20%E5%BC%80%E5%A4%B4%E7%9A%84/" class="article-date">
+      <a href="/2024/10/29/019_Linux%20%E6%9F%A5%E7%9C%8B%E5%BA%93%E4%B8%AD%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%8C%87%E5%AE%9A%E5%87%BD%E6%95%B0/" class="article-date">
   <time datetime="2024-10-29T07:56:00.000Z" itemprop="datePublished">2024-10-29</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>
+    <a class="article-category-link" href="/categories/linux/">linux</a>
   </div>
   
 <div class="word_count">
@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.6k</span>
+            <span class="post-count">485</span>
         </span>
     </span>
 
@@ -94,7 +94,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">6 分钟</span>
+            <span class="post-count">1 分钟</span>
         </span>
     </span>
 </div>
@@ -109,105 +109,66 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>为什么我们常见的 IP 都是 192.168 开头的</p>
+  <p>在 Linux 系统中，我们经常需要确认某个函数是否在特定的库文件中。以下是几种常用的查找方法。</p>
 <span id="more"></span>
 
-<h2 id="ip-地址划分"><a href="#ip-地址划分" class="headerlink" title="ip 地址划分"></a>ip 地址划分</h2><p>参考：<a target="_blank" rel="noopener" href="https://xiaolincoding.com/network/4_ip/ip_base.html#ip-%E5%9C%B0%E5%9D%80%E7%9A%84%E5%88%86%E7%B1%BB">IP 地址的分类</a></p>
-<p>互联网诞生之初，IP 地址显得很充裕，于是计算机科学家们设计了分类地址。</p>
-<p>IP 地址分类成了 5 种类型，分别是 A 类、B 类、C 类、D 类、E 类。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20241029151149.png" alt="IP 地址的分类"></p>
-<p>上图中黄色部分为分类号，用以区分 IP 地址类别。</p>
-<h2 id="私网地址划分"><a href="#私网地址划分" class="headerlink" title="私网地址划分"></a>私网地址划分</h2><p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20241029144309499.png" alt="私网地址"></p>
-<p>除了这三个 ip 地址段为私有 ip 地址外，其它的都为公网 ip。</p>
-<p>这些地址已被声明私有化，任何内网中的设备可以任意使用这些地址，但是在这三个范围内的 IP 地址不允许出现在 Internet（外网）上。所以我们平台在内部组网时用的比较多，比如监控项目与公司内部电脑 ip 设置，用的多的就是 192.168.xx。</p>
-<p>通常情况下，按照需要容纳的主机数选择私有地址段。家庭网络规模比较小，一个 C 类地址，192.168.1.x 可以容纳 254 个终端，足够使用。</p>
-<p>学校或者大型企业可能使用 B 类甚至 A 类作为内部网络的地址段。比如手机上网很可能获取的也是一个 10 开头的内网地址，而不是公网地址。</p>
-<h2 id="NAT-地址转换"><a href="#NAT-地址转换" class="headerlink" title="NAT 地址转换"></a>NAT 地址转换</h2><p>私网地址只能在局域网中使用，不同的局域网可以使用同样的私网地址，私网地址是不能出现在互联网上的。那么私网地址如何访问互联网呢？这就需要用到 NAT 地址转换，将内网地址映射到外网地址。</p>
-<p>而<strong>NAT 地址转换</strong>它实现内网的 IP 地址与公网的地址之间的相互转换，将大量的内网 IP 地址转换为一个或少量的公网 IP 地址，减少对公网 IP 地址的占用。</p>
-<p>家庭网络普遍使用端口映射的方式，NAT 的核心是一张映射表（源 IP 地址，源端口，目的 IP 地址，目的端口），将内网源 IP 地址和端口映射到同一个公网地址的不同端口，如下图所示。</p>
-<table>
+<h2 id="1-nm-命令（最常用）"><a href="#1-nm-命令（最常用）" class="headerlink" title="1. nm 命令（最常用）"></a>1. nm 命令（最常用）</h2><p><code>nm</code> 命令用于查看库文件中的符号表，是最直接的方法。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基本语法</span></span><br><span class="line">nm -D /path/to/library.so | grep <span class="string">&#x27;function_name&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 实际示例</span></span><br><span class="line">nm -D /usr/lib/libc.so.6 | grep <span class="string">&#x27;printf&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-objdump-命令（详细信息）"><a href="#2-objdump-命令（详细信息）" class="headerlink" title="2. objdump 命令（详细信息）"></a>2. objdump 命令（详细信息）</h2><p><code>objdump</code> 提供了更详细的库文件信息。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基本语法</span></span><br><span class="line">objdump -T /path/to/library.so | grep <span class="string">&#x27;function_name&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 实际示例</span></span><br><span class="line">objdump -T /usr/lib/libc.so.6 | grep <span class="string">&#x27;printf&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-readelf-命令（ELF-文件专用）"><a href="#3-readelf-命令（ELF-文件专用）" class="headerlink" title="3. readelf 命令（ELF 文件专用）"></a>3. readelf 命令（ELF 文件专用）</h2><p>专门用于分析 ELF 格式文件的工具。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基本语法</span></span><br><span class="line">readelf -Ws /path/to/library.so | grep <span class="string">&#x27;function_name&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 实际示例</span></span><br><span class="line">readelf -Ws /usr/lib/libc.so.6 | grep <span class="string">&#x27;printf&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-批量查找方法"><a href="#4-批量查找方法" class="headerlink" title="4. 批量查找方法"></a>4. 批量查找方法</h2><h3 id="使用-find-配合-nm-命令"><a href="#使用-find-配合-nm-命令" class="headerlink" title="使用 find 配合 nm 命令"></a>使用 find 配合 nm 命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在指定目录下查找所有.so文件中的特定函数</span></span><br><span class="line">find /usr/lib -name <span class="string">&quot;*.so&quot;</span> -<span class="built_in">exec</span> nm -D &#123;&#125; \; | grep <span class="string">&#x27;function_name&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用-grep-直接搜索"><a href="#使用-grep-直接搜索" class="headerlink" title="使用 grep 直接搜索"></a>使用 grep 直接搜索</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在库目录中搜索函数名</span></span><br><span class="line">grep -R <span class="string">&#x27;function_name&#x27;</span> /usr/lib/</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-依赖关系查看（ldd）"><a href="#5-依赖关系查看（ldd）" class="headerlink" title="5. 依赖关系查看（ldd）"></a>5. 依赖关系查看（ldd）</h2><p>虽然不能直接查看函数，但可以查看库的依赖关系。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看可执行文件的库依赖</span></span><br><span class="line">ldd /path/to/executable</span><br></pre></td></tr></table></figure>
+
+<h2 id="常见参数说明"><a href="#常见参数说明" class="headerlink" title="常见参数说明"></a>常见参数说明</h2><table>
 <thead>
 <tr>
-<th>内网 IP（源地址:端口）</th>
-<th>外网 IP（目标地址:端口）</th>
+<th>命令</th>
+<th>参数</th>
+<th>说明</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>192.168.1.55:5566</td>
-<td>219.152.168.222:9200</td>
+<td>nm</td>
+<td>-D</td>
+<td>只显示动态符号</td>
 </tr>
 <tr>
-<td>192.168.1.59:80</td>
-<td>219.152.168.222:9201</td>
+<td>objdump</td>
+<td>-T</td>
+<td>显示动态符号表</td>
 </tr>
 <tr>
-<td>192.168.1.59:4465</td>
-<td>219.152.168.222:9202</td>
+<td>readelf</td>
+<td>-W</td>
+<td>使用宽格式显示</td>
+</tr>
+<tr>
+<td></td>
+<td>-s</td>
+<td>显示符号表</td>
 </tr>
 </tbody></table>
-<p>总之，家庭网络由于网络规模比较小，通常使用了 192.168 开头的私网地址，光猫拨号获取了一个公网地址（或者运营商私网地址），通过 NAT 方式的映射到这个公网地址的不同端口，访问互联网。主要注意的 NAT 模式和路由模式是不同的。</p>
-<h2 id="无分类地址-CIDR"><a href="#无分类地址-CIDR" class="headerlink" title="无分类地址 CIDR"></a>无分类地址 CIDR</h2><p>正因为 IP 分类存在许多缺点，所以后面提出了无分类地址的方案，即 CIDR。</p>
-<p>这种方式不再有分类地址的概念，32 比特的 IP 地址被划分为两部分，前面是网络号，后面是主机号。</p>
-<p>怎么划分网络号和主机号的呢？</p>
-<p>表示形式 a.b.c.d&#x2F;x，其中 &#x2F;x 表示前 x 位属于网络号， x 的范围是 0 ~ 32，这就使得 IP 地址更加具有灵活性。</p>
-<p>比如 10.100.122.2&#x2F;24，这种地址表示形式就是 CIDR，&#x2F;24 表示前 24 位是网络号，剩余的 8 位是主机号。</p>
-<h2 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h2><p>子网掩码和 CIDR 是配套使用的，CIDR 表示网络号，子网掩码表示主机号。掩码的意思就是掩盖掉主机号，剩余的就是网络号。</p>
-<p>子网掩码和 IP 地址一样，也是 32 比特，左边是网络号，右边是主机号。</p>
-<h2 id="网络号和主机号"><a href="#网络号和主机号" class="headerlink" title="网络号和主机号"></a>网络号和主机号</h2><p>网络号和主机号在 IP 地址中有着各自重要的作用，帮助计算机网络有效地传输数据和管理地址。具体来说：</p>
-<h3 id="网络号-Network-Part"><a href="#网络号-Network-Part" class="headerlink" title="网络号 (Network Part)"></a>网络号 (Network Part)</h3><ul>
-<li><p>定义：网络号是 IP 地址的前一部分，用于标识一个特定的网络。</p>
-</li>
-<li><p>作用：</p>
+<h2 id="使用建议"><a href="#使用建议" class="headerlink" title="使用建议"></a>使用建议</h2><ol>
+<li><strong>快速查找</strong>：优先使用 <code>nm -D</code> 命令</li>
+<li><strong>详细分析</strong>：需要更多信息时使用 <code>objdump</code> 或 <code>readelf</code></li>
+<li><strong>批量查找</strong>：使用 <code>find</code> 配合 <code>nm</code> 命令</li>
+<li><strong>依赖确认</strong>：使用 <code>ldd</code> 确认库是否正确链接</li>
+</ol>
+<h2 id="常见问题排查"><a href="#常见问题排查" class="headerlink" title="常见问题排查"></a>常见问题排查</h2><p>如果找到函数但链接失败，请检查：</p>
 <ul>
-<li><p>路由：网络设备（如路由器）利用网络号将数据包发送到正确的子网或网络。只需要检查数据包的网络号，就可以决定将其转发到哪个子网。</p>
-</li>
-<li><p>网络管理：网络号有助于网络管理员管理和组织不同的子网。通过网络号，管理员可以轻松地分配和控制 IP 地址资源。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="主机号-Host-Part"><a href="#主机号-Host-Part" class="headerlink" title="主机号 (Host Part)"></a>主机号 (Host Part)</h3><ul>
-<li><p>定义：主机号是 IP 地址的后一部分，用于标识网络中的特定设备或节点。</p>
-</li>
-<li><p>作用：</p>
-<ul>
-<li><p>设备标识：主机号唯一标识网络中的每一个设备，确保数据包能准确地到达目标设备。</p>
-</li>
-<li><p>地址分配：在同一子网内，主机号确保每一个设备都有一个独一无二的地址，以避免地址冲突。</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>例如：<br>对于 IP 地址 192.168.1.1 和 子网掩码 255.255.255.0（C 类地址）：</p>
-<ul>
-<li><p>网络号：192.168.1（前 24 位）</p>
-</li>
-<li><p>主机号：1（后 8 位）</p>
-</li>
-</ul>
-<p>这个地址划分方式确保了不同网络可以通过网络号来区分，同时在同一网络内的每个设备通过主机号来区分，从而实现高效的网络管理和数据传输。</p>
-<h2 id="192-168"><a href="#192-168" class="headerlink" title="192.168"></a>192.168</h2><p>192.168.x.x 是 ipv4 的 c 类地址划分的一部分</p>
-<p>C 类网络地址划分: 110 开头，21 位网络号，8 位主机号。C 类网络地址的 192.168 号段才是私有地址，其他号段是公有地址。</p>
-<img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20241029144154815.png" alt="image-20241029144154815" style="zoom: 67%;" />
-
-<p>C 类网络中，192.168 划分为私有地址，从 192.168.0.0 到 192.168.255.255。</p>
-<h2 id="192-168-11-63"><a href="#192-168-11-63" class="headerlink" title="192.168.11.63"></a>192.168.11.63</h2><p>inet: 192.168.11.63<br>netmask: 255.255.248.0&#x2F;21</p>
-<p>192.168.11.63 是 C 类网络地址，192.168 是网络号，11 是子网号，63 是主机号。</p>
-<p>192.168.11.63 的二进制表示：</p>
-<p>11000000.10101000.00001011.01111111</p>
-<p>网络号：11000000.10101000.00001, 21 位网络号, 用于标识同一子网。</p>
-<p>主机号：011 11111, 8 位主机号, 用于标识同一子网内的不同设备。</p>
-<p>255.255.248.0 的二进制表示：</p>
-<p>11111111.11111111.11111000.00000000</p>
-<h3 id="同一子网"><a href="#同一子网" class="headerlink" title="同一子网"></a>同一子网</h3><p>从 11000000.10101000.00001000.00000000 到 11000000.10101000.00001111.11111111</p>
-<p>即: 192.168.8.0 到 192.168.15.255</p>
-<p>可用设备数: 2^8 - 2 &#x3D; 254</p>
-<p>特殊地址:</p>
-<ul>
-<li><p>192.168.8.0: 网络地址, 不能分配给设备, 用于标识子网</p>
-</li>
-<li><p>192.168.15.255: 广播地址</p>
-</li>
+<li>库文件的链接路径是否正确</li>
+<li>库版本是否兼容</li>
+<li>符号修饰（symbol mangling）是否匹配</li>
+<li>编译器选项是否正确</li>
 </ul>
  
       <!-- reward -->
@@ -273,12 +234,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hmmmmmya.github.io/2024/10/29/018_%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E5%B8%B8%E8%A7%81%E7%9A%84%20IP%20%E9%83%BD%E6%98%AF%20192.168%20%E5%BC%80%E5%A4%B4%E7%9A%84/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hmmmmmya.github.io/2024/10/29/019_Linux%20%E6%9F%A5%E7%9C%8B%E5%BA%93%E4%B8%AD%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%8C%87%E5%AE%9A%E5%87%BD%E6%95%B0/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
 
     </footer>
   </div>
@@ -286,10 +247,19 @@
    
   <nav class="article-nav">
     
+      <a href="/2024/10/29/018_%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E5%B8%B8%E8%A7%81%E7%9A%84%20IP%20%E9%83%BD%E6%98%AF%20192.168%20%E5%BC%80%E5%A4%B4%E7%9A%84/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            018_为什么我们常见的 IP 都是 192.168 开头的
+          
+        </div>
+      </a>
     
-      <a href="/2024/10/29/019_Linux%20%E6%9F%A5%E7%9C%8B%E5%BA%93%E4%B8%AD%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%8C%87%E5%AE%9A%E5%87%BD%E6%95%B0/" class="article-nav-link">
+    
+      <a href="/2024/10/23/017_%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">019_Linux 查看库中是否包含指定函数</div>
+        <div class="article-nav-title">017_开发工具推荐</div>
       </a>
     
   </nav>
