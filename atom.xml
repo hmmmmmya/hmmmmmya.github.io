@@ -6,7 +6,7 @@
   <link href="https://hmmmmmya.github.io/atom.xml" rel="self"/>
   
   <link href="https://hmmmmmya.github.io/"/>
-  <updated>2024-10-29T08:40:27.196Z</updated>
+  <updated>2024-10-29T08:42:33.731Z</updated>
   <id>https://hmmmmmya.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>020_如何修改 Linux 栈区大小</title>
+    <link href="https://hmmmmmya.github.io/2024/10/29/020_%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%20Linux%20%E6%A0%88%E5%8C%BA%E5%A4%A7%E5%B0%8F/"/>
+    <id>https://hmmmmmya.github.io/2024/10/29/020_%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%20Linux%20%E6%A0%88%E5%8C%BA%E5%A4%A7%E5%B0%8F/</id>
+    <published>2024-10-29T08:42:00.000Z</published>
+    <updated>2024-10-29T08:42:33.731Z</updated>
+    
+    <content type="html"><![CDATA[<p>栈，就是那些由编译器在需要的时候分配，在不需要的时候自动清除的变量的存储区。里面的变量通常是局部变量、函数参数等。和堆相比，栈通常很小。<br>在 Linux 系统中，栈区的大小是固定的，通常为 8 MB。然而，在某些情况下，我们可能需要修改栈区的大小。本文将介绍如何修改 Linux 栈区大小。</p><span id="more"></span><h2 id="1-查看当前栈区大小"><a href="#1-查看当前栈区大小" class="headerlink" title="1. 查看当前栈区大小"></a>1. 查看当前栈区大小</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -s // 一般为8192KB, 即8MB</span><br></pre></td></tr></table></figure><p>注：线程栈大小默认为 8M，8192 KB。</p><h2 id="2-修改栈区大小"><a href="#2-修改栈区大小" class="headerlink" title="2. 修改栈区大小"></a>2. 修改栈区大小</h2><h3 id="临时修改"><a href="#临时修改" class="headerlink" title="临时修改"></a>临时修改</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -s 102400 // 改为100MB</span><br></pre></td></tr></table></figure><p>注：ulimit -s ulimited 不限制。</p><h3 id="永久修改"><a href="#永久修改" class="headerlink" title="永久修改"></a>永久修改</h3><p>有两种方法：</p><ul><li><p>方法一：可以在&#x2F;etc&#x2F;rc.local 内加入 ulimit -s 102400 则可以开机就设置栈空间大小，任何用户启动的时候都会调用</p></li><li><p>方法二：修改配置文件&#x2F;etc&#x2F;security&#x2F;limits.conf</p></li></ul><p>手动添加：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* soft stack 102400</span><br></pre></td></tr></table></figure><p>自动添加：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -ne <span class="string">&quot;* soft stack 102400\n&quot;</span> &gt;&gt; /etc/security/limits.conf</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;栈，就是那些由编译器在需要的时候分配，在不需要的时候自动清除的变量的存储区。里面的变量通常是局部变量、函数参数等。和堆相比，栈通常很小。&lt;br&gt;在 Linux 系统中，栈区的大小是固定的，通常为 8 MB。然而，在某些情况下，我们可能需要修改栈区的大小。本文将介绍如何修改 Linux 栈区大小。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://hmmmmmya.github.io/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://hmmmmmya.github.io/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>019_Linux 查看库中是否包含指定函数</title>
@@ -27,27 +48,6 @@
     
     
     <summary type="html">&lt;p&gt;在 Linux 系统中，我们经常需要确认某个函数是否在特定的库文件中。以下是几种常用的查找方法。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Linux" scheme="https://hmmmmmya.github.io/categories/Linux/"/>
-    
-    
-    <category term="Linux" scheme="https://hmmmmmya.github.io/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>020_如何修改 Linux 栈区大小</title>
-    <link href="https://hmmmmmya.github.io/2024/10/29/020_%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%20Linux%20%E6%A0%88%E5%8C%BA%E5%A4%A7%E5%B0%8F/"/>
-    <id>https://hmmmmmya.github.io/2024/10/29/020_%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%20Linux%20%E6%A0%88%E5%8C%BA%E5%A4%A7%E5%B0%8F/</id>
-    <published>2024-10-29T08:10:00.000Z</published>
-    <updated>2024-10-29T08:42:08.087Z</updated>
-    
-    <content type="html"><![CDATA[<p>栈，就是那些由编译器在需要的时候分配，在不需要的时候自动清除的变量的存储区。里面的变量通常是局部变量、函数参数等。和堆相比，栈通常很小。<br>在 Linux 系统中，栈区的大小是固定的，通常为 8 MB。然而，在某些情况下，我们可能需要修改栈区的大小。本文将介绍如何修改 Linux 栈区大小。</p><span id="more"></span><h2 id="1-查看当前栈区大小"><a href="#1-查看当前栈区大小" class="headerlink" title="1. 查看当前栈区大小"></a>1. 查看当前栈区大小</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -s // 一般为8192KB, 即8MB</span><br></pre></td></tr></table></figure><p>注：线程栈大小默认为 8M，8192 KB。</p><h2 id="2-修改栈区大小"><a href="#2-修改栈区大小" class="headerlink" title="2. 修改栈区大小"></a>2. 修改栈区大小</h2><h3 id="临时修改"><a href="#临时修改" class="headerlink" title="临时修改"></a>临时修改</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -s 102400 // 改为100MB</span><br></pre></td></tr></table></figure><p>注：ulimit -s ulimited 不限制。</p><h3 id="永久修改"><a href="#永久修改" class="headerlink" title="永久修改"></a>永久修改</h3><p>有两种方法：</p><ul><li><p>方法一：可以在&#x2F;etc&#x2F;rc.local 内加入 ulimit -s 102400 则可以开机就设置栈空间大小，任何用户启动的时候都会调用</p></li><li><p>方法二：修改配置文件&#x2F;etc&#x2F;security&#x2F;limits.conf</p></li></ul><p>手动添加：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* soft stack 102400</span><br></pre></td></tr></table></figure><p>自动添加：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -ne <span class="string">&quot;* soft stack 102400\n&quot;</span> &gt;&gt; /etc/security/limits.conf</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;栈，就是那些由编译器在需要的时候分配，在不需要的时候自动清除的变量的存储区。里面的变量通常是局部变量、函数参数等。和堆相比，栈通常很小。&lt;br&gt;在 Linux 系统中，栈区的大小是固定的，通常为 8 MB。然而，在某些情况下，我们可能需要修改栈区的大小。本文将介绍如何修改 Linux 栈区大小。&lt;/p&gt;</summary>
     
     
     
