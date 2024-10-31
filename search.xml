@@ -1036,7 +1036,12 @@
 <p>IP 地址分类成了 5 种类型，分别是 A 类、B 类、C 类、D 类、E 类。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20241029151149.png" alt="IP 地址的分类"></p>
 <p>上图中黄色部分为分类号，用以区分 IP 地址类别。</p>
-<h2 id="私网地址划分"><a href="#私网地址划分" class="headerlink" title="私网地址划分"></a>私网地址划分</h2><p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20241029144309499.png" alt="私网地址"></p>
+<h2 id="私网地址划分"><a href="#私网地址划分" class="headerlink" title="私网地址划分"></a>私网地址划分</h2><blockquote>
+<p>10.0.0.0–10.255.255.255</p>
+<p>172.16.0.0–172.31.255.255</p>
+<p>192.168.0.0–192.168.255.255</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20241029144309499.png" alt="私网地址"></p>
 <p>除了这三个 ip 地址段为私有 ip 地址外，其它的都为公网 ip。</p>
 <p>这些地址已被声明私有化，任何内网中的设备可以任意使用这些地址，但是在这三个范围内的 IP 地址不允许出现在 Internet（外网）上。所以我们平台在内部组网时用的比较多，比如监控项目与公司内部电脑 ip 设置，用的多的就是 192.168.xx。</p>
 <p>通常情况下，按照需要容纳的主机数选择私有地址段。家庭网络规模比较小，一个 C 类地址，192.168.1.x 可以容纳 254 个终端，足够使用。</p>
@@ -1406,5 +1411,98 @@
       <tags>
         <tag>Linux</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>c++结构化绑定</title>
+    <url>/2024/10/31/022_cpp%E7%BB%93%E6%9E%84%E5%8C%96%E7%BB%91%E5%AE%9A/</url>
+    <content><![CDATA[<p>介绍下 c++ 的结构化绑定</p>
+<span id="more"></span>
+
+<p>结构化绑定(Structured Binding)是 C++17 引入的新特性,允许我们将结构体、数组或元组中的多个元素同时绑定到多个变量上。</p>
+<p>以下是几个常见的使用场景:</p>
+<ol>
+<li>绑定 tuple:</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::tuple&lt;<span class="type">int</span>, std::string, <span class="type">double</span>&gt; tuple&#123;<span class="number">1</span>, <span class="string">&quot;hello&quot;</span>, <span class="number">3.14</span>&#125;;</span><br><span class="line"><span class="keyword">auto</span> [id, name, value] = tuple;  <span class="comment">// 自动解包到三个变量</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>绑定 pair:</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::map&lt;std::string, <span class="type">int</span>&gt; map&#123;&#123;<span class="string">&quot;one&quot;</span>, <span class="number">1</span>&#125;&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; [key, value] : map) &#123;  <span class="comment">// 遍历map时直接获取键值</span></span><br><span class="line">    std::cout &lt;&lt; key &lt;&lt; <span class="string">&quot;: &quot;</span> &lt;&lt; value &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>绑定结构体:</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    <span class="type">int</span> x;</span><br><span class="line">    <span class="type">int</span> y;</span><br><span class="line">&#125;;</span><br><span class="line">Point p&#123;<span class="number">10</span>, <span class="number">20</span>&#125;;</span><br><span class="line"><span class="keyword">auto</span> [x, y] = p;  <span class="comment">// 直接获取结构体的成员</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>绑定数组:</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> array[<span class="number">3</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line"><span class="keyword">auto</span> [a, b, c] = array;  <span class="comment">// 解包固定大小的数组</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>在函数返回多个值时使用:</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">std::tuple&lt;<span class="type">bool</span>, std::string&gt; <span class="title">ValidateUser</span><span class="params">(<span class="type">const</span> std::string&amp; user)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="literal">true</span>, <span class="string">&quot;验证成功&quot;</span>&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用时</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">auto</span> [success, message] = <span class="built_in">ValidateUser</span>(<span class="string">&quot;admin&quot;</span>); success) &#123;</span><br><span class="line">    std::cout &lt;&lt; message &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在之前的代码中的应用:</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 原来的写法</span></span><br><span class="line">std::vector&lt;std::tuple&lt;T, T, T&gt;&gt; &amp;params;</span><br><span class="line">T min = std::<span class="built_in">get</span>&lt;<span class="number">1</span>&gt;(params.<span class="built_in">at</span>(i));</span><br><span class="line">T max = std::<span class="built_in">get</span>&lt;<span class="number">2</span>&gt;(params.<span class="built_in">at</span>(i));</span><br><span class="line">std::<span class="built_in">get</span>&lt;<span class="number">0</span>&gt;(params.<span class="built_in">at</span>(i)) = value;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用结构化绑定的写法</span></span><br><span class="line"><span class="keyword">auto</span>&amp; [value, min, max] = params[i];  <span class="comment">// 一次性获取所有值</span></span><br></pre></td></tr></table></figure>
+
+<p>优点:</p>
+<ol>
+<li>代码更简洁易读</li>
+<li>避免重复访问容器元素</li>
+<li>减少了使用 std::get 的繁琐语法</li>
+<li>变量名更有意义,提高代码可维护性</li>
+</ol>
+<p>注意事项:</p>
+<ol>
+<li>需要 C++17 或更高版本</li>
+<li>绑定的变量数量必须与结构中的元素数量完全匹配</li>
+<li>使用 auto 关键字声明</li>
+<li>可以使用引用(&amp;)来避免拷贝</li>
+</ol>
+<p>结构化绑定是现代 C++中非常实用的特性,能让代码更加简洁优雅。</p>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+        <tag>c++17</tag>
+        <tag>现代c++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>021_主题皮肤推荐</title>
+    <url>/2024/10/30/021_%E4%B8%BB%E9%A2%98%E7%9A%AE%E8%82%A4%E6%8E%A8%E8%8D%90/</url>
+    <content><![CDATA[<p>好用的主题皮肤推荐</p>
+<span id="more"></span>
+
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>主题皮肤</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>vscode</strong></td>
+<td><em>Night Owl</em></td>
+<td>最美观</td>
+</tr>
+<tr>
+<td></td>
+<td>One Dark Pro</td>
+<td>雾蒙蒙</td>
+</tr>
+<tr>
+<td><strong>typora</strong></td>
+<td><em>Vue</em></td>
+<td></td>
+</tr>
+</tbody></table>
+]]></content>
   </entry>
 </search>

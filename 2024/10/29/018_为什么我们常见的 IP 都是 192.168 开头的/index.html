@@ -117,7 +117,12 @@
 <p>IP 地址分类成了 5 种类型，分别是 A 类、B 类、C 类、D 类、E 类。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20241029151149.png" alt="IP 地址的分类"></p>
 <p>上图中黄色部分为分类号，用以区分 IP 地址类别。</p>
-<h2 id="私网地址划分"><a href="#私网地址划分" class="headerlink" title="私网地址划分"></a>私网地址划分</h2><p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20241029144309499.png" alt="私网地址"></p>
+<h2 id="私网地址划分"><a href="#私网地址划分" class="headerlink" title="私网地址划分"></a>私网地址划分</h2><blockquote>
+<p>10.0.0.0–10.255.255.255</p>
+<p>172.16.0.0–172.31.255.255</p>
+<p>192.168.0.0–192.168.255.255</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/image-20241029144309499.png" alt="私网地址"></p>
 <p>除了这三个 ip 地址段为私有 ip 地址外，其它的都为公网 ip。</p>
 <p>这些地址已被声明私有化，任何内网中的设备可以任意使用这些地址，但是在这三个范围内的 IP 地址不允许出现在 Internet（外网）上。所以我们平台在内部组网时用的比较多，比如监控项目与公司内部电脑 ip 设置，用的多的就是 192.168.xx。</p>
 <p>通常情况下，按照需要容纳的主机数选择私有地址段。家庭网络规模比较小，一个 C 类地址，192.168.1.x 可以容纳 254 个终端，足够使用。</p>
