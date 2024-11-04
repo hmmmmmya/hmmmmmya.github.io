@@ -1699,4 +1699,78 @@
         <tag>git</tag>
       </tags>
   </entry>
+  <entry>
+    <title>026_gitignore</title>
+    <url>/2024/11/04/026_gitignore/</url>
+    <content><![CDATA[<p>Git 忽略文件的规则</p>
+<span id="more"></span>
+
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p><code>.gitignore</code> 文件是用来告诉 Git 哪些文件或目录在版本控制中应该被忽略的。这对于排除编译生成的文件、临时文件、日志文件以及敏感数据等非常有用。下面是一些编写 <code>.gitignore</code> 文件的基本规则和示例：</p>
+<ol>
+<li><p><strong>文件名匹配规则</strong>：</p>
+<ul>
+<li><code>*</code>：匹配零个或多个字符。</li>
+<li><code>?</code>：匹配任意一个字符。</li>
+<li><code>[]</code>：匹配方括号内的任意一个字符。</li>
+<li><code>!</code>：在模式前加上感叹号表示取反，即排除匹配的文件或目录。</li>
+</ul>
+</li>
+<li><p><strong>注释</strong>：以 <code>#</code> 开头的行表示注释，Git 会忽略这些行。</p>
+</li>
+<li><p><strong>示例</strong>：</p>
+<ul>
+<li><p>忽略所有 <code>.a</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*.a</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>但是跟踪 <code>lib.a</code>，即使在忽略 <code>.a</code> 文件的规则下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">!lib.a</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略所有以 <code>.o</code> 结尾的文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*.o</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略所有以 <code>~</code> 结尾的临时文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*~</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略 <code>TODO</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">TODO</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略 <code>build/</code> 目录下的所有文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">build/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略 <code>doc/notes.txt</code> 文件，但不包括 <code>doc/server/arch.txt</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">doc/notes.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略 <code>doc/</code> 目录下的 <code>.pdf</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">doc/*.pdf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略 <code>doc/</code> 目录下的所有 <code>.pdf</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">doc/**/*.pdf</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="取消忽略后无效果"><a href="#取消忽略后无效果" class="headerlink" title="取消忽略后无效果"></a>取消忽略后无效果</h3><p>如果上述 <code>.gitignore</code> 规则没有达到预期效果，可以尝试更具体的忽略和取消忽略规则。在 <code>.gitignore</code> 文件中，顺序和具体路径可能会影响规则的应用。以下是调整后的版本，确保首先取消忽略特定的文件夹，然后忽略一般的文件夹：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 取消忽略以 hexo-theme- 开头的文件夹</span><br><span class="line">!node_modules/hexo-theme-*/</span><br><span class="line"></span><br><span class="line"># 忽略 node_modules 文件夹及其所有内容</span><br><span class="line">node_modules/</span><br><span class="line"></span><br><span class="line"># 忽略 node_modules 文件夹下的 hexo-theme-landscape 文件夹</span><br><span class="line">node_modules/hexo-theme-landscape/</span><br></pre></td></tr></table></figure>
+
+<p>另外，请确保这些文件夹已经被 Git 跟踪（即它们之前没有被忽略）。如果这些文件夹之前已经被忽略，需要先将它们从缓存中移除，然后重新添加它们。可以按照以下步骤操作：</p>
+<ol>
+<li><p>从 Git 缓存中移除 <code>node_modules</code> 文件夹（但保留本地文件）：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">rm</span> -r --cached node_modules</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>确认 <code>.gitignore</code> 文件中的规则。</p>
+</li>
+<li><p>重新添加 <code>node_modules</code> 文件夹：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git add node_modules</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提交更改：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git commit -m <span class="string">&quot;Update .gitignore rules&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>通过这些步骤，Git 将正确应用 <code>.gitignore</code> 文件中的规则。</p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
 </search>

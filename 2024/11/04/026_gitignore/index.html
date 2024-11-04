@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>025_PR和MR的区别 |  Hymns</title>
+      <title>026_gitignore |  Hymns</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -54,7 +54,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-025_PR和MR的区别"
+  id="post-026_gitignore"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -65,7 +65,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  025_PR和MR的区别
+  026_gitignore
 </h1>
  
 
@@ -73,8 +73,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2024/11/04/025_PR%E5%92%8CMR%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
-  <time datetime="2024-11-04T09:59:06.000Z" itemprop="datePublished">2024-11-04</time>
+      <a href="/2024/11/04/026_gitignore/" class="article-date">
+  <time datetime="2024-11-04T10:05:52.000Z" itemprop="datePublished">2024-11-04</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/git/">git</a>
@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">542</span>
+            <span class="post-count">576</span>
         </span>
     </span>
 
@@ -94,7 +94,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">2 分钟</span>
         </span>
     </span>
 </div>
@@ -109,35 +109,69 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>PR（Pull Request）和 MR（Merge Request）是代码版本控制系统中的两个概念，它们主要用于在多人协作开发项目时合并代码变更。这两个术语在功能上非常相似，但在不同的代码托管平台上有不同的称呼。</p>
+  <p>Git 忽略文件的规则</p>
 <span id="more"></span>
 
-<h2 id="PR（Pull-Request）"><a href="#PR（Pull-Request）" class="headerlink" title="PR（Pull Request）"></a>PR（Pull Request）</h2><ul>
-<li><strong>定义</strong>: Pull Request 是 GitHub、Bitbucket、GitLab 等平台上用于代码合并的一种请求机制。当开发者在自己的分支上完成了一组代码更改后，他们可以创建一个 Pull Request 请求，将这些更改合并到主分支（例如 <code>main</code> 或 <code>master</code>）或者其他目标分支。</li>
-<li><strong>使用场景</strong>:<ul>
-<li>开发者完成功能或修复后，创建 PR 并向代码库的维护者或团队成员发出请求，要求对这些更改进行审查。</li>
-<li>审查通过后，维护者可以批准并合并 PR，将这些更改合并到目标分支中。</li>
-</ul>
-</li>
-<li><strong>平台</strong>: PR 这个术语主要用于 GitHub 和 Bitbucket 等平台。</li>
-</ul>
-<h2 id="MR（Merge-Request）"><a href="#MR（Merge-Request）" class="headerlink" title="MR（Merge Request）"></a>MR（Merge Request）</h2><ul>
-<li><p><strong>定义</strong>: Merge Request 是 GitLab 上使用的术语，功能上与 Pull Request 类似。MR 用于向项目中的其他开发者或团队发出合并代码更改的请求。</p>
-</li>
-<li><p><strong>使用场景</strong>:</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p><code>.gitignore</code> 文件是用来告诉 Git 哪些文件或目录在版本控制中应该被忽略的。这对于排除编译生成的文件、临时文件、日志文件以及敏感数据等非常有用。下面是一些编写 <code>.gitignore</code> 文件的基本规则和示例：</p>
+<ol>
+<li><p><strong>文件名匹配规则</strong>：</p>
 <ul>
-<li>在开发者完成某个功能或修复后，他们提交 MR 请求，将代码合并到主分支或其他目标分支。</li>
-<li>代码库的维护者或团队成员审查 MR，并决定是否合并这些更改。</li>
+<li><code>*</code>：匹配零个或多个字符。</li>
+<li><code>?</code>：匹配任意一个字符。</li>
+<li><code>[]</code>：匹配方括号内的任意一个字符。</li>
+<li><code>!</code>：在模式前加上感叹号表示取反，即排除匹配的文件或目录。</li>
 </ul>
 </li>
-<li><p><strong>平台</strong>: MR 主要在 GitLab 上使用。</p>
+<li><p><strong>注释</strong>：以 <code>#</code> 开头的行表示注释，Git 会忽略这些行。</p>
 </li>
+<li><p><strong>示例</strong>：</p>
+<ul>
+<li><p>忽略所有 <code>.a</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*.a</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>但是跟踪 <code>lib.a</code>，即使在忽略 <code>.a</code> 文件的规则下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!lib.a</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略所有以 <code>.o</code> 结尾的文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*.o</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略所有以 <code>~</code> 结尾的临时文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*~</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略 <code>TODO</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TODO</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略 <code>build/</code> 目录下的所有文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">build/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略 <code>doc/notes.txt</code> 文件，但不包括 <code>doc/server/arch.txt</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">doc/notes.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略 <code>doc/</code> 目录下的 <code>.pdf</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">doc/*.pdf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略 <code>doc/</code> 目录下的所有 <code>.pdf</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">doc/**/*.pdf</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h2 id="PR-和-MR-的区别"><a href="#PR-和-MR-的区别" class="headerlink" title="PR 和 MR 的区别"></a>PR 和 MR 的区别</h2><ul>
-<li><strong>平台不同</strong>: PR 主要用于 GitHub 和 Bitbucket，MR 主要用于 GitLab。</li>
-<li><strong>功能相同</strong>: 尽管名称不同，PR 和 MR 的核心功能都是相同的，即允许开发者在合并代码之前发起请求进行代码审查。</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>无论是 PR 还是 MR，它们的主要目的是通过让代码库的维护者或团队成员审查代码，确保在代码合并到主分支之前能够发现并解决潜在的问题。这种机制有助于提高代码质量，减少引入的错误，同时也便于多人协作开发。</p>
+</li>
+</ol>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="取消忽略后无效果"><a href="#取消忽略后无效果" class="headerlink" title="取消忽略后无效果"></a>取消忽略后无效果</h3><p>如果上述 <code>.gitignore</code> 规则没有达到预期效果，可以尝试更具体的忽略和取消忽略规则。在 <code>.gitignore</code> 文件中，顺序和具体路径可能会影响规则的应用。以下是调整后的版本，确保首先取消忽略特定的文件夹，然后忽略一般的文件夹：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 取消忽略以 hexo-theme- 开头的文件夹</span><br><span class="line">!node_modules/hexo-theme-*/</span><br><span class="line"></span><br><span class="line"># 忽略 node_modules 文件夹及其所有内容</span><br><span class="line">node_modules/</span><br><span class="line"></span><br><span class="line"># 忽略 node_modules 文件夹下的 hexo-theme-landscape 文件夹</span><br><span class="line">node_modules/hexo-theme-landscape/</span><br></pre></td></tr></table></figure>
+
+<p>另外，请确保这些文件夹已经被 Git 跟踪（即它们之前没有被忽略）。如果这些文件夹之前已经被忽略，需要先将它们从缓存中移除，然后重新添加它们。可以按照以下步骤操作：</p>
+<ol>
+<li><p>从 Git 缓存中移除 <code>node_modules</code> 文件夹（但保留本地文件）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">rm</span> -r --cached node_modules</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>确认 <code>.gitignore</code> 文件中的规则。</p>
+</li>
+<li><p>重新添加 <code>node_modules</code> 文件夹：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add node_modules</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提交更改：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m <span class="string">&quot;Update .gitignore rules&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>通过这些步骤，Git 将正确应用 <code>.gitignore</code> 文件中的规则。</p>
  
       <!-- reward -->
       
@@ -202,7 +236,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hmmmmmya.github.io/2024/11/04/025_PR%E5%92%8CMR%E7%9A%84%E5%8C%BA%E5%88%AB/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hmmmmmya.github.io/2024/11/04/026_gitignore/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -215,19 +249,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2024/11/04/026_gitignore/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            026_gitignore
-          
-        </div>
-      </a>
     
-    
-      <a href="/2024/10/31/024_cpp%E5%88%9D%E5%A7%8B%E5%8C%96/" class="article-nav-link">
+      <a href="/2024/11/04/025_PR%E5%92%8CMR%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">024_cpp初始化</div>
+        <div class="article-nav-title">025_PR和MR的区别</div>
       </a>
     
   </nav>
