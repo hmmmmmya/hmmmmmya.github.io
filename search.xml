@@ -199,10 +199,10 @@
 </ul>
 ]]></content>
       <categories>
-        <category>github</category>
+        <category>git</category>
       </categories>
       <tags>
-        <tag>github</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -1490,24 +1490,34 @@
 <tbody><tr>
 <td><strong>vscode</strong></td>
 <td><em>Night Owl</em></td>
-<td>最美观</td>
+<td>fav</td>
 </tr>
 <tr>
 <td></td>
 <td>One Dark Pro</td>
-<td>雾蒙蒙</td>
+<td>foggy</td>
 </tr>
 <tr>
 <td><strong>typora</strong></td>
 <td><em>Vue</em></td>
+<td>fav</td>
+</tr>
+<tr>
+<td></td>
+<td>Github</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Juejin</td>
 <td></td>
 </tr>
 </tbody></table>
 ]]></content>
   </entry>
   <entry>
-    <title>023_cpp折叠表达式</title>
-    <url>/2024/10/31/023-cpp%E6%8A%98%E5%8F%A0%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <title>023_c++折叠表达式</title>
+    <url>/2024/10/31/023_cpp%E6%8A%98%E5%8F%A0%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<p>C++中的折叠表达式（Fold Expressions）是一种简化变参模板函数编写的语法，从 C++17 开始引入。折叠表达式可以对可变参数模板进行自动折叠，从而简化代码。</p>
 <span id="more"></span>
 
@@ -1544,6 +1554,149 @@
         <tag>c++</tag>
         <tag>c++17</tag>
         <tag>现代c++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>024_cpp初始化</title>
+    <url>/2024/10/31/024_cpp%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
+    <content><![CDATA[<p>介绍下 c++ 的初始化</p>
+<span id="more"></span>
+
+<h2 id="一-自动初始化为-0-的情况"><a href="#一-自动初始化为-0-的情况" class="headerlink" title="一. 自动初始化为 0 的情况"></a>一. 自动初始化为 0 的情况</h2><p>在 C++中，初始化为 0 的情况取决于变量的类型、存储位置和初始化方式。以下是 C++中会自动初始化为 0 的几种情况：</p>
+<h3 id="1-全局变量和静态变量"><a href="#1-全局变量和静态变量" class="headerlink" title="1. 全局变量和静态变量"></a>1. <strong>全局变量和静态变量</strong></h3><ul>
+<li><p><strong>全局变量</strong>（包括命名空间作用域的变量）和<strong>静态变量</strong>（<code>static</code>）在定义时会被自动初始化为 0。</p>
+</li>
+<li><p>这种自动初始化包括整型初始化为 0，浮点型初始化为 0.0，指针初始化为<code>nullptr</code>，类对象会调用默认构造函数。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> globalVar;          <span class="comment">// 自动初始化为0</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> staticVar;    <span class="comment">// 静态变量自动初始化为0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> funcStaticVar;  <span class="comment">// 函数内部的静态变量自动初始化为0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-类中的非静态成员变量（使用值初始化）"><a href="#2-类中的非静态成员变量（使用值初始化）" class="headerlink" title="2. 类中的非静态成员变量（使用值初始化）"></a>2. <strong>类中的非静态成员变量（使用值初始化）</strong></h3><ul>
+<li><p>如果对象的非静态成员变量没有显式初始化，在值初始化时这些成员变量会被自动初始化为 0。</p>
+</li>
+<li><p>值初始化通常发生在使用花括号初始化或默认初始化的情况下。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    <span class="type">double</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    MyClass obj&#123;&#125;;  <span class="comment">// obj.a 和 obj.b 都会被初始化为0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-数组的值初始化"><a href="#3-数组的值初始化" class="headerlink" title="3. 数组的值初始化"></a>3. <strong>数组的值初始化</strong></h3><ul>
+<li><p>如果数组通过值初始化进行初始化，数组中的元素会被初始化为 0。</p>
+</li>
+<li><p>通常使用花括号初始化或空花括号初始化的方式触发此行为。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> arr1[<span class="number">5</span>] = &#123;&#125;;   <span class="comment">// 所有元素初始化为0</span></span><br><span class="line"><span class="type">int</span> arr2[<span class="number">5</span>] = &#123;<span class="number">0</span>&#125;;  <span class="comment">// 所有元素初始化为0</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="4-动态分配的内存初始化"><a href="#4-动态分配的内存初始化" class="headerlink" title="4. 动态分配的内存初始化"></a>4. <strong>动态分配的内存初始化</strong></h3><ul>
+<li><p>使用<code>new</code>时，如果使用了带括号的方式，会将分配的内存初始化为 0。</p>
+</li>
+<li><p>不加括号的<code>new</code>不会自动初始化（需要手动赋值）。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span>* p1 = <span class="keyword">new</span> <span class="built_in">int</span>();       <span class="comment">// *p1 被初始化为0</span></span><br><span class="line"><span class="type">int</span>* arr = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">5</span>]();   <span class="comment">// arr数组的每个元素都初始化为0</span></span><br><span class="line"><span class="keyword">delete</span> p1;</span><br><span class="line"><span class="keyword">delete</span>[] arr;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="5-内置类型的局部变量不会自动初始化"><a href="#5-内置类型的局部变量不会自动初始化" class="headerlink" title="5. 内置类型的局部变量不会自动初始化"></a>5. <strong>内置类型的局部变量不会自动初始化</strong></h3><ul>
+<li><p>如果是局部变量且不属于静态存储期的内置类型变量（如局部整型、浮点型或指针），则它们不会自动初始化为 0，值是未定义的，需手动初始化。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> localVar;    <span class="comment">// 未初始化，值未定义</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>C++中会自动初始化为 0 的主要情形包括全局&#x2F;静态变量、类中的非静态成员变量（在值初始化时）、使用值初始化的数组和使用括号初始化的动态内存。</p>
+<h3 id="1-vector-初始化"><a href="#1-vector-初始化" class="headerlink" title="1. vector 初始化"></a>1. vector 初始化</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">vec</span><span class="params">(<span class="number">5</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>是的,使用这种方式定义 vector 时,编译器会自动将所有元素初始化为 0。</p>
+<p>具体来说:</p>
+<ol>
+<li>对于内置类型(如 int, double 等),会被初始化为 0</li>
+<li>对于类类型,会调用默认构造函数</li>
+</ol>
+<p>举例说明:</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 以下定义方式都会将元素初始化为0</span></span><br><span class="line"><span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">v1</span><span class="params">(<span class="number">5</span>)</span></span>;           <span class="comment">// &#123;0,0,0,0,0&#125;</span></span><br><span class="line"><span class="function">std::vector&lt;<span class="type">double</span>&gt; <span class="title">v2</span><span class="params">(<span class="number">3</span>)</span></span>;        <span class="comment">// &#123;0.0,0.0,0.0&#125;</span></span><br><span class="line"><span class="function">std::vector&lt;<span class="type">bool</span>&gt; <span class="title">v3</span><span class="params">(<span class="number">2</span>)</span></span>;          <span class="comment">// &#123;false,false&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 类类型会调用默认构造函数</span></span><br><span class="line"><span class="function">std::vector&lt;std::string&gt; <span class="title">v4</span><span class="params">(<span class="number">2</span>)</span></span>;   <span class="comment">// &#123;&quot;&quot;,&quot;&quot;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>所以 vector 中的所有 int 元素已经被初始化为 0 了。</p>
+<h2 id="二-存放内置类型的容器初始化"><a href="#二-存放内置类型的容器初始化" class="headerlink" title="二. 存放内置类型的容器初始化"></a>二. 存放内置类型的容器初始化</h2><p>在 C++中，存放内置类型的容器（如<code>std::vector&lt;int&gt;</code>）中的值是否会被初始化，取决于容器的构造和初始化方式。默认情况下，内置类型的元素不会自动初始化为 0，需要显式设置或采用某些特定的构造方式。以下是不同情况下的初始化行为：</p>
+<h3 id="1-默认构造的容器"><a href="#1-默认构造的容器" class="headerlink" title="1. 默认构造的容器"></a>1. <strong>默认构造的容器</strong></h3><ul>
+<li><p>如果使用默认构造的容器（即没有指定大小或初始值），则容器的内容为空。</p>
+</li>
+<li><p>例如，<code>std::vector&lt;int&gt; v;</code>会创建一个空的<code>vector</code>，没有任何元素，因此不存在初始化的问题。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::vector&lt;<span class="type">int</span>&gt; v;  <span class="comment">// 空容器，没有元素，因此没有初始化</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-指定大小的构造方式"><a href="#2-指定大小的构造方式" class="headerlink" title="2. 指定大小的构造方式"></a>2. <strong>指定大小的构造方式</strong></h3><ul>
+<li><p>如果通过指定大小来构造容器，例如<code>std::vector&lt;int&gt; v(5);</code>，容器会分配出对应数量的元素。</p>
+</li>
+<li><p>对于内置类型的元素，使用此方式初始化时，值是未定义的，不会自动初始化为 0。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">v</span><span class="params">(<span class="number">5</span>)</span></span>;  <span class="comment">// 分配5个int元素，值未定义</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-指定大小和初始值的构造方式"><a href="#3-指定大小和初始值的构造方式" class="headerlink" title="3. 指定大小和初始值的构造方式"></a>3. <strong>指定大小和初始值的构造方式</strong></h3><ul>
+<li><p>使用<code>std::vector&lt;int&gt; v(5, 0);</code>指定大小并提供初始值时，所有元素都会被初始化为指定的值（此处为 0）。</p>
+</li>
+<li><p>这种方式适用于确保容器中所有元素的初始值。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">v</span><span class="params">(<span class="number">5</span>, <span class="number">0</span>)</span></span>;  <span class="comment">// 分配5个元素，全部初始化为0</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="4-使用std-array"><a href="#4-使用std-array" class="headerlink" title="4. 使用std::array"></a>4. <strong>使用<code>std::array</code></strong></h3><ul>
+<li><p><code>std::array</code>的大小是固定的，初始化时如果没有提供所有元素的初始值，未指定的元素会被自动初始化为 0。</p>
+</li>
+<li><p>例如，<code>std::array&lt;int, 5&gt; arr = &#123;1&#125;;</code>会将第一个元素初始化为 1，其他元素初始化为 0。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::array&lt;<span class="type">int</span>, 5&gt; arr = &#123;<span class="number">1</span>&#125;;  <span class="comment">// arr = &#123;1, 0, 0, 0, 0&#125;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="5-使用std-vector的resize方法"><a href="#5-使用std-vector的resize方法" class="headerlink" title="5. 使用std::vector的resize方法"></a>5. <strong>使用<code>std::vector</code>的<code>resize</code>方法</strong></h3><ul>
+<li><p>使用<code>resize</code>调整大小时，如果提供初始值参数（如<code>v.resize(5, 0);</code>），所有新元素会被初始化为指定值（这里是 0）。</p>
+</li>
+<li><p>如果不提供初始值，则新元素的值未定义。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::vector&lt;<span class="type">int</span>&gt; v;</span><br><span class="line">v.<span class="built_in">resize</span>(<span class="number">5</span>, <span class="number">0</span>);  <span class="comment">// 将容器扩展为5个元素，全部初始化为0</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>**默认构造或仅指定大小的<code>vector</code>**：元素不会被初始化，值未定义。</li>
+<li>**指定大小和初始值的<code>vector</code>**：元素会被初始化为指定值。</li>
+<li><strong><code>std::array</code>初始化不完全填充</strong>：剩余元素会被初始化为 0。</li>
+<li><strong><code>resize</code>时提供初始值</strong>：新元素会被初始化为该值。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>025_PR和MR的区别</title>
+    <url>/2024/11/04/025_PR%E5%92%8CMR%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<p>PR（Pull Request）和 MR（Merge Request）是代码版本控制系统中的两个概念，它们主要用于在多人协作开发项目时合并代码变更。这两个术语在功能上非常相似，但在不同的代码托管平台上有不同的称呼。</p>
+<span id="more"></span>
+
+<h2 id="PR（Pull-Request）"><a href="#PR（Pull-Request）" class="headerlink" title="PR（Pull Request）"></a>PR（Pull Request）</h2><ul>
+<li><strong>定义</strong>: Pull Request 是 GitHub、Bitbucket、GitLab 等平台上用于代码合并的一种请求机制。当开发者在自己的分支上完成了一组代码更改后，他们可以创建一个 Pull Request 请求，将这些更改合并到主分支（例如 <code>main</code> 或 <code>master</code>）或者其他目标分支。</li>
+<li><strong>使用场景</strong>:<ul>
+<li>开发者完成功能或修复后，创建 PR 并向代码库的维护者或团队成员发出请求，要求对这些更改进行审查。</li>
+<li>审查通过后，维护者可以批准并合并 PR，将这些更改合并到目标分支中。</li>
+</ul>
+</li>
+<li><strong>平台</strong>: PR 这个术语主要用于 GitHub 和 Bitbucket 等平台。</li>
+</ul>
+<h2 id="MR（Merge-Request）"><a href="#MR（Merge-Request）" class="headerlink" title="MR（Merge Request）"></a>MR（Merge Request）</h2><ul>
+<li><p><strong>定义</strong>: Merge Request 是 GitLab 上使用的术语，功能上与 Pull Request 类似。MR 用于向项目中的其他开发者或团队发出合并代码更改的请求。</p>
+</li>
+<li><p><strong>使用场景</strong>:</p>
+<ul>
+<li>在开发者完成某个功能或修复后，他们提交 MR 请求，将代码合并到主分支或其他目标分支。</li>
+<li>代码库的维护者或团队成员审查 MR，并决定是否合并这些更改。</li>
+</ul>
+</li>
+<li><p><strong>平台</strong>: MR 主要在 GitLab 上使用。</p>
+</li>
+</ul>
+<h2 id="PR-和-MR-的区别"><a href="#PR-和-MR-的区别" class="headerlink" title="PR 和 MR 的区别"></a>PR 和 MR 的区别</h2><ul>
+<li><strong>平台不同</strong>: PR 主要用于 GitHub 和 Bitbucket，MR 主要用于 GitLab。</li>
+<li><strong>功能相同</strong>: 尽管名称不同，PR 和 MR 的核心功能都是相同的，即允许开发者在合并代码之前发起请求进行代码审查。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>无论是 PR 还是 MR，它们的主要目的是通过让代码库的维护者或团队成员审查代码，确保在代码合并到主分支之前能够发现并解决潜在的问题。这种机制有助于提高代码质量，减少引入的错误，同时也便于多人协作开发。</p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
 </search>
