@@ -774,12 +774,23 @@
 <li>服务关闭后, 外网不可访问, 再次开启后会分配新的 ip</li>
 </ol>
 <h2 id="Cloudflare-Tunnels"><a href="#Cloudflare-Tunnels" class="headerlink" title="Cloudflare Tunnels"></a>Cloudflare Tunnels</h2><p>Tunnels：如果你想在外网访问家里的设备，又很难申请到公网 IP，就可以使用 Cloudflare Tunnels 实现的免费内网穿透服务，这种方案配置简单，无数量限制、无流量限制</p>
+<h2 id="地址转换"><a href="#地址转换" class="headerlink" title="地址转换"></a>地址转换</h2><p>通过地址转换的方式访问内网，通常涉及使用<strong>网络地址转换（NAT）</strong>和<strong>端口映射</strong>。以下是一些常见的方法：</p>
+<h3 id="1-NAT（网络地址转换）"><a href="#1-NAT（网络地址转换）" class="headerlink" title="1. NAT（网络地址转换）"></a>1. <strong>NAT（网络地址转换）</strong></h3><p>NAT 是一种技术，允许多个设备共享一个公共 IP 地址。通过 NAT，内网设备可以通过公网 IP 地址与外部网络通信。NAT 会将内网设备的 IP 地址和端口号转换为公网 IP 地址和端口号。</p>
+<h3 id="2-端口映射"><a href="#2-端口映射" class="headerlink" title="2. 端口映射"></a>2. <strong>端口映射</strong></h3><p>端口映射是一种特定的 NAT 类型，它将内网中的特定端口映射到公网 IP 地址的特定端口。这样，外部设备可以通过公网 IP 地址和映射的端口访问内网设备。</p>
+<h3 id="3-VPN（虚拟专用网络）"><a href="#3-VPN（虚拟专用网络）" class="headerlink" title="3. VPN（虚拟专用网络）"></a>3. <strong>VPN（虚拟专用网络）</strong></h3><p>VPN 允许远程用户通过安全的方式访问内网。VPN 会创建一个加密的隧道，通过公网将远程用户的连接转发到内网。这种方式不仅提供了访问内网的能力，还增加了安全性。</p>
+<h3 id="4-代理服务器"><a href="#4-代理服务器" class="headerlink" title="4. 代理服务器"></a>4. <strong>代理服务器</strong></h3><p>代理服务器可以作为中介，接收外部请求并将其转发到内网设备。这种方式常用于访问内网中的特定服务，如 Web 服务器、数据库等。</p>
+<h3 id="5-云服务"><a href="#5-云服务" class="headerlink" title="5. 云服务"></a>5. <strong>云服务</strong></h3><p>使用云服务提供商提供的 NAT 和端口映射功能，可以方便地将内网设备暴露到公网。例如，AWS 提供的 NAT Gateway 和端口映射功能。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>假设你有一个内网中的 Web 服务器，IP 地址为 192.168.1.10，端口号为 8080。你希望通过公网访问这个 Web 服务器，可以通过以下步骤：</p>
+<ol>
+<li><strong>配置 NAT 和端口映射</strong>：在路由器上配置 NAT 和端口映射，将内网 IP 地址 192.168.1.10 和端口 8080 映射到公网 IP 地址（例如公网 IP 地址为 203.0.113.1）和端口号（例如 8080）。</li>
+<li><strong>访问 Web 服务器</strong>：通过公网 IP 地址和端口号访问 Web 服务器，地址为 <code>http://203.0.113.1:8080</code>。</li>
+</ol>
 ]]></content>
       <categories>
-        <category>网络</category>
+        <category>计算机网络</category>
       </categories>
       <tags>
-        <tag>网络</tag>
+        <tag>计算机网络</tag>
       </tags>
   </entry>
   <entry>
@@ -1906,7 +1917,7 @@
   </entry>
   <entry>
     <title>030_计算机网络应用层</title>
-    <url>/2024/11/11/030-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E5%B1%82/</url>
+    <url>/2024/11/11/030_%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E5%B1%82/</url>
     <content><![CDATA[<p>应用层是 OSI 模型中的第七层，直接面向用户和应用程序。它主要负责提供网络服务的接口和实现数据交换。以下是应用层的主要功能：</p>
 <span id="more"></span>
 
@@ -1934,6 +1945,338 @@
       </categories>
       <tags>
         <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>031_DHCP的作用</title>
+    <url>/2024/11/11/031_DHCP%E7%9A%84%E4%BD%9C%E7%94%A8/</url>
+    <content><![CDATA[<p>DHCP（Dynamic Host Configuration Protocol，动态主机配置协议）的主要作用是自动为网络上的设备分配 IP 地址和其他网络配置参数，如子网掩码、默认网关和 DNS 服务器。这样做的目的是简化网络管理，避免手动配置每个设备的网络设置。以下是 DHCP 的具体功能：</p>
+<span id="more"></span>
+
+<h3 id="1-自动-IP-地址分配"><a href="#1-自动-IP-地址分配" class="headerlink" title="1. 自动 IP 地址分配"></a>1. <strong>自动 IP 地址分配</strong></h3><p>DHCP 服务器可以自动分配 IP 地址给网络中的设备，确保每个设备都有一个唯一的 IP 地址，避免地址冲突。</p>
+<h3 id="2-分配网络配置参数"><a href="#2-分配网络配置参数" class="headerlink" title="2. 分配网络配置参数"></a>2. <strong>分配网络配置参数</strong></h3><p>除了 IP 地址，DHCP 还可以分配其他重要的网络配置参数，如：</p>
+<ul>
+<li><strong>子网掩码</strong>：用于确定 IP 地址的网络部分和主机部分。</li>
+<li><strong>默认网关</strong>：用于设备访问外部网络。</li>
+<li><strong>DNS 服务器</strong>：用于将域名解析为 IP 地址。</li>
+</ul>
+<h3 id="3-IP-地址租赁"><a href="#3-IP-地址租赁" class="headerlink" title="3. IP 地址租赁"></a>3. <strong>IP 地址租赁</strong></h3><p>DHCP 使用租赁机制，IP 地址的分配是有时间限制的。设备在租期到期之前，可以向 DHCP 服务器请求续租以继续使用当前的 IP 地址。</p>
+<h3 id="4-网络管理简化"><a href="#4-网络管理简化" class="headerlink" title="4. 网络管理简化"></a>4. <strong>网络管理简化</strong></h3><p>通过 DHCP，网络管理员不需要手动为每个设备配置网络设置，简化了网络管理工作，尤其是在有大量设备的网络环境中。</p>
+<h3 id="5-移动设备支持"><a href="#5-移动设备支持" class="headerlink" title="5. 移动设备支持"></a>5. <strong>移动设备支持</strong></h3><p>对于移动设备，如笔记本电脑、智能手机等，当它们从一个网络移动到另一个网络时，DHCP 可以自动为它们分配新的 IP 地址和配置参数，确保设备可以无缝连接到新网络。</p>
+<h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><p>DHCP 的工作流程通常包括以下几个步骤：</p>
+<ol>
+<li><strong>DHCP Discover</strong>：客户端广播一个 DHCP 发现报文，寻找 DHCP 服务器。</li>
+<li><strong>DHCP Offer</strong>：DHCP 服务器响应发现报文，提供一个 IP 地址和配置参数。</li>
+<li><strong>DHCP Request</strong>：客户端选择一个提供的 IP 地址，并向服务器发送请求报文。</li>
+<li><strong>DHCP Acknowledgment</strong>：服务器确认请求，并正式分配 IP 地址及其他配置参数。</li>
+</ol>
+<p>通过这些功能，DHCP 大大简化了网络配置和管理过程，使得网络设备可以更容易地连接和通信。</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>032_报文结构</title>
+    <url>/2024/11/11/032_%E6%8A%A5%E6%96%87%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[<p>报文结构是指在网络通信中，各种协议规定的数据报文格式。不同的协议会有不同的报文结构，以下是一些常见协议的报文结构示例。</p>
+<span id="more"></span>
+
+<h3 id="TCP-报文结构"><a href="#TCP-报文结构" class="headerlink" title="TCP 报文结构"></a>TCP 报文结构</h3><p>TCP（传输控制协议）的报文结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+-------------------------+</span><br><span class="line">|       源端口号 (16位)      |</span><br><span class="line">+-------------------------+</span><br><span class="line">|       目的端口号 (16位)     |</span><br><span class="line">+-------------------------+</span><br><span class="line">|       序列号 (32位)       |</span><br><span class="line">+-------------------------+</span><br><span class="line">|      确认号 (32位)       |</span><br><span class="line">+-------------------------+</span><br><span class="line">| 数据偏移 (4位) | 保留 (6位) | 标志位 (6位) | 窗口大小 (16位) |</span><br><span class="line">+-------------------------+</span><br><span class="line">|     校验和 (16位)        |</span><br><span class="line">+-------------------------+</span><br><span class="line">|     紧急指针 (16位)       |</span><br><span class="line">+-------------------------+</span><br><span class="line">|     选项 (可变)          |</span><br><span class="line">+-------------------------+</span><br><span class="line">|     数据 (可变)          |</span><br><span class="line">+-------------------------+</span><br></pre></td></tr></table></figure>
+
+<h3 id="UDP-报文结构"><a href="#UDP-报文结构" class="headerlink" title="UDP 报文结构"></a>UDP 报文结构</h3><p>UDP（用户数据报协议）的报文结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+-------------------------+</span><br><span class="line">|       源端口号 (16位)      |</span><br><span class="line">+-------------------------+</span><br><span class="line">|       目的端口号 (16位)     |</span><br><span class="line">+-------------------------+</span><br><span class="line">|    数据报长度 (16位)     |</span><br><span class="line">+-------------------------+</span><br><span class="line">|       校验和 (16位)       |</span><br><span class="line">+-------------------------+</span><br><span class="line">|     数据 (可变)          |</span><br><span class="line">+-------------------------+</span><br></pre></td></tr></table></figure>
+
+<h3 id="IP-报文结构"><a href="#IP-报文结构" class="headerlink" title="IP 报文结构"></a>IP 报文结构</h3><p>IP（Internet 协议）分为 IPv4 和 IPv6，这里以 IPv4 为例，其报文结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+-------------------------------+</span><br><span class="line">| 版本 (4位) | 头部长度 (4位)   |</span><br><span class="line">+-------------------------------+</span><br><span class="line">|      服务类型 (8位)             |</span><br><span class="line">+-------------------------------+</span><br><span class="line">|     总长度 (16位)              |</span><br><span class="line">+-------------------------------+</span><br><span class="line">|     标识 (16位)               |</span><br><span class="line">+-------------------------------+</span><br><span class="line">| 标志 (3位) | 片偏移 (13位)     |</span><br><span class="line">+-------------------------------+</span><br><span class="line">|   生存时间 (8位) | 协议 (8位)   |</span><br><span class="line">+-------------------------------+</span><br><span class="line">|     头部校验和 (16位)          |</span><br><span class="line">+-------------------------------+</span><br><span class="line">|     源IP地址 (32位)            |</span><br><span class="line">+-------------------------------+</span><br><span class="line">|     目的IP地址 (32位)          |</span><br><span class="line">+-------------------------------+</span><br><span class="line">|     选项 (可变)                |</span><br><span class="line">+-------------------------------+</span><br><span class="line">|     数据 (可变)                |</span><br><span class="line">+-------------------------------+</span><br></pre></td></tr></table></figure>
+
+<h3 id="HTTP-报文结构"><a href="#HTTP-报文结构" class="headerlink" title="HTTP 报文结构"></a>HTTP 报文结构</h3><p>HTTP（超文本传输协议）的报文结构相对简单，以 HTTP 请求报文为例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请求行:</span><br><span class="line">  GET /path/resource HTTP/1.1</span><br><span class="line"></span><br><span class="line">头部字段:</span><br><span class="line">  Host: www.example.com</span><br><span class="line">  User-Agent: Mozilla/5.0</span><br><span class="line">  Accept: text/html,application/xhtml+xml</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">空行:</span><br><span class="line">  （头部与数据之间的空行）</span><br><span class="line"></span><br><span class="line">数据:</span><br><span class="line">  （可选，例如POST请求的数据）</span><br></pre></td></tr></table></figure>
+
+<p>这些报文结构定义了通信双方在传输数据时必须遵循的格式，确保数据可以正确地传输和解析。</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>033_集线器_交换机_路由器_光猫的区别</title>
+    <url>/2024/11/12/033-%E9%9B%86%E7%BA%BF%E5%99%A8-%E4%BA%A4%E6%8D%A2%E6%9C%BA-%E8%B7%AF%E7%94%B1%E5%99%A8-%E5%85%89%E7%8C%AB%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<h3 id="路由器和交换机的主要区别"><a href="#路由器和交换机的主要区别" class="headerlink" title="路由器和交换机的主要区别"></a>路由器和交换机的主要区别</h3><h4 id="路由器和交换机不同点在于，它的每个网口下，都有一个-MAC-地址和-IP-地址"><a href="#路由器和交换机不同点在于，它的每个网口下，都有一个-MAC-地址和-IP-地址" class="headerlink" title="路由器和交换机不同点在于，它的每个网口下，都有一个 MAC 地址和 IP 地址"></a>路由器和交换机不同点在于，它的每个网口下，都有一个 MAC 地址和 IP 地址</h4><p>前面提到交换机，是不具备 MAC 地址的，而 MAC 报头是需要填上目的 MAC 地址的。因此交换机从来都不是数据的目的地，它只简单转发数据帧到目的地。</p>
+<p>但路由器，是有 MAC 地址的，因此 MAC 报头就可以写上，下一站目的地就是 xx 路由。</p>
+<p>到了路由器后，路由器可以再次组装下一站的目的 MAC 地址是再下一个路由，通过这一点，让数据在路由和路由之间传输。</p>
+<p>而同时因为交换机不具有 MAC 地址，因此也不会校验收到的数据帧的 MAC 地址是不是自己的，全部收下做转发。而路由器则会校验数据帧的 MAC 报头里的目的 MAC 地址是不是自己，是的话才会收入内存缓冲区，否则丢弃。</p>
+<h4 id="找不到转发目的地时的处理方式有区别"><a href="#找不到转发目的地时的处理方式有区别" class="headerlink" title="找不到转发目的地时的处理方式有区别"></a>找不到转发目的地时的处理方式有区别</h4><p>如果在路由表中无法找到匹配的记录，路由器会丢弃这个包，并通过 ICMP 消息告知发送方。</p>
+<p>而交换机在 MAC 地址表里找不到转发端口时会选择广播。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>两台电脑可以通过一根网线直接连接，进行通信。</li>
+<li>机器一多，可以把网线都接到集线器（物理层）上，但是集线器会不管三七二十一进行广播。</li>
+<li>不想广播，可以用（二层）交换机（数据链路层），又叫多端口网桥，它比较聪明，会自我学习生产 MAC 地址表，知道消息发到哪，那就不需要广播啦</li>
+<li>互联网电脑这么多，交换机 MAC 地址表总不能全放下吧。改用路由器（网络层），也叫三层交换机，通过网段的方式定位要把消息转发到哪，就不需要像交换机那样苦哈哈一条一条记录 MAC 地址啦。</li>
+<li>路由器和光猫之间是好搭档，光猫负责把光纤里的光信号转换成电信号给路由器。</li>
+<li>现在一般情况下，家里已经不用集线器和交换机了，大部分路由器也支持交换机的功能。所以可以看到，家里的台式机电脑一般就连到一个路由器，再连个光猫就够能快乐上网了。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20241112165453.png" alt="网络连接模型"></p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>034_端口号的划分</title>
+    <url>/2024/11/12/034-%E7%AB%AF%E5%8F%A3%E5%8F%B7%E7%9A%84%E5%88%92%E5%88%86/</url>
+    <content><![CDATA[<p>端口号用于标识网络通信中的特定进程或服务，它们在 TCP&#x2F;IP 协议中有特定的划分方式。以下是端口号的分类：</p>
+<span id="more"></span>
+
+<h2 id="端口号的划分"><a href="#端口号的划分" class="headerlink" title="端口号的划分"></a>端口号的划分</h2><h3 id="1-系统端口-0-1023"><a href="#1-系统端口-0-1023" class="headerlink" title="1. 系统端口 (0-1023)"></a>1. <strong>系统端口 (0-1023)</strong></h3><p>这些端口号是为系统进程或特权服务预留的，只有超级用户或具有特定权限的用户才能使用。例如：</p>
+<ul>
+<li><strong>80</strong>: HTTP</li>
+<li><strong>443</strong>: HTTPS</li>
+<li><strong>21</strong>: FTP</li>
+<li><strong>22</strong>: SSH</li>
+</ul>
+<h3 id="2-用户端口-1024-49151"><a href="#2-用户端口-1024-49151" class="headerlink" title="2. 用户端口 (1024-49151)"></a>2. <strong>用户端口 (1024-49151)</strong></h3><p>这些端口号通常用于用户进程或应用程序，普通用户可以使用。例如：</p>
+<ul>
+<li><strong>3306</strong>: MySQL 数据库</li>
+<li><strong>8080</strong>: 通常用于 HTTP 备用端口或 Web 服务器端口</li>
+</ul>
+<h3 id="3-动态-私有端口-49152-65535"><a href="#3-动态-私有端口-49152-65535" class="headerlink" title="3. 动态&#x2F;私有端口 (49152-65535)"></a>3. <strong>动态&#x2F;私有端口 (49152-65535)</strong></h3><p>这些端口号通常用于临时或短期的通信，客户端在连接到服务器时常用这些端口。例如，临时打开的 Web 浏览器与服务器进行通信时使用的端口。</p>
+<h3 id="详细示例"><a href="#详细示例" class="headerlink" title="详细示例"></a>详细示例</h3><p>假设你在浏览器中访问一个网站，过程可能涉及多个端口号：</p>
+<ol>
+<li><strong>浏览器</strong>（客户端）使用一个动态端口（如 49152）发送请求。</li>
+<li><strong>服务器</strong>接收到请求，监听端口 80（HTTP）或 443（HTTPS）。</li>
+<li><strong>服务器</strong>响应，发送数据回到客户端的动态端口（49152）。</li>
+</ol>
+<p>通过这种端口号划分，可以有效地管理和分配网络资源，确保不同服务和应用程序之间的通信不会互相干扰。</p>
+<h2 id="访问一个网站要写上对应的端口号吗-什么时候用端口号"><a href="#访问一个网站要写上对应的端口号吗-什么时候用端口号" class="headerlink" title="访问一个网站要写上对应的端口号吗,什么时候用端口号"></a>访问一个网站要写上对应的端口号吗,什么时候用端口号</h2><p>通常情况下，当你访问一个网站时，不需要手动写上端口号，因为浏览器会默认使用标准端口号：</p>
+<ul>
+<li>HTTP 默认使用端口号 80</li>
+<li>HTTPS 默认使用端口号 443</li>
+</ul>
+<h3 id="什么时候需要写上端口号"><a href="#什么时候需要写上端口号" class="headerlink" title="什么时候需要写上端口号"></a>什么时候需要写上端口号</h3><ol>
+<li><p><strong>非标准端口</strong>：如果网站使用了非标准端口，你需要在域名后面手动指定端口号。例如，访问使用端口号 8080 的 HTTP 服务，地址可能是 <code>http://www.example.com:8080</code>。</p>
+</li>
+<li><p><strong>调试和开发</strong>：在进行网站开发和调试时，常常使用非标准端口来运行开发服务器或测试环境。例如，许多开发框架默认使用端口号 3000 或 5000。</p>
+</li>
+<li><p><strong>多服务部署</strong>：同一服务器上可能运行多个服务，每个服务使用不同的端口号。例如，一个服务器上运行多个 Web 应用程序，分别监听端口 8080 和 9090。</p>
+</li>
+<li><p><strong>特殊服务</strong>：某些特定服务可能会使用自定义端口，如数据库管理界面、管理控制台等。例如，Jenkins 通常在端口 8080 上运行，phpMyAdmin 可能在端口 8000 上运行。</p>
+</li>
+</ol>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><ul>
+<li>标准 HTTP 访问：<code>http://www.example.com</code></li>
+<li>标准 HTTPS 访问：<code>https://www.example.com</code></li>
+<li>非标准端口的 HTTP 访问：<code>http://www.example.com:8080</code></li>
+<li>非标准端口的 HTTPS 访问：<code>https://www.example.com:8443</code></li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>大多数情况下，你不需要手动写上端口号，但在使用非标准端口或访问特定服务时，需要明确指定端口号。</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>037-服务器的分类</title>
+    <url>/2024/11/13/037-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%88%86%E7%B1%BB/</url>
+    <content><![CDATA[<p>服务器可以根据用途、性能、架构等多种因素进行分类。下面是一些常见的服务器分类：</p>
+<span id="more"></span>
+
+<h3 id="1-按用途分类"><a href="#1-按用途分类" class="headerlink" title="1. 按用途分类"></a>1. 按用途分类</h3><ul>
+<li><strong>Web 服务器</strong>: 用于存储和提供网页内容，例如 Apache HTTP Server、Nginx 等。Web 服务器就是这一类。</li>
+<li><strong>应用服务器</strong>: 用于运行应用程序的服务器，例如 JBoss、WebLogic 等。</li>
+<li><strong>数据库服务器</strong>: 用于存储和管理数据库的服务器，例如 MySQL、Oracle Database 等。</li>
+<li><strong>文件服务器</strong>: 用于存储和管理文件的服务器，例如 Windows File Server、Samba 等。</li>
+<li><strong>邮件服务器</strong>: 用于处理电子邮件的服务器，例如 Microsoft Exchange、Postfix 等。</li>
+<li><strong>DNS 服务器</strong>: 用于域名解析的服务器，例如 BIND、Microsoft DNS 等。</li>
+<li><strong>FTP 服务器</strong>: 用于文件传输的服务器，例如 vsftpd、FileZilla Server 等。</li>
+</ul>
+<h3 id="2-按性能分类"><a href="#2-按性能分类" class="headerlink" title="2. 按性能分类"></a>2. 按性能分类</h3><ul>
+<li><strong>高性能服务器</strong>: 配置高端硬件，处理大量并发请求和数据处理任务，例如大数据处理服务器、企业级数据库服务器等。</li>
+<li><strong>中性能服务器</strong>: 用于中小型企业，处理一般业务需求的服务器。</li>
+<li><strong>低性能服务器</strong>: 用于处理简单任务或开发测试环境的服务器。</li>
+</ul>
+<h3 id="3-按架构分类"><a href="#3-按架构分类" class="headerlink" title="3. 按架构分类"></a>3. 按架构分类</h3><ul>
+<li><strong>单机服务器</strong>: 单独一台计算机作为服务器，适用于小型企业或个人。</li>
+<li><strong>集群服务器</strong>: 由多台服务器组成的集群，协同工作以提高性能和可靠性，常见于大企业和数据中心。</li>
+<li><strong>虚拟服务器</strong>: 通过虚拟化技术在一台物理服务器上运行多个虚拟服务器，例如 VMware、Hyper-V 等。</li>
+</ul>
+<h3 id="4-按操作系统分类"><a href="#4-按操作系统分类" class="headerlink" title="4. 按操作系统分类"></a>4. 按操作系统分类</h3><ul>
+<li><strong>Windows 服务器</strong>: 运行 Windows Server 操作系统。</li>
+<li><strong>Linux 服务器</strong>: 运行各种 Linux 发行版，例如 Ubuntu Server、CentOS 等。</li>
+<li><strong>Unix 服务器</strong>: 运行 Unix 或类似 Unix 的操作系统，例如 FreeBSD、AIX 等。</li>
+</ul>
+<h3 id="5-按部署方式分类"><a href="#5-按部署方式分类" class="headerlink" title="5. 按部署方式分类"></a>5. 按部署方式分类</h3><ul>
+<li><strong>本地服务器</strong>: 部署在本地数据中心或机房的服务器。</li>
+<li><strong>云服务器</strong>: 部署在云计算平台上的服务器，例如 AWS EC2、Microsoft Azure、Google Cloud 等。</li>
+</ul>
+<p>Web 服务器属于按用途分类中的一种，专门用于存储和提供网页内容。它们处理客户端（如浏览器）的 HTTP 请求，返回网页资源，如 HTML 文件、图像、样式表和脚本。</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>035-lamda表达式的应用场景</title>
+    <url>/2024/11/13/035-lamda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/</url>
+    <content><![CDATA[<p>Lambda 表达式在 C++中是一个非常强大且灵活的特性，它在以下场景中会特别有用：</p>
+<span id="more"></span>
+
+<h3 id="1-简化代码"><a href="#1-简化代码" class="headerlink" title="1. 简化代码"></a>1. <strong>简化代码</strong></h3><p>Lambda 表达式可以用来简化代码，特别是在需要定义短小的匿名函数时。例如，在 STL 算法（如<code>std::sort</code>）中传递自定义比较函数时：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt; vec = &#123;<span class="number">1</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    std::<span class="built_in">sort</span>(vec.<span class="built_in">begin</span>(), vec.<span class="built_in">end</span>(), [](<span class="type">int</span> a, <span class="type">int</span> b) &#123;</span><br><span class="line">        <span class="keyword">return</span> a &lt; b;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> n : vec) &#123;</span><br><span class="line">        std::cout &lt;&lt; n &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-捕获局部变量"><a href="#2-捕获局部变量" class="headerlink" title="2. 捕获局部变量"></a>2. <strong>捕获局部变量</strong></h3><p>Lambda 表达式可以捕获所在作用域内的变量，这样可以在回调或处理函数中使用这些变量，而不需要传递额外的参数：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> x = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">auto</span> add_x = [x](<span class="type">int</span> y) &#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;;</span><br><span class="line">std::cout &lt;&lt; <span class="built_in">add_x</span>(<span class="number">5</span>) &lt;&lt; std::endl; <span class="comment">// 输出 15</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-并行和异步编程"><a href="#3-并行和异步编程" class="headerlink" title="3. 并行和异步编程"></a>3. <strong>并行和异步编程</strong></h3><p>在并行和异步编程中，lambda 表达式经常用于定义线程函数或异步任务的工作内容。例如，使用<code>std::async</code>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;future&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> future = std::<span class="built_in">async</span>([]() &#123;</span><br><span class="line">        std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">seconds</span>(<span class="number">2</span>));</span><br><span class="line">        <span class="keyword">return</span> <span class="number">42</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;等待结果...&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;结果是: &quot;</span> &lt;&lt; future.<span class="built_in">get</span>() &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-事件处理"><a href="#4-事件处理" class="headerlink" title="4. 事件处理"></a>4. <strong>事件处理</strong></h3><p>在 GUI 编程或事件驱动的编程模型中，lambda 表达式可用于定义事件处理器：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">button_click</span><span class="params">(std::function&lt;<span class="type">void</span>()&gt; callback)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">callback</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">button_click</span>([]() &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;按钮被点击了！&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-通用编程"><a href="#5-通用编程" class="headerlink" title="5. 通用编程"></a>5. <strong>通用编程</strong></h3><p>在模板编程中，lambda 表达式可以用作函数对象，特别是在需要高效、内联的函数对象时：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Func&gt;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">apply</span><span class="params">(Func func)</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">func</span>(<span class="number">5</span>) &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">apply</span>([](<span class="type">int</span> x) &#123; <span class="keyword">return</span> x * x; &#125;); <span class="comment">// 输出25</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过使用 lambda 表达式，你可以写出更简洁、高效和易于维护的代码。</p>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>036-std::funtion</title>
+    <url>/2024/11/13/036-std-funtion/</url>
+    <content><![CDATA[<p><code>std::function</code> 是 C++11 引入的标准库组件，用于包装任意可调用的目标。它可以用来存储、传递和调用各种类型的可调用对象，如普通函数、Lambda 表达式、函数对象和成员函数等。下面是 <code>std::function</code> 的一些关键特点和用法：</p>
+<span id="more"></span>
+
+<h3 id="1-定义和用法"><a href="#1-定义和用法" class="headerlink" title="1. 定义和用法"></a>1. <strong>定义和用法</strong></h3><p><code>std::function</code> 模板类定义如下：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;functional&gt;</span></span></span><br><span class="line"></span><br><span class="line">std::function&lt;返回类型(参数类型...)&gt; 函数对象;</span><br></pre></td></tr></table></figure>
+
+<p>例如，定义一个接收两个 <code>int</code> 参数并返回 <code>int</code> 的函数对象：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::function&lt;<span class="type">int</span>(<span class="type">int</span>, <span class="type">int</span>)&gt; func;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-存储和调用不同类型的可调用对象"><a href="#2-存储和调用不同类型的可调用对象" class="headerlink" title="2. 存储和调用不同类型的可调用对象"></a>2. <strong>存储和调用不同类型的可调用对象</strong></h3><h4 id="存储普通函数"><a href="#存储普通函数" class="headerlink" title="存储普通函数"></a>存储普通函数</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">std::function&lt;<span class="type">int</span>(<span class="type">int</span>, <span class="type">int</span>)&gt; func = add;</span><br><span class="line">std::cout &lt;&lt; <span class="built_in">func</span>(<span class="number">1</span>, <span class="number">2</span>) &lt;&lt; std::endl; <span class="comment">// 输出 3</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="存储-Lambda-表达式"><a href="#存储-Lambda-表达式" class="headerlink" title="存储 Lambda 表达式"></a>存储 Lambda 表达式</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">auto</span> lambda = [](<span class="type">int</span> a, <span class="type">int</span> b) &#123; <span class="keyword">return</span> a + b; &#125;;</span><br><span class="line">std::function&lt;<span class="type">int</span>(<span class="type">int</span>, <span class="type">int</span>)&gt; func = lambda;</span><br><span class="line">std::cout &lt;&lt; <span class="built_in">func</span>(<span class="number">1</span>, <span class="number">2</span>) &lt;&lt; std::endl; <span class="comment">// 输出 3</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="存储函数对象"><a href="#存储函数对象" class="headerlink" title="存储函数对象"></a>存储函数对象</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Adder</span> &#123;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a + b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Adder adder;</span><br><span class="line">std::function&lt;<span class="type">int</span>(<span class="type">int</span>, <span class="type">int</span>)&gt; func = adder;</span><br><span class="line">std::cout &lt;&lt; <span class="built_in">func</span>(<span class="number">1</span>, <span class="number">2</span>) &lt;&lt; std::endl; <span class="comment">// 输出 3</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="存储成员函数"><a href="#存储成员函数" class="headerlink" title="存储成员函数"></a>存储成员函数</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Calculator</span> &#123;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a + b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Calculator calc;</span><br><span class="line">std::function&lt;<span class="type">int</span>(<span class="type">const</span> Calculator&amp;, <span class="type">int</span>, <span class="type">int</span>)&gt; func = &amp;Calculator::add;</span><br><span class="line">std::cout &lt;&lt; <span class="built_in">func</span>(calc, <span class="number">1</span>, <span class="number">2</span>) &lt;&lt; std::endl; <span class="comment">// 输出 3</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-捕获上下文"><a href="#3-捕获上下文" class="headerlink" title="3. 捕获上下文"></a>3. <strong>捕获上下文</strong></h3><p><code>std::function</code> 允许存储并捕获上下文信息，例如 Lambda 表达式中捕获的外部变量：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> x = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">auto</span> lambda = [x](<span class="type">int</span> a) &#123; <span class="keyword">return</span> a + x; &#125;;</span><br><span class="line">std::function&lt;<span class="type">int</span>(<span class="type">int</span>)&gt; func = lambda;</span><br><span class="line">std::cout &lt;&lt; <span class="built_in">func</span>(<span class="number">5</span>) &lt;&lt; std::endl; <span class="comment">// 输出 15</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-可变性和赋值"><a href="#4-可变性和赋值" class="headerlink" title="4. 可变性和赋值"></a>4. <strong>可变性和赋值</strong></h3><p><code>std::function</code> 可以动态改变所包装的可调用目标：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::function&lt;<span class="type">int</span>(<span class="type">int</span>, <span class="type">int</span>)&gt; func = [](<span class="type">int</span> a, <span class="type">int</span> b) &#123; <span class="keyword">return</span> a + b; &#125;;</span><br><span class="line">std::cout &lt;&lt; <span class="built_in">func</span>(<span class="number">1</span>, <span class="number">2</span>) &lt;&lt; std::endl; <span class="comment">// 输出 3</span></span><br><span class="line"></span><br><span class="line">func = [](<span class="type">int</span> a, <span class="type">int</span> b) &#123; <span class="keyword">return</span> a * b; &#125;;</span><br><span class="line">std::cout &lt;&lt; <span class="built_in">func</span>(<span class="number">1</span>, <span class="number">2</span>) &lt;&lt; std::endl; <span class="comment">// 输出 2</span></span><br></pre></td></tr></table></figure>
+
+<p>通过 <code>std::function</code>，C++ 提供了一种灵活的方法来处理各种可调用对象，使得编写高效、易读和维护的代码变得更加容易。</p>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>038-网关</title>
+    <url>/2024/11/13/038-%E7%BD%91%E5%85%B3/</url>
+    <content><![CDATA[<p>网关（Gateway）是一种网络设备，充当不同网络之间的接口或连接点，允许不同网络协议或架构之间的通信。它不仅仅是数据的转发者，还可以进行数据的转换、协议的转换、地址转换和流量控制。以下是关于网关的一些详细信息：</p>
+<span id="more"></span>
+
+<h2 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h2><h3 id="1-基本功能"><a href="#1-基本功能" class="headerlink" title="1. 基本功能"></a>1. <strong>基本功能</strong></h3><p>网关在两个不同的网络之间进行数据包的传输和转换。它可以处理不同协议之间的通信，确保数据能够在异构网络之间正确传递。</p>
+<h3 id="2-协议转换"><a href="#2-协议转换" class="headerlink" title="2. 协议转换"></a>2. <strong>协议转换</strong></h3><p>网关可以在两个不同协议的网络之间转换数据。例如，从 IPv4 网络到 IPv6 网络，或从 TCP&#x2F;IP 网络到另一种非 IP 网络。</p>
+<h3 id="3-应用场景"><a href="#3-应用场景" class="headerlink" title="3. 应用场景"></a>3. <strong>应用场景</strong></h3><p>网关常用于以下场景：</p>
+<ul>
+<li><strong>企业网络</strong>：在企业内部网与外部互联网之间充当连接点。</li>
+<li><strong>家庭网络</strong>：在家庭局域网和互联网之间进行数据传输，通常路由器具有网关功能。</li>
+<li><strong>物联网</strong>：在物联网设备和传统网络之间进行数据转换。</li>
+</ul>
+<h3 id="4-类型"><a href="#4-类型" class="headerlink" title="4. 类型"></a>4. <strong>类型</strong></h3><p>根据功能和应用场景的不同，网关可以分为几种类型：</p>
+<ul>
+<li><strong>路由器网关</strong>：用于家庭和企业网络的路由器，经常充当网关，连接内部网络和互联网。</li>
+<li><strong>防火墙网关</strong>：在网络安全方面起作用，控制内部网络和外部网络之间的通信，防止非法访问。</li>
+<li><strong>应用层网关（ALG）</strong>：处理应用层协议，如 HTTP、FTP 等，进行协议转换和数据过滤。</li>
+</ul>
+<h3 id="5-示例"><a href="#5-示例" class="headerlink" title="5. 示例"></a>5. <strong>示例</strong></h3><ul>
+<li><strong>家庭网络网关</strong>：家庭路由器通常作为网关，连接家庭的所有设备到互联网。</li>
+<li><strong>企业网关</strong>：企业使用网关连接内部网络到外部网络（如互联网），并可能使用 VPN 网关来实现安全的远程连接。</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>网关在现代网络架构中起到关键作用，通过连接和转换不同网络和协议，实现数据的无缝传输。</p>
+<h2 id="网关和路由器"><a href="#网关和路由器" class="headerlink" title="网关和路由器"></a>网关和路由器</h2><p>网关和路由器虽然都有连接网络的功能，但它们在用途和功能上有显著的区别。以下是两者的主要区别：</p>
+<h3 id="网关-1"><a href="#网关-1" class="headerlink" title="网关"></a>网关</h3><ol>
+<li><strong>基本功能</strong>：网关主要用于连接不同类型的网络，负责协议转换和数据传输。它可以在不同协议或架构的网络之间进行通信，例如从 IPv4 到 IPv6 网络，或从 TCP&#x2F;IP 网络到非 IP 网络。</li>
+<li><strong>使用场景</strong>：常用于连接两种不同类型的网络，如企业内部网和外部互联网、物联网设备与传统网络等。</li>
+<li><strong>协议转换</strong>：网关能够转换不同协议的数据格式，使得不同网络中的设备能够互相通信。</li>
+<li><strong>复杂度</strong>：通常比路由器更复杂，因为它需要处理不同协议之间的转换。</li>
+</ol>
+<h3 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h3><ol>
+<li><strong>基本功能</strong>：路由器主要用于在同类型的网络之间传输数据包。它根据网络层协议（如 IP 协议）进行数据包的路由选择，确保数据包能够到达正确的目的地。</li>
+<li><strong>使用场景</strong>：常用于连接同一类型的网络，如家庭网络和互联网之间的连接，或者企业内部不同子网之间的连接。</li>
+<li><strong>数据转发</strong>：路由器主要关注数据包的转发和路由选择，使用路由表来决定数据包的最佳传输路径。</li>
+<li><strong>简单性</strong>：相对网关，路由器的功能更简单，因为它主要处理相同协议的数据包转发。</li>
+</ol>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><strong>网关</strong>：主要用于连接不同类型的网络，执行协议转换和数据传输。</li>
+<li><strong>路由器</strong>：主要用于在同类型的网络之间转发数据包，负责路由选择和数据包传输。</li>
+</ul>
+<p>通过这两种设备，网络能够实现灵活、高效的通信。</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>039-linux-mv</title>
+    <url>/2024/11/13/039-linux-mv/</url>
+    <content><![CDATA[<p>以下是关于 <code>mv</code> 命令在不同情况下的用法：</p>
+<span id="more"></span>
+
+<h3 id="1-将文件夹移动到另一个文件夹内"><a href="#1-将文件夹移动到另一个文件夹内" class="headerlink" title="1. 将文件夹移动到另一个文件夹内"></a>1. <strong>将文件夹移动到另一个文件夹内</strong></h3><p>假设要将文件夹 <code>source_folder</code> 移动到 <code>destination_folder</code> 内：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> source_folder destination_folder/</span><br></pre></td></tr></table></figure>
+
+<p>这样会将 <code>source_folder</code> 以及其中的所有内容移动到 <code>destination_folder</code> 中。</p>
+<h3 id="2-将文件夹内的文件移动到另一个文件夹"><a href="#2-将文件夹内的文件移动到另一个文件夹" class="headerlink" title="2. 将文件夹内的文件移动到另一个文件夹"></a>2. <strong>将文件夹内的文件移动到另一个文件夹</strong></h3><p>假设要将 <code>source_folder</code> 中的所有文件移动到 <code>destination_folder</code> 中：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> source_folder/* destination_folder/</span><br></pre></td></tr></table></figure>
+
+<p>这会将 <code>source_folder</code> 中的所有文件（不包含子文件夹）移动到 <code>destination_folder</code>。</p>
+<p>如果希望同时移动子文件夹，可以使用 <code>-r</code> 选项：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> source_folder/* destination_folder/ -r</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-将文件夹覆盖为另一个文件夹"><a href="#3-将文件夹覆盖为另一个文件夹" class="headerlink" title="3. 将文件夹覆盖为另一个文件夹"></a>3. <strong>将文件夹覆盖为另一个文件夹</strong></h3><p>如果 <code>destination_folder</code> 已经存在，并希望用 <code>source_folder</code> 的内容替换它，可以先删除 <code>destination_folder</code>，再移动 <code>source_folder</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">rm</span> -rf destination_folder</span><br><span class="line"><span class="built_in">mv</span> source_folder destination_folder</span><br></pre></td></tr></table></figure>
+
+<p>这会先删除 <code>destination_folder</code> 及其内容，然后将 <code>source_folder</code> 重命名为 <code>destination_folder</code>。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>使用 <code>rm -rf</code> 删除时要小心，这将永久删除指定文件夹及其中的所有内容。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
 </search>
