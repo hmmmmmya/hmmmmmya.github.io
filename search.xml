@@ -2253,7 +2253,7 @@
     <content><![CDATA[<p>以下是关于 <code>mv</code> 命令在不同情况下的用法：</p>
 <span id="more"></span>
 
-<h3 id="1-将文件夹移动到另一个文件夹内"><a href="#1-将文件夹移动到另一个文件夹内" class="headerlink" title="1. 将文件夹移动到另一个文件夹内"></a>1. <strong>将文件夹移动到另一个文件夹内</strong></h3><p>假设要将文件夹 <code>source_folder</code> 移动到 <code>destination_folder</code> 内：</p>
+<h2 id="将文件夹移动到另一个文件夹内"><a href="#将文件夹移动到另一个文件夹内" class="headerlink" title="将文件夹移动到另一个文件夹内"></a>将文件夹移动到另一个文件夹内</h2><h3 id="1-将文件夹移动到另一个文件夹内"><a href="#1-将文件夹移动到另一个文件夹内" class="headerlink" title="1. 将文件夹移动到另一个文件夹内"></a>1. <strong>将文件夹移动到另一个文件夹内</strong></h3><p>假设要将文件夹 <code>source_folder</code> 移动到 <code>destination_folder</code> 内：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> source_folder destination_folder/</span><br></pre></td></tr></table></figure>
 
 <p>这样会将 <code>source_folder</code> 以及其中的所有内容移动到 <code>destination_folder</code> 中。</p>
@@ -2271,6 +2271,19 @@
 <h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
 <li>使用 <code>rm -rf</code> 删除时要小心，这将永久删除指定文件夹及其中的所有内容。</li>
 </ul>
+<h2 id="T-和-t-选项"><a href="#T-和-t-选项" class="headerlink" title="-T 和 -t 选项"></a>-T 和 -t 选项</h2><p><strong>cp</strong>、<strong>install</strong>、<strong>ln</strong> 和 <strong>mv</strong> 命令在处理目录或符号链接到目录时：</p>
+<ul>
+<li><strong>避免特殊处理</strong>：使用 <strong>-T</strong> 选项可以避免将最后一个操作数作为目录处理，即视为普通文件，防止在共享区域操作时出现竞态条件。不是目录，而是普通文件。</li>
+<li><strong>目标目录</strong>：使用 <strong>–target-directory (-t)</strong> 选项可以确保最后一个操作数被视为目录，并在与 <strong>xargs</strong> 配合使用时更加方便。是目录。</li>
+<li><strong>处理特殊字符</strong>：结合 <strong>GNU find</strong> 和 <strong>GNU xargs</strong> 可以处理文件名中包含空格或特殊字符的情况。</li>
+</ul>
+<p>这些选项和方法可以帮助用户更灵活地控制文件操作，避免常见的错误和问题。</p>
+<p>如果不加 <code>-T</code> 或 <code>-t</code> 选项，如果最后一个操作数是目录，并且该目录存在，<code>mv</code> 命令会将源目录移动到目标目录下。不加的话，操作效果无法保证。</p>
+<h2 id="mv-原理"><a href="#mv-原理" class="headerlink" title="mv 原理"></a>mv 原理</h2><ul>
+<li>如果移动一个文件，<code>mv</code> 命令会直接重命名目标文件。</li>
+<li>如果移动一个目录，<code>mv</code> 命令会将源目录拷贝到目标目录下，并删除源目录。</li>
+<li>如果拷贝失败，<code>mv</code> 命令会清理拷贝的文件，并保留源目录。</li>
+</ul>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -2278,5 +2291,56 @@
       <tags>
         <tag>Linux</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>040-c++递归互斥锁</title>
+    <url>/2024/11/14/040-cpp%E9%80%92%E5%BD%92%E4%BA%92%E6%96%A5%E9%94%81/</url>
+    <content><![CDATA[<p><code>std::recursive_mutex</code>可以在同一个线程中嵌套使用。</p>
+<span id="more"></span>
+
+<p><code>std::recursive_mutex</code>是一种递归锁，它允许同一线程多次加锁而不会导致死锁。在使用普通的<code>std::mutex</code>时，同一线程如果多次尝试加锁会造成死锁；而<code>std::recursive_mutex</code>则不会。它会跟踪当前线程的加锁次数，并在解锁时，只有当解锁次数与加锁次数相同时，锁才会真正释放。</p>
+<p>以下是一个简单的示例，展示了如何在同一线程中嵌套使用<code>std::recursive_mutex</code>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"></span><br><span class="line">std::recursive_mutex mtx;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">recursiveFunction</span><span class="params">(<span class="type">int</span> count)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (count &lt;= <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    mtx.<span class="built_in">lock</span>();</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Lock acquired, count = &quot;</span> &lt;&lt; count &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 递归调用</span></span><br><span class="line">    <span class="built_in">recursiveFunction</span>(count - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Releasing lock, count = &quot;</span> &lt;&lt; count &lt;&lt; std::endl;</span><br><span class="line">    mtx.<span class="built_in">unlock</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">std::thread <span class="title">t</span><span class="params">(recursiveFunction, <span class="number">3</span>)</span></span>;</span><br><span class="line">    t.<span class="built_in">join</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>recursiveFunction</code>函数递归调用自己，每次调用时都会加锁，直到<code>count</code>为零时停止递归。由于使用了<code>std::recursive_mutex</code>，即使在同一线程中多次加锁，也不会发生死锁。</p>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+        <tag>c++11</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>041-c++学习资料</title>
+    <url>/2024/11/14/041-cpp-learning/</url>
+    <content><![CDATA[<p>自用 c++ 学习资料</p>
+<span id="more"></span>
+
+<h2 id="c"><a href="#c" class="headerlink" title="c++"></a>c++</h2><h3 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h3><ul>
+<li>《c++ primer 5th》</li>
+<li>《Effective c++》</li>
+<li>《Effective modern c++》<a href="https://cntransgroup.github.io/EffectiveModernCppChinese/">中文</a></li>
+<li>《Google c++ style guide》<a href="https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents.html">中文</a>, <a href="https://google.github.io/styleguide/cppguide.html">英文</a></li>
+</ul>
+<h3 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h3><ul>
+<li>cppreference <a href="https://zh.cppreference.com/w/">中文</a>, <a href="https://en.cppreference.com/w/">英文</a></li>
+</ul>
+<h3 id="c-库"><a href="#c-库" class="headerlink" title="c++库"></a>c++库</h3><ul>
+<li><a href="https://www.boost.org/">boost</a></li>
+<li><a href="https://github.com/fffaraz/awesome-cpp">awesome-cpp</a></li>
+<li><a href="https://zh.cppreference.com/w/cpp/links/libs">开源 C++ 库- cppreference</a></li>
+</ul>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ul>
+<li><a href="https://c.runoob.com/compile/12/">c++在线编译</a></li>
+<li><a href="https://www.geeksforgeeks.org/cpp-data-types/?ref=shm">c++数据类型</a></li>
+<li><a href="https://blog.csdn.net/rongrongyaofeiqi/article/details/52442169">c++数据类型转换</a></li>
+</ul>
+<h3 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h3><ul>
+<li><a href="https://roadmap.sh/cpp">c++学习路线</a></li>
+<li><a href="https://www.cnblogs.com/cate/cpp/">博客园-c++</a></li>
+</ul>
+]]></content>
   </entry>
 </search>

@@ -6,7 +6,7 @@
   <link href="https://hmmmmmya.github.io/atom.xml" rel="self"/>
   
   <link href="https://hmmmmmya.github.io/"/>
-  <updated>2024-11-13T09:14:36.126Z</updated>
+  <updated>2024-11-14T02:41:21.179Z</updated>
   <id>https://hmmmmmya.github.io/</id>
   
   <author>
@@ -17,13 +17,53 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>041-c++学习资料</title>
+    <link href="https://hmmmmmya.github.io/2024/11/14/041-cpp-learning/"/>
+    <id>https://hmmmmmya.github.io/2024/11/14/041-cpp-learning/</id>
+    <published>2024-11-14T02:12:00.000Z</published>
+    <updated>2024-11-14T02:41:21.179Z</updated>
+    
+    <content type="html"><![CDATA[<p>自用 c++ 学习资料</p><span id="more"></span><h2 id="c"><a href="#c" class="headerlink" title="c++"></a>c++</h2><h3 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h3><ul><li>《c++ primer 5th》</li><li>《Effective c++》</li><li>《Effective modern c++》<a href="https://cntransgroup.github.io/EffectiveModernCppChinese/">中文</a></li><li>《Google c++ style guide》<a href="https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents.html">中文</a>, <a href="https://google.github.io/styleguide/cppguide.html">英文</a></li></ul><h3 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h3><ul><li>cppreference <a href="https://zh.cppreference.com/w/">中文</a>, <a href="https://en.cppreference.com/w/">英文</a></li></ul><h3 id="c-库"><a href="#c-库" class="headerlink" title="c++库"></a>c++库</h3><ul><li><a href="https://www.boost.org/">boost</a></li><li><a href="https://github.com/fffaraz/awesome-cpp">awesome-cpp</a></li><li><a href="https://zh.cppreference.com/w/cpp/links/libs">开源 C++ 库- cppreference</a></li></ul><h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ul><li><a href="https://c.runoob.com/compile/12/">c++在线编译</a></li><li><a href="https://www.geeksforgeeks.org/cpp-data-types/?ref=shm">c++数据类型</a></li><li><a href="https://blog.csdn.net/rongrongyaofeiqi/article/details/52442169">c++数据类型转换</a></li></ul><h3 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h3><ul><li><a href="https://roadmap.sh/cpp">c++学习路线</a></li><li><a href="https://www.cnblogs.com/cate/cpp/">博客园-c++</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;自用 c++ 学习资料&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>040-c++递归互斥锁</title>
+    <link href="https://hmmmmmya.github.io/2024/11/14/040-cpp%E9%80%92%E5%BD%92%E4%BA%92%E6%96%A5%E9%94%81/"/>
+    <id>https://hmmmmmya.github.io/2024/11/14/040-cpp%E9%80%92%E5%BD%92%E4%BA%92%E6%96%A5%E9%94%81/</id>
+    <published>2024-11-14T01:54:49.000Z</published>
+    <updated>2024-11-14T01:57:11.158Z</updated>
+    
+    <content type="html"><![CDATA[<p><code>std::recursive_mutex</code>可以在同一个线程中嵌套使用。</p><span id="more"></span><p><code>std::recursive_mutex</code>是一种递归锁，它允许同一线程多次加锁而不会导致死锁。在使用普通的<code>std::mutex</code>时，同一线程如果多次尝试加锁会造成死锁；而<code>std::recursive_mutex</code>则不会。它会跟踪当前线程的加锁次数，并在解锁时，只有当解锁次数与加锁次数相同时，锁才会真正释放。</p><p>以下是一个简单的示例，展示了如何在同一线程中嵌套使用<code>std::recursive_mutex</code>：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"></span><br><span class="line">std::recursive_mutex mtx;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">recursiveFunction</span><span class="params">(<span class="type">int</span> count)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (count &lt;= <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    mtx.<span class="built_in">lock</span>();</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Lock acquired, count = &quot;</span> &lt;&lt; count &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 递归调用</span></span><br><span class="line">    <span class="built_in">recursiveFunction</span>(count - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Releasing lock, count = &quot;</span> &lt;&lt; count &lt;&lt; std::endl;</span><br><span class="line">    mtx.<span class="built_in">unlock</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">std::thread <span class="title">t</span><span class="params">(recursiveFunction, <span class="number">3</span>)</span></span>;</span><br><span class="line">    t.<span class="built_in">join</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在这个例子中，<code>recursiveFunction</code>函数递归调用自己，每次调用时都会加锁，直到<code>count</code>为零时停止递归。由于使用了<code>std::recursive_mutex</code>，即使在同一线程中多次加锁，也不会发生死锁。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;code&gt;std::recursive_mutex&lt;/code&gt;可以在同一个线程中嵌套使用。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="c++" scheme="https://hmmmmmya.github.io/categories/c/"/>
+    
+    
+    <category term="c++" scheme="https://hmmmmmya.github.io/tags/c/"/>
+    
+    <category term="c++11" scheme="https://hmmmmmya.github.io/tags/c-11/"/>
+    
+  </entry>
+  
+  <entry>
     <title>039-linux-mv</title>
     <link href="https://hmmmmmya.github.io/2024/11/13/039-linux-mv/"/>
     <id>https://hmmmmmya.github.io/2024/11/13/039-linux-mv/</id>
     <published>2024-11-13T09:14:08.000Z</published>
-    <updated>2024-11-13T09:14:36.126Z</updated>
+    <updated>2024-11-13T09:46:16.680Z</updated>
     
-    <content type="html"><![CDATA[<p>以下是关于 <code>mv</code> 命令在不同情况下的用法：</p><span id="more"></span><h3 id="1-将文件夹移动到另一个文件夹内"><a href="#1-将文件夹移动到另一个文件夹内" class="headerlink" title="1. 将文件夹移动到另一个文件夹内"></a>1. <strong>将文件夹移动到另一个文件夹内</strong></h3><p>假设要将文件夹 <code>source_folder</code> 移动到 <code>destination_folder</code> 内：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mv</span> source_folder destination_folder/</span><br></pre></td></tr></table></figure><p>这样会将 <code>source_folder</code> 以及其中的所有内容移动到 <code>destination_folder</code> 中。</p><h3 id="2-将文件夹内的文件移动到另一个文件夹"><a href="#2-将文件夹内的文件移动到另一个文件夹" class="headerlink" title="2. 将文件夹内的文件移动到另一个文件夹"></a>2. <strong>将文件夹内的文件移动到另一个文件夹</strong></h3><p>假设要将 <code>source_folder</code> 中的所有文件移动到 <code>destination_folder</code> 中：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mv</span> source_folder/* destination_folder/</span><br></pre></td></tr></table></figure><p>这会将 <code>source_folder</code> 中的所有文件（不包含子文件夹）移动到 <code>destination_folder</code>。</p><p>如果希望同时移动子文件夹，可以使用 <code>-r</code> 选项：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mv</span> source_folder/* destination_folder/ -r</span><br></pre></td></tr></table></figure><h3 id="3-将文件夹覆盖为另一个文件夹"><a href="#3-将文件夹覆盖为另一个文件夹" class="headerlink" title="3. 将文件夹覆盖为另一个文件夹"></a>3. <strong>将文件夹覆盖为另一个文件夹</strong></h3><p>如果 <code>destination_folder</code> 已经存在，并希望用 <code>source_folder</code> 的内容替换它，可以先删除 <code>destination_folder</code>，再移动 <code>source_folder</code>：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> -rf destination_folder</span><br><span class="line"><span class="built_in">mv</span> source_folder destination_folder</span><br></pre></td></tr></table></figure><p>这会先删除 <code>destination_folder</code> 及其内容，然后将 <code>source_folder</code> 重命名为 <code>destination_folder</code>。</p><h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul><li>使用 <code>rm -rf</code> 删除时要小心，这将永久删除指定文件夹及其中的所有内容。</li></ul>]]></content>
+    <content type="html"><![CDATA[<p>以下是关于 <code>mv</code> 命令在不同情况下的用法：</p><span id="more"></span><h2 id="将文件夹移动到另一个文件夹内"><a href="#将文件夹移动到另一个文件夹内" class="headerlink" title="将文件夹移动到另一个文件夹内"></a>将文件夹移动到另一个文件夹内</h2><h3 id="1-将文件夹移动到另一个文件夹内"><a href="#1-将文件夹移动到另一个文件夹内" class="headerlink" title="1. 将文件夹移动到另一个文件夹内"></a>1. <strong>将文件夹移动到另一个文件夹内</strong></h3><p>假设要将文件夹 <code>source_folder</code> 移动到 <code>destination_folder</code> 内：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mv</span> source_folder destination_folder/</span><br></pre></td></tr></table></figure><p>这样会将 <code>source_folder</code> 以及其中的所有内容移动到 <code>destination_folder</code> 中。</p><h3 id="2-将文件夹内的文件移动到另一个文件夹"><a href="#2-将文件夹内的文件移动到另一个文件夹" class="headerlink" title="2. 将文件夹内的文件移动到另一个文件夹"></a>2. <strong>将文件夹内的文件移动到另一个文件夹</strong></h3><p>假设要将 <code>source_folder</code> 中的所有文件移动到 <code>destination_folder</code> 中：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mv</span> source_folder/* destination_folder/</span><br></pre></td></tr></table></figure><p>这会将 <code>source_folder</code> 中的所有文件（不包含子文件夹）移动到 <code>destination_folder</code>。</p><p>如果希望同时移动子文件夹，可以使用 <code>-r</code> 选项：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mv</span> source_folder/* destination_folder/ -r</span><br></pre></td></tr></table></figure><h3 id="3-将文件夹覆盖为另一个文件夹"><a href="#3-将文件夹覆盖为另一个文件夹" class="headerlink" title="3. 将文件夹覆盖为另一个文件夹"></a>3. <strong>将文件夹覆盖为另一个文件夹</strong></h3><p>如果 <code>destination_folder</code> 已经存在，并希望用 <code>source_folder</code> 的内容替换它，可以先删除 <code>destination_folder</code>，再移动 <code>source_folder</code>：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> -rf destination_folder</span><br><span class="line"><span class="built_in">mv</span> source_folder destination_folder</span><br></pre></td></tr></table></figure><p>这会先删除 <code>destination_folder</code> 及其内容，然后将 <code>source_folder</code> 重命名为 <code>destination_folder</code>。</p><h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul><li>使用 <code>rm -rf</code> 删除时要小心，这将永久删除指定文件夹及其中的所有内容。</li></ul><h2 id="T-和-t-选项"><a href="#T-和-t-选项" class="headerlink" title="-T 和 -t 选项"></a>-T 和 -t 选项</h2><p><strong>cp</strong>、<strong>install</strong>、<strong>ln</strong> 和 <strong>mv</strong> 命令在处理目录或符号链接到目录时：</p><ul><li><strong>避免特殊处理</strong>：使用 <strong>-T</strong> 选项可以避免将最后一个操作数作为目录处理，即视为普通文件，防止在共享区域操作时出现竞态条件。不是目录，而是普通文件。</li><li><strong>目标目录</strong>：使用 <strong>–target-directory (-t)</strong> 选项可以确保最后一个操作数被视为目录，并在与 <strong>xargs</strong> 配合使用时更加方便。是目录。</li><li><strong>处理特殊字符</strong>：结合 <strong>GNU find</strong> 和 <strong>GNU xargs</strong> 可以处理文件名中包含空格或特殊字符的情况。</li></ul><p>这些选项和方法可以帮助用户更灵活地控制文件操作，避免常见的错误和问题。</p><p>如果不加 <code>-T</code> 或 <code>-t</code> 选项，如果最后一个操作数是目录，并且该目录存在，<code>mv</code> 命令会将源目录移动到目标目录下。不加的话，操作效果无法保证。</p><h2 id="mv-原理"><a href="#mv-原理" class="headerlink" title="mv 原理"></a>mv 原理</h2><ul><li>如果移动一个文件，<code>mv</code> 命令会直接重命名目标文件。</li><li>如果移动一个目录，<code>mv</code> 命令会将源目录拷贝到目标目录下，并删除源目录。</li><li>如果拷贝失败，<code>mv</code> 命令会清理拷贝的文件，并保留源目录。</li></ul>]]></content>
     
     
     <summary type="html">&lt;p&gt;以下是关于 &lt;code&gt;mv&lt;/code&gt; 命令在不同情况下的用法：&lt;/p&gt;</summary>
@@ -405,44 +445,6 @@
     <category term="c++17" scheme="https://hmmmmmya.github.io/tags/c-17/"/>
     
     <category term="现代c++" scheme="https://hmmmmmya.github.io/tags/%E7%8E%B0%E4%BB%A3c/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>021_主题皮肤推荐</title>
-    <link href="https://hmmmmmya.github.io/2024/10/30/021_%E4%B8%BB%E9%A2%98%E7%9A%AE%E8%82%A4%E6%8E%A8%E8%8D%90/"/>
-    <id>https://hmmmmmya.github.io/2024/10/30/021_%E4%B8%BB%E9%A2%98%E7%9A%AE%E8%82%A4%E6%8E%A8%E8%8D%90/</id>
-    <published>2024-10-30T03:44:23.000Z</published>
-    <updated>2024-11-01T04:19:15.386Z</updated>
-    
-    <content type="html"><![CDATA[<p>好用的主题皮肤推荐</p><span id="more"></span><table><thead><tr><th>工具</th><th>主题皮肤</th><th>备注</th></tr></thead><tbody><tr><td><strong>vscode</strong></td><td><em>Night Owl</em></td><td>fav</td></tr><tr><td></td><td>One Dark Pro</td><td>foggy</td></tr><tr><td><strong>typora</strong></td><td><em>Vue</em></td><td>fav</td></tr><tr><td></td><td>Github</td><td></td></tr><tr><td></td><td>Juejin</td><td></td></tr></tbody></table>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;好用的主题皮肤推荐&lt;/p&gt;</summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>020_如何修改 Linux 栈区大小</title>
-    <link href="https://hmmmmmya.github.io/2024/10/29/020_%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%20Linux%20%E6%A0%88%E5%8C%BA%E5%A4%A7%E5%B0%8F/"/>
-    <id>https://hmmmmmya.github.io/2024/10/29/020_%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%20Linux%20%E6%A0%88%E5%8C%BA%E5%A4%A7%E5%B0%8F/</id>
-    <published>2024-10-29T08:42:00.000Z</published>
-    <updated>2024-10-29T08:42:33.731Z</updated>
-    
-    <content type="html"><![CDATA[<p>栈，就是那些由编译器在需要的时候分配，在不需要的时候自动清除的变量的存储区。里面的变量通常是局部变量、函数参数等。和堆相比，栈通常很小。<br>在 Linux 系统中，栈区的大小是固定的，通常为 8 MB。然而，在某些情况下，我们可能需要修改栈区的大小。本文将介绍如何修改 Linux 栈区大小。</p><span id="more"></span><h2 id="1-查看当前栈区大小"><a href="#1-查看当前栈区大小" class="headerlink" title="1. 查看当前栈区大小"></a>1. 查看当前栈区大小</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -s // 一般为8192KB, 即8MB</span><br></pre></td></tr></table></figure><p>注：线程栈大小默认为 8M，8192 KB。</p><h2 id="2-修改栈区大小"><a href="#2-修改栈区大小" class="headerlink" title="2. 修改栈区大小"></a>2. 修改栈区大小</h2><h3 id="临时修改"><a href="#临时修改" class="headerlink" title="临时修改"></a>临时修改</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -s 102400 // 改为100MB</span><br></pre></td></tr></table></figure><p>注：ulimit -s ulimited 不限制。</p><h3 id="永久修改"><a href="#永久修改" class="headerlink" title="永久修改"></a>永久修改</h3><p>有两种方法：</p><ul><li><p>方法一：可以在&#x2F;etc&#x2F;rc.local 内加入 ulimit -s 102400 则可以开机就设置栈空间大小，任何用户启动的时候都会调用</p></li><li><p>方法二：修改配置文件&#x2F;etc&#x2F;security&#x2F;limits.conf</p></li></ul><p>手动添加：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* soft stack 102400</span><br></pre></td></tr></table></figure><p>自动添加：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -ne <span class="string">&quot;* soft stack 102400\n&quot;</span> &gt;&gt; /etc/security/limits.conf</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;栈，就是那些由编译器在需要的时候分配，在不需要的时候自动清除的变量的存储区。里面的变量通常是局部变量、函数参数等。和堆相比，栈通常很小。&lt;br&gt;在 Linux 系统中，栈区的大小是固定的，通常为 8 MB。然而，在某些情况下，我们可能需要修改栈区的大小。本文将介绍如何修改 Linux 栈区大小。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Linux" scheme="https://hmmmmmya.github.io/categories/Linux/"/>
-    
-    
-    <category term="Linux" scheme="https://hmmmmmya.github.io/tags/Linux/"/>
     
   </entry>
   
