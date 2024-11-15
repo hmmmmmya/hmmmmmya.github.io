@@ -2293,7 +2293,7 @@
       </tags>
   </entry>
   <entry>
-    <title>041-c++学习资料</title>
+    <title>041-c++ learning</title>
     <url>/2024/11/14/041-cpp-learning/</url>
     <content><![CDATA[<p>自用 c++ 学习资料</p>
 <span id="more"></span>
@@ -2325,6 +2325,12 @@
 <li><a href="https://www.cnblogs.com/cate/cpp/">博客园-c++</a></li>
 </ul>
 ]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+      </tags>
   </entry>
   <entry>
     <title>040-c++递归互斥锁、lock_guard和unique_lock</title>
@@ -2410,6 +2416,112 @@
       <tags>
         <tag>c++</tag>
         <tag>c++11</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>042-使用cmake编译项目</title>
+    <url>/2024/11/14/042-%E4%BD%BF%E7%94%A8cmake%E7%BC%96%E8%AF%91%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<p>要编译一个已有 <code>CMakeLists.txt</code> 文件的 C++ 项目，你需要按照以下步骤进行操作：</p>
+<span id="more"></span>
+
+<h2 id="CMake-和-make"><a href="#CMake-和-make" class="headerlink" title="CMake 和 make"></a>CMake 和 make</h2><h3 id="1-确保安装了-CMake-和编译工具"><a href="#1-确保安装了-CMake-和编译工具" class="headerlink" title="1. 确保安装了 CMake 和编译工具"></a>1. <strong>确保安装了 CMake 和编译工具</strong></h3><p>首先，确保你的系统已经安装了 <code>CMake</code> 和适当的 C++ 编译工具。具体取决于你的操作系统，下面是一些常见的安装方式：</p>
+<ul>
+<li><strong>Windows</strong>：安装 <a href="https://cmake.org/download/">CMake</a> 和 <strong>Visual Studio</strong> 或 <strong>MinGW</strong>（如果你使用的是命令行编译器）。</li>
+<li><strong>Linux&#x2F;Mac</strong>：可以通过包管理器安装 <code>CMake</code> 和 <code>g++</code> 编译器：<ul>
+<li>Linux: <code>sudo apt-get install cmake g++</code></li>
+<li>macOS: <code>brew install cmake</code>（如果使用 Homebrew）</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-创建构建目录"><a href="#2-创建构建目录" class="headerlink" title="2. 创建构建目录"></a>2. <strong>创建构建目录</strong></h3><p>通常我们不直接在项目的根目录中进行构建，而是创建一个单独的构建目录，这样可以保持项目目录的整洁。</p>
+<p>在项目的根目录下，执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> build</span><br><span class="line"><span class="built_in">cd</span> build</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-运行-CMake-配置项目"><a href="#3-运行-CMake-配置项目" class="headerlink" title="3. 运行 CMake 配置项目"></a>3. <strong>运行 CMake 配置项目</strong></h3><p>在构建目录中，使用 <code>cmake</code> 命令来配置项目。这会生成平台特定的构建文件（如 Makefile 或 Visual Studio 工程文件）。你可以指定源代码的目录（即 <code>CMakeLists.txt</code> 文件所在的目录）。</p>
+<p>假设 <code>CMakeLists.txt</code> 文件在上级目录，你可以运行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cmake ..</span><br></pre></td></tr></table></figure>
+
+<p>这个命令会让 CMake 读取上级目录中的 <code>CMakeLists.txt</code> 文件，并生成相应的构建配置。如果没有问题，CMake 会自动检测到编译工具链并设置好相关构建配置。</p>
+<p>如果你想指定编译器或者生成不同的构建文件格式（例如使用 Visual Studio 或者 Ninja），可以使用 <code>-G</code> 选项：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cmake .. -G <span class="string">&quot;Visual Studio 16 2019&quot;</span>  <span class="comment"># 如果你使用 Visual Studio 2019</span></span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">cmake .. -G <span class="string">&quot;Ninja&quot;</span>  <span class="comment"># 如果你使用 Ninja 作为构建工具</span></span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">cmake .. -G <span class="string">&quot;NMake Makefiles&quot;</span> <span class="comment"># 如果你使用 MinGW</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-编译项目"><a href="#4-编译项目" class="headerlink" title="4. 编译项目"></a>4. <strong>编译项目</strong></h3><p>一旦 CMake 配置完毕，接下来可以进行编译：</p>
+<ul>
+<li><p><strong>如果你使用的是 Makefile</strong>，可以运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>如果你使用的是 Visual Studio</strong>，你可以直接打开生成的 <code>.sln</code> 文件并通过 Visual Studio 编译，或者在命令行中使用 <code>MSBuild</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msbuild your_project.sln</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>如果你使用的是 Ninja</strong>，可以直接运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ninja</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="5-运行程序"><a href="#5-运行程序" class="headerlink" title="5. 运行程序"></a>5. <strong>运行程序</strong></h3><p>编译成功后，生成的可执行文件会放在构建目录中（具体位置取决于 <code>CMakeLists.txt</code> 配置）。你可以运行它：</p>
+<ul>
+<li><p>在 Linux&#x2F;macOS 中，执行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./your_executable</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 Windows 中，执行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">your_executable.exe</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="6-清理构建文件（可选）"><a href="#6-清理构建文件（可选）" class="headerlink" title="6. 清理构建文件（可选）"></a>6. <strong>清理构建文件（可选）</strong></h3><p>如果你想清理构建目录并重新构建，可以使用以下命令：</p>
+<ul>
+<li><p>使用 <strong>CMake</strong> 清理构建文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cmake --build . --target clean</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>或者直接删除构建目录中的文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">rm</span> -rf *</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h3 id="总结步骤"><a href="#总结步骤" class="headerlink" title="总结步骤"></a>总结步骤</h3><ol>
+<li>创建 <code>build</code> 目录：<code>mkdir build &amp;&amp; cd build</code></li>
+<li>运行 <code>cmake ..</code> 配置项目。</li>
+<li>使用 <code>make</code>、<code>ninja</code> 或者 Visual Studio 等工具进行编译。</li>
+<li>执行生成的可执行文件。</li>
+</ol>
+<h2 id="配置默认编译器"><a href="#配置默认编译器" class="headerlink" title="配置默认编译器"></a>配置默认编译器</h2><p>直接使用 <code>cmake</code> 命令可能失败，因为 <code>cmake</code> 找不到默认的编译器，这时需要指定编译器。</p>
+<p>可以在运行 CMake 时指定 MinGW 编译器。使用 <code>-D</code> 参数设置 <code>CMAKE_C_COMPILER</code> 和 <code>CMAKE_CXX_COMPILER</code> 变量。假设你的 MinGW 安装在默认位置，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cmake .. -G <span class="string">&quot;MinGW Makefiles&quot;</span> -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++</span><br></pre></td></tr></table></figure>
+
+<p>如果需要指定 MinGW 的完整路径（推荐这样做以避免路径问题），可以这样写：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cmake .. -G <span class="string">&quot;MinGW Makefiles&quot;</span> -D CMAKE_C_COMPILER=<span class="string">&quot;D:/mingw64/bin/gcc.exe&quot;</span> -D CMAKE_CXX_COMPILER=<span class="string">&quot;D:/mingw64/bin/g++.exe&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>请根据你的 MinGW 实际安装路径调整上述路径。</p>
+<p>你也可以通过设置环境变量 <code>CC</code> 和 <code>CXX</code> 来指定编译器：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span> CC=D:/mingw64/bin/gcc.exe</span><br><span class="line"><span class="built_in">set</span> CXX=D:/mingw64/bin/g++.exe</span><br><span class="line">cmake .. -G <span class="string">&quot;MinGW Makefiles&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你想让这个设置持久化，可以将编译器路径添加到你的 CMake 设置文件中：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;cmake.sourceDirectory&quot;: &quot;D:/Code/GitHub/hello-algo/codes/cpp&quot;,</span><br><span class="line">    &quot;cmake.cmakePath&quot;: &quot;D:/software/CMake/cmake-3.31.0-windows-x86_64/bin/cmake.exe&quot;,</span><br><span class="line">    &quot;cmake.configureSettings&quot;: &#123;</span><br><span class="line">        &quot;CMAKE_C_COMPILER&quot;: &quot;D:/mingw64/bin/gcc.exe&quot;,</span><br><span class="line">        &quot;CMAKE_CXX_COMPILER&quot;: &quot;D:/mingw64/bin/g++.exe&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;cmake.generator&quot;: &quot;MinGW Makefiles&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>记得替换为你系统中 MinGW 的实际安装路径。</p>
+<p>如果指定生成器失败，可以用 <code>cmake .. -G &quot;NMake Makefiles&quot;</code> 来指定生成器。</p>
+<p>在项目根目录下运行 <code>cmake --list-generators</code> 可以查看所有可用的生成器。能看到默认的生成器。</p>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>042-network-learning</title>
+    <url>/2024/11/14/042-network-learning/</url>
+    <content><![CDATA[<p>计算机网络学习资料</p>
+<span id="more"></span>
+
+<h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><h3 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h3><ul>
+<li>《网络是怎样连接的》</li>
+</ul>
+<h3 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h3><ul>
+<li><a href="https://xiaolincoding.com/network/">图解网络 - 小林 coding</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
       </tags>
   </entry>
 </search>
