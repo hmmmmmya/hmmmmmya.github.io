@@ -2808,4 +2808,194 @@
         <category>数据结构与算法</category>
       </categories>
   </entry>
+  <entry>
+    <title>050-线程与进程</title>
+    <url>/2024/11/19/050-%E7%BA%BF%E7%A8%8B%E4%B8%8E%E8%BF%9B%E7%A8%8B/</url>
+    <content><![CDATA[<p>进程是操作系统对一个正在运行的程序的一种抽象。线程是进程中的一个执行单元。</p>
+<span id="more"></span>
+
+<h2 id="为什么不用类似于-fork-的方式创建线程"><a href="#为什么不用类似于-fork-的方式创建线程" class="headerlink" title="为什么不用类似于 fork 的方式创建线程"></a>为什么不用类似于 fork 的方式创建线程</h2><h3 id="fork-创建进程的特点"><a href="#fork-创建进程的特点" class="headerlink" title="fork 创建进程的特点"></a>fork 创建进程的特点</h3><ol>
+<li><strong>资源复制</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">pid_t</span> pid = fork();</span><br><span class="line"><span class="comment">// fork会复制：</span></span><br><span class="line"><span class="comment">// - 内存空间</span></span><br><span class="line"><span class="comment">// - 文件描述符</span></span><br><span class="line"><span class="comment">// - 程序计数器</span></span><br><span class="line"><span class="comment">// 等所有资源</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>开销大</strong><ul>
+<li>需要复制整个进程地址空间</li>
+<li>创建新的页表</li>
+<li>复制文件描述符表</li>
+</ul>
+</li>
+</ol>
+<h3 id="线程的设计目的"><a href="#线程的设计目的" class="headerlink" title="线程的设计目的"></a>线程的设计目的</h3><ol>
+<li><strong>轻量级任务切换</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">pthread_t</span> thread;</span><br><span class="line">pthread_create(&amp;thread, <span class="literal">NULL</span>, thread_func, <span class="literal">NULL</span>);</span><br><span class="line"><span class="comment">// 线程共享：</span></span><br><span class="line"><span class="comment">// - 代码段</span></span><br><span class="line"><span class="comment">// - 堆空间</span></span><br><span class="line"><span class="comment">// - 文件描述符</span></span><br><span class="line"><span class="comment">// 仅独立：</span></span><br><span class="line"><span class="comment">// - 栈空间</span></span><br><span class="line"><span class="comment">// - 寄存器</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>资源共享优势</strong><ul>
+<li>线程间通信成本低</li>
+<li>上下文切换快</li>
+<li>内存占用小</li>
+</ul>
+</li>
+</ol>
+<h3 id="如果用-fork-方式创建线程会带来的问题"><a href="#如果用-fork-方式创建线程会带来的问题" class="headerlink" title="如果用 fork 方式创建线程会带来的问题"></a>如果用 fork 方式创建线程会带来的问题</h3><ol>
+<li><strong>性能问题</strong></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">创建100个线程：</span><br><span class="line">- 当前方式：只需要分配100个栈空间</span><br><span class="line">- fork方式：需要复制100次整个进程空间</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p><strong>资源浪费</strong></p>
+<ul>
+<li>大量重复的内存页</li>
+<li>不必要的资源隔离</li>
+<li>系统开销增加</li>
+</ul>
+</li>
+<li><p><strong>通信困难</strong></p>
+<ul>
+<li>失去了共享内存的便利</li>
+<li>需要使用 IPC 机制</li>
+<li>效率降低</li>
+</ul>
+</li>
+</ol>
+<p>因此，线程的设计初衷就是要比进程更轻量级，如果用 fork 方式创建线程，就违背了这个设计初衷，失去了线程的主要优势。</p>
+<h2 id="Linux-中-一个多线程进程使用-fork-生成了一个新进程-新进程中会存在几个线程-为什么要这么设计"><a href="#Linux-中-一个多线程进程使用-fork-生成了一个新进程-新进程中会存在几个线程-为什么要这么设计" class="headerlink" title="Linux 中,一个多线程进程使用 fork 生成了一个新进程, 新进程中会存在几个线程? 为什么要这么设计"></a>Linux 中,一个多线程进程使用 fork 生成了一个新进程, 新进程中会存在几个线程? 为什么要这么设计</h2><p>让我解释 Linux 中 fork 多线程进程的行为：</p>
+<h3 id="基本行为"><a href="#基本行为" class="headerlink" title="基本行为"></a>基本行为</h3><ol>
+<li><strong>只复制调用 fork 的线程</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 主进程有3个线程</span></span><br><span class="line"><span class="type">pthread_t</span> thread1, thread2;</span><br><span class="line">pthread_create(&amp;thread1, <span class="literal">NULL</span>, func1, <span class="literal">NULL</span>);</span><br><span class="line">pthread_create(&amp;thread2, <span class="literal">NULL</span>, func2, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">pid_t</span> pid = fork();  <span class="comment">// 假设在thread1中调用</span></span><br><span class="line"><span class="comment">// 子进程只会包含thread1的副本</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="为什么这样设计"><a href="#为什么这样设计" class="headerlink" title="为什么这样设计"></a>为什么这样设计</h3><ol>
+<li><strong>安全性考虑</strong><ul>
+<li>如果复制所有线程，可能导致：</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 线程2正在进行文件写入</span></span><br><span class="line">write(fd, data, size);</span><br><span class="line"><span class="comment">// fork发生</span></span><br><span class="line"><span class="comment">// 子进程的线程2会从中间继续执行</span></span><br><span class="line"><span class="comment">// 导致文件数据重复或损坏</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>死锁风险</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">mutex_lock(&amp;mutex);  <span class="comment">// 线程2持有锁</span></span><br><span class="line"><span class="comment">// fork发生</span></span><br><span class="line"><span class="comment">// 子进程中没有线程2，锁永远无法释放</span></span><br><span class="line"><span class="comment">// 导致死锁</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>实现复杂性</strong><ul>
+<li>复制所有线程需要：<ul>
+<li>重建线程间的同步关系</li>
+<li>复制所有线程的上下文</li>
+<li>处理线程池等复杂结构</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><ol>
+<li><strong>fork 后立即 exec</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">pid_t</span> pid = fork();</span><br><span class="line"><span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 子进程：立即执行新程序</span></span><br><span class="line">    execv(path, args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>在主线程中 fork</strong><ul>
+<li>避免在子线程中调用 fork</li>
+<li>减少不确定性</li>
+<li>更容易管理资源</li>
+</ul>
+</li>
+</ol>
+<p>这种设计既保证了安全性，又简化了实现，是一个合理的折中方案。</p>
+<h2 id="编写至少两种使用-fork-的程序-使-fork-执行失败-并解释-fork-失败的原因"><a href="#编写至少两种使用-fork-的程序-使-fork-执行失败-并解释-fork-失败的原因" class="headerlink" title="编写至少两种使用 fork 的程序, 使 fork 执行失败, 并解释 fork 失败的原因"></a>编写至少两种使用 fork 的程序, 使 fork 执行失败, 并解释 fork 失败的原因</h2><p>让我展示两种让 fork 失败的程序：</p>
+<h3 id="1-耗尽系统进程数限制"><a href="#1-耗尽系统进程数限制" class="headerlink" title="1. 耗尽系统进程数限制"></a>1. 耗尽系统进程数限制</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    int count = 0;</span><br><span class="line">    while(1) &#123;</span><br><span class="line">        pid_t pid = fork();</span><br><span class="line">        if (pid &lt; 0) &#123;</span><br><span class="line">            printf(&quot;Fork失败: %s\n&quot;, strerror(errno));</span><br><span class="line">            printf(&quot;成功创建进程数: %d\n&quot;, count);</span><br><span class="line">            exit(1);</span><br><span class="line">        &#125;</span><br><span class="line">        if (pid == 0) &#123;</span><br><span class="line">            // 子进程睡眠不退出，占用进程表</span><br><span class="line">            sleep(100);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>失败原因：</strong></p>
+<ul>
+<li>系统有最大进程数限制（通过<code>ulimit -u</code>可查看）</li>
+<li>当达到限制时，fork 会失败并返回 EAGAIN 错误</li>
+</ul>
+<h3 id="2-耗尽系统内存"><a href="#2-耗尽系统内存" class="headerlink" title="2. 耗尽系统内存"></a>2. 耗尽系统内存</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">#define ALLOC_SIZE (100*1024*1024) // 100MB</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    // 先占用大量内存</span><br><span class="line">    char* memory[1000];</span><br><span class="line">    int i = 0;</span><br><span class="line"></span><br><span class="line">    while(1) &#123;</span><br><span class="line">        memory[i] = malloc(ALLOC_SIZE);</span><br><span class="line">        if (memory[i] == NULL) &#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        // 写入内存确保实际分配</span><br><span class="line">        memset(memory[i], 1, ALLOC_SIZE);</span><br><span class="line">        i++;</span><br><span class="line"></span><br><span class="line">        pid_t pid = fork();</span><br><span class="line">        if (pid &lt; 0) &#123;</span><br><span class="line">            printf(&quot;Fork失败: %s\n&quot;, strerror(errno));</span><br><span class="line">            printf(&quot;已分配内存: %d MB\n&quot;, i * 100);</span><br><span class="line">            exit(1);</span><br><span class="line">        &#125;</span><br><span class="line">        if (pid == 0) &#123;</span><br><span class="line">            sleep(100);  // 子进程保持运行</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>失败原因：</strong></p>
+<ul>
+<li>fork 需要复制父进程的地址空间</li>
+<li>当系统内存不足时，无法为新进程分配内存</li>
+<li>返回 ENOMEM 错误</li>
+</ul>
+<h3 id="其他可能导致-fork-失败的情况"><a href="#其他可能导致-fork-失败的情况" class="headerlink" title="其他可能导致 fork 失败的情况"></a>其他可能导致 fork 失败的情况</h3><ol>
+<li><strong>资源限制</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 设置资源限制</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rlimit</span> <span class="title">rlim</span>;</span></span><br><span class="line">rlim.rlim_cur = <span class="number">0</span>;</span><br><span class="line">rlim.rlim_max = <span class="number">0</span>;</span><br><span class="line">setrlimit(RLIMIT_NPROC, &amp;rlim);  <span class="comment">// 设置进程数限制为0</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>cgroup 限制</strong></li>
+</ol>
+<ul>
+<li>在容器环境中设置严格的资源限制</li>
+<li>限制进程数或内存使用</li>
+</ul>
+<p>使用这些程序时要注意：</p>
+<ul>
+<li>可能会影响系统稳定性</li>
+<li>建议在测试环境运行</li>
+<li>运行后需要及时清理资源</li>
+</ul>
+<h2 id="当子进程终止时，由于父进程可能正忙于自己的工作，没能及时调用-wait，因此子进程将变成僵尸进程。不过，由于操作系统记录了父进程与子进程之间的关系，在子进程退出时，它会发送-SIGCHLD-信号给父进程。请基于该机制实现程序，使得父进程能及时处理子进程的退出，尽可能避免子进程成为僵尸进程"><a href="#当子进程终止时，由于父进程可能正忙于自己的工作，没能及时调用-wait，因此子进程将变成僵尸进程。不过，由于操作系统记录了父进程与子进程之间的关系，在子进程退出时，它会发送-SIGCHLD-信号给父进程。请基于该机制实现程序，使得父进程能及时处理子进程的退出，尽可能避免子进程成为僵尸进程" class="headerlink" title="当子进程终止时，由于父进程可能正忙于自己的工作，没能及时调用 wait，因此子进程将变成僵尸进程。不过，由于操作系统记录了父进程与子进程之间的关系，在子进程退出时，它会发送 SIGCHLD 信号给父进程。请基于该机制实现程序，使得父进程能及时处理子进程的退出，尽可能避免子进程成为僵尸进程"></a>当子进程终止时，由于父进程可能正忙于自己的工作，没能及时调用 wait，因此子进程将变成僵尸进程。不过，由于操作系统记录了父进程与子进程之间的关系，在子进程退出时，它会发送 SIGCHLD 信号给父进程。请基于该机制实现程序，使得父进程能及时处理子进程的退出，尽可能避免子进程成为僵尸进程</h2><p>让我展示如何通过处理 SIGCHLD 信号来避免僵尸进程：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;sys/wait.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line"></span><br><span class="line">// 信号处理函数</span><br><span class="line">void handle_sigchld(int sig) &#123;</span><br><span class="line">    int saved_errno = errno;  // 保存errno</span><br><span class="line">    pid_t pid;</span><br><span class="line"></span><br><span class="line">    // 循环调用waitpid，处理所有已终止的子进程</span><br><span class="line">    while ((pid = waitpid(-1, NULL, WNOHANG)) &gt; 0) &#123;</span><br><span class="line">        printf(&quot;子进程 %d 已被回收\n&quot;, pid);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    errno = saved_errno;  // 恢复errno</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    // 设置SIGCHLD信号处理函数</span><br><span class="line">    struct sigaction sa;</span><br><span class="line">    sa.sa_handler = handle_sigchld;</span><br><span class="line">    sigemptyset(&amp;sa.sa_mask);</span><br><span class="line">    sa.sa_flags = SA_RESTART | SA_NOCLDSTOP;  // 重启被中断的系统调用</span><br><span class="line"></span><br><span class="line">    if (sigaction(SIGCHLD, &amp;sa, NULL) == -1) &#123;</span><br><span class="line">        perror(&quot;sigaction&quot;);</span><br><span class="line">        exit(1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 创建多个子进程</span><br><span class="line">    for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">        pid_t pid = fork();</span><br><span class="line"></span><br><span class="line">        if (pid &lt; 0) &#123;</span><br><span class="line">            perror(&quot;fork&quot;);</span><br><span class="line">            exit(1);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (pid == 0) &#123;  // 子进程</span><br><span class="line">            printf(&quot;子进程 %d 开始运行\n&quot;, getpid());</span><br><span class="line">            sleep(i + 1);  // 每个子进程睡眠不同时间</span><br><span class="line">            printf(&quot;子进程 %d 即将退出\n&quot;, getpid());</span><br><span class="line">            exit(0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 父进程继续做其他工作</span><br><span class="line">    printf(&quot;父进程继续运行...\n&quot;);</span><br><span class="line">    while (1) &#123;</span><br><span class="line">        sleep(1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="关键点解释"><a href="#关键点解释" class="headerlink" title="关键点解释"></a>关键点解释</h3><ol>
+<li><strong>信号处理函数设计</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">handle_sigchld</span><span class="params">(<span class="type">int</span> sig)</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> ((pid = waitpid(<span class="number">-1</span>, <span class="literal">NULL</span>, WNOHANG)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// WNOHANG: 非阻塞等待</span></span><br><span class="line">        <span class="comment">// -1: 等待任何子进程</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>信号处理器设置</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">sa.sa_flags = SA_RESTART | SA_NOCLDSTOP;</span><br><span class="line"><span class="comment">// SA_RESTART: 重启被信号处理打断的系统调用</span></span><br><span class="line"><span class="comment">// SA_NOCLDSTOP: 只在子进程终止时发送信号，子进程暂停时不发送</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>保护 errno</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> saved_errno = errno;</span><br><span class="line"><span class="comment">// ... 信号处理 ...</span></span><br><span class="line">errno = saved_errno;</span><br></pre></td></tr></table></figure>
+
+<h3 id="为什么这样设计-1"><a href="#为什么这样设计-1" class="headerlink" title="为什么这样设计"></a>为什么这样设计</h3><ol>
+<li><p><strong>使用 while 循环处理 waitpid</strong></p>
+<ul>
+<li>多个子进程可能同时退出</li>
+<li>一次信号可能对应多个子进程终止</li>
+<li>确保处理所有已终止的子进程</li>
+</ul>
+</li>
+<li><p><strong>使用 WNOHANG 标志</strong></p>
+<ul>
+<li>非阻塞调用</li>
+<li>避免信号处理函数阻塞</li>
+<li>提高程序响应性</li>
+</ul>
+</li>
+<li><p><strong>保存和恢复 errno</strong></p>
+<ul>
+<li>信号处理可能改变 errno</li>
+<li>避免干扰主程序的错误处理</li>
+</ul>
+</li>
+</ol>
+<h3 id="使用建议"><a href="#使用建议" class="headerlink" title="使用建议"></a>使用建议</h3><ol>
+<li><strong>错误处理</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (sigaction(SIGCHLD, &amp;sa, <span class="literal">NULL</span>) == <span class="number">-1</span>) &#123;</span><br><span class="line">    perror(<span class="string">&quot;sigaction&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>在程序初始化时设置信号处理</strong><ul>
+<li>尽早设置，避免遗漏子进程</li>
+<li>确保所有 fork 之前都已设置好处理器</li>
+</ul>
+</li>
+</ol>
+<p>这种方式可以有效避免僵尸进程，同时不会影响父进程的正常工作。</p>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+  </entry>
 </search>

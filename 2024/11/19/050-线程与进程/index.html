@@ -1,0 +1,331 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>050-线程与进程 | Hymns</title><meta name="author" content="Hymns"><meta name="copyright" content="Hymns"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="进程是操作系统对一个正在运行的程序的一种抽象。线程是进程中的一个执行单元。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="050-线程与进程">
+<meta property="og:url" content="https://hmmmmmya.github.io/2024/11/19/050-%E7%BA%BF%E7%A8%8B%E4%B8%8E%E8%BF%9B%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hymns">
+<meta property="og:description" content="进程是操作系统对一个正在运行的程序的一种抽象。线程是进程中的一个执行单元。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hmmmmmya.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2024-11-19T08:33:17.000Z">
+<meta property="article:modified_time" content="2024-11-19T08:47:22.694Z">
+<meta property="article:author" content="Hymns">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hmmmmmya.github.io/img/butterfly-icon.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://hmmmmmya.github.io/2024/11/19/050-%E7%BA%BF%E7%A8%8B%E4%B8%8E%E8%BF%9B%E7%A8%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '050-线程与进程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="Hymns" type="application/atom+xml">
+</head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/cover1.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Hymns</span></a><a class="nav-page-title" href="/"><span class="site-name">050-线程与进程</span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">050-线程与进程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-11-19T08:33:17.000Z" title="发表于 2024-11-19 16:33:17">2024-11-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-19T08:47:22.694Z" title="更新于 2024-11-19 16:47:22">2024-11-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>进程是操作系统对一个正在运行的程序的一种抽象。线程是进程中的一个执行单元。</p>
+<span id="more"></span>
+
+<h2 id="为什么不用类似于-fork-的方式创建线程"><a href="#为什么不用类似于-fork-的方式创建线程" class="headerlink" title="为什么不用类似于 fork 的方式创建线程"></a>为什么不用类似于 fork 的方式创建线程</h2><h3 id="fork-创建进程的特点"><a href="#fork-创建进程的特点" class="headerlink" title="fork 创建进程的特点"></a>fork 创建进程的特点</h3><ol>
+<li><strong>资源复制</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> pid = fork();</span><br><span class="line"><span class="comment">// fork会复制：</span></span><br><span class="line"><span class="comment">// - 内存空间</span></span><br><span class="line"><span class="comment">// - 文件描述符</span></span><br><span class="line"><span class="comment">// - 程序计数器</span></span><br><span class="line"><span class="comment">// 等所有资源</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>开销大</strong><ul>
+<li>需要复制整个进程地址空间</li>
+<li>创建新的页表</li>
+<li>复制文件描述符表</li>
+</ul>
+</li>
+</ol>
+<h3 id="线程的设计目的"><a href="#线程的设计目的" class="headerlink" title="线程的设计目的"></a>线程的设计目的</h3><ol>
+<li><strong>轻量级任务切换</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pthread_t</span> thread;</span><br><span class="line">pthread_create(&amp;thread, <span class="literal">NULL</span>, thread_func, <span class="literal">NULL</span>);</span><br><span class="line"><span class="comment">// 线程共享：</span></span><br><span class="line"><span class="comment">// - 代码段</span></span><br><span class="line"><span class="comment">// - 堆空间</span></span><br><span class="line"><span class="comment">// - 文件描述符</span></span><br><span class="line"><span class="comment">// 仅独立：</span></span><br><span class="line"><span class="comment">// - 栈空间</span></span><br><span class="line"><span class="comment">// - 寄存器</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>资源共享优势</strong><ul>
+<li>线程间通信成本低</li>
+<li>上下文切换快</li>
+<li>内存占用小</li>
+</ul>
+</li>
+</ol>
+<h3 id="如果用-fork-方式创建线程会带来的问题"><a href="#如果用-fork-方式创建线程会带来的问题" class="headerlink" title="如果用 fork 方式创建线程会带来的问题"></a>如果用 fork 方式创建线程会带来的问题</h3><ol>
+<li><strong>性能问题</strong></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">创建100个线程：</span><br><span class="line">- 当前方式：只需要分配100个栈空间</span><br><span class="line">- fork方式：需要复制100次整个进程空间</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p><strong>资源浪费</strong></p>
+<ul>
+<li>大量重复的内存页</li>
+<li>不必要的资源隔离</li>
+<li>系统开销增加</li>
+</ul>
+</li>
+<li><p><strong>通信困难</strong></p>
+<ul>
+<li>失去了共享内存的便利</li>
+<li>需要使用 IPC 机制</li>
+<li>效率降低</li>
+</ul>
+</li>
+</ol>
+<p>因此，线程的设计初衷就是要比进程更轻量级，如果用 fork 方式创建线程，就违背了这个设计初衷，失去了线程的主要优势。</p>
+<h2 id="Linux-中-一个多线程进程使用-fork-生成了一个新进程-新进程中会存在几个线程-为什么要这么设计"><a href="#Linux-中-一个多线程进程使用-fork-生成了一个新进程-新进程中会存在几个线程-为什么要这么设计" class="headerlink" title="Linux 中,一个多线程进程使用 fork 生成了一个新进程, 新进程中会存在几个线程? 为什么要这么设计"></a>Linux 中,一个多线程进程使用 fork 生成了一个新进程, 新进程中会存在几个线程? 为什么要这么设计</h2><p>让我解释 Linux 中 fork 多线程进程的行为：</p>
+<h3 id="基本行为"><a href="#基本行为" class="headerlink" title="基本行为"></a>基本行为</h3><ol>
+<li><strong>只复制调用 fork 的线程</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 主进程有3个线程</span></span><br><span class="line"><span class="type">pthread_t</span> thread1, thread2;</span><br><span class="line">pthread_create(&amp;thread1, <span class="literal">NULL</span>, func1, <span class="literal">NULL</span>);</span><br><span class="line">pthread_create(&amp;thread2, <span class="literal">NULL</span>, func2, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">pid_t</span> pid = fork();  <span class="comment">// 假设在thread1中调用</span></span><br><span class="line"><span class="comment">// 子进程只会包含thread1的副本</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="为什么这样设计"><a href="#为什么这样设计" class="headerlink" title="为什么这样设计"></a>为什么这样设计</h3><ol>
+<li><strong>安全性考虑</strong><ul>
+<li>如果复制所有线程，可能导致：</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 线程2正在进行文件写入</span></span><br><span class="line">write(fd, data, size);</span><br><span class="line"><span class="comment">// fork发生</span></span><br><span class="line"><span class="comment">// 子进程的线程2会从中间继续执行</span></span><br><span class="line"><span class="comment">// 导致文件数据重复或损坏</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>死锁风险</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mutex_lock(&amp;mutex);  <span class="comment">// 线程2持有锁</span></span><br><span class="line"><span class="comment">// fork发生</span></span><br><span class="line"><span class="comment">// 子进程中没有线程2，锁永远无法释放</span></span><br><span class="line"><span class="comment">// 导致死锁</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>实现复杂性</strong><ul>
+<li>复制所有线程需要：<ul>
+<li>重建线程间的同步关系</li>
+<li>复制所有线程的上下文</li>
+<li>处理线程池等复杂结构</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><ol>
+<li><strong>fork 后立即 exec</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> pid = fork();</span><br><span class="line"><span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 子进程：立即执行新程序</span></span><br><span class="line">    execv(path, args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>在主线程中 fork</strong><ul>
+<li>避免在子线程中调用 fork</li>
+<li>减少不确定性</li>
+<li>更容易管理资源</li>
+</ul>
+</li>
+</ol>
+<p>这种设计既保证了安全性，又简化了实现，是一个合理的折中方案。</p>
+<h2 id="编写至少两种使用-fork-的程序-使-fork-执行失败-并解释-fork-失败的原因"><a href="#编写至少两种使用-fork-的程序-使-fork-执行失败-并解释-fork-失败的原因" class="headerlink" title="编写至少两种使用 fork 的程序, 使 fork 执行失败, 并解释 fork 失败的原因"></a>编写至少两种使用 fork 的程序, 使 fork 执行失败, 并解释 fork 失败的原因</h2><p>让我展示两种让 fork 失败的程序：</p>
+<h3 id="1-耗尽系统进程数限制"><a href="#1-耗尽系统进程数限制" class="headerlink" title="1. 耗尽系统进程数限制"></a>1. 耗尽系统进程数限制</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    int count = 0;</span><br><span class="line">    while(1) &#123;</span><br><span class="line">        pid_t pid = fork();</span><br><span class="line">        if (pid &lt; 0) &#123;</span><br><span class="line">            printf(&quot;Fork失败: %s\n&quot;, strerror(errno));</span><br><span class="line">            printf(&quot;成功创建进程数: %d\n&quot;, count);</span><br><span class="line">            exit(1);</span><br><span class="line">        &#125;</span><br><span class="line">        if (pid == 0) &#123;</span><br><span class="line">            // 子进程睡眠不退出，占用进程表</span><br><span class="line">            sleep(100);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>失败原因：</strong></p>
+<ul>
+<li>系统有最大进程数限制（通过<code>ulimit -u</code>可查看）</li>
+<li>当达到限制时，fork 会失败并返回 EAGAIN 错误</li>
+</ul>
+<h3 id="2-耗尽系统内存"><a href="#2-耗尽系统内存" class="headerlink" title="2. 耗尽系统内存"></a>2. 耗尽系统内存</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">#define ALLOC_SIZE (100*1024*1024) // 100MB</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    // 先占用大量内存</span><br><span class="line">    char* memory[1000];</span><br><span class="line">    int i = 0;</span><br><span class="line"></span><br><span class="line">    while(1) &#123;</span><br><span class="line">        memory[i] = malloc(ALLOC_SIZE);</span><br><span class="line">        if (memory[i] == NULL) &#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        // 写入内存确保实际分配</span><br><span class="line">        memset(memory[i], 1, ALLOC_SIZE);</span><br><span class="line">        i++;</span><br><span class="line"></span><br><span class="line">        pid_t pid = fork();</span><br><span class="line">        if (pid &lt; 0) &#123;</span><br><span class="line">            printf(&quot;Fork失败: %s\n&quot;, strerror(errno));</span><br><span class="line">            printf(&quot;已分配内存: %d MB\n&quot;, i * 100);</span><br><span class="line">            exit(1);</span><br><span class="line">        &#125;</span><br><span class="line">        if (pid == 0) &#123;</span><br><span class="line">            sleep(100);  // 子进程保持运行</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>失败原因：</strong></p>
+<ul>
+<li>fork 需要复制父进程的地址空间</li>
+<li>当系统内存不足时，无法为新进程分配内存</li>
+<li>返回 ENOMEM 错误</li>
+</ul>
+<h3 id="其他可能导致-fork-失败的情况"><a href="#其他可能导致-fork-失败的情况" class="headerlink" title="其他可能导致 fork 失败的情况"></a>其他可能导致 fork 失败的情况</h3><ol>
+<li><strong>资源限制</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置资源限制</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rlimit</span> <span class="title">rlim</span>;</span></span><br><span class="line">rlim.rlim_cur = <span class="number">0</span>;</span><br><span class="line">rlim.rlim_max = <span class="number">0</span>;</span><br><span class="line">setrlimit(RLIMIT_NPROC, &amp;rlim);  <span class="comment">// 设置进程数限制为0</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>cgroup 限制</strong></li>
+</ol>
+<ul>
+<li>在容器环境中设置严格的资源限制</li>
+<li>限制进程数或内存使用</li>
+</ul>
+<p>使用这些程序时要注意：</p>
+<ul>
+<li>可能会影响系统稳定性</li>
+<li>建议在测试环境运行</li>
+<li>运行后需要及时清理资源</li>
+</ul>
+<h2 id="当子进程终止时，由于父进程可能正忙于自己的工作，没能及时调用-wait，因此子进程将变成僵尸进程。不过，由于操作系统记录了父进程与子进程之间的关系，在子进程退出时，它会发送-SIGCHLD-信号给父进程。请基于该机制实现程序，使得父进程能及时处理子进程的退出，尽可能避免子进程成为僵尸进程"><a href="#当子进程终止时，由于父进程可能正忙于自己的工作，没能及时调用-wait，因此子进程将变成僵尸进程。不过，由于操作系统记录了父进程与子进程之间的关系，在子进程退出时，它会发送-SIGCHLD-信号给父进程。请基于该机制实现程序，使得父进程能及时处理子进程的退出，尽可能避免子进程成为僵尸进程" class="headerlink" title="当子进程终止时，由于父进程可能正忙于自己的工作，没能及时调用 wait，因此子进程将变成僵尸进程。不过，由于操作系统记录了父进程与子进程之间的关系，在子进程退出时，它会发送 SIGCHLD 信号给父进程。请基于该机制实现程序，使得父进程能及时处理子进程的退出，尽可能避免子进程成为僵尸进程"></a>当子进程终止时，由于父进程可能正忙于自己的工作，没能及时调用 wait，因此子进程将变成僵尸进程。不过，由于操作系统记录了父进程与子进程之间的关系，在子进程退出时，它会发送 SIGCHLD 信号给父进程。请基于该机制实现程序，使得父进程能及时处理子进程的退出，尽可能避免子进程成为僵尸进程</h2><p>让我展示如何通过处理 SIGCHLD 信号来避免僵尸进程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;sys/wait.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line"></span><br><span class="line">// 信号处理函数</span><br><span class="line">void handle_sigchld(int sig) &#123;</span><br><span class="line">    int saved_errno = errno;  // 保存errno</span><br><span class="line">    pid_t pid;</span><br><span class="line"></span><br><span class="line">    // 循环调用waitpid，处理所有已终止的子进程</span><br><span class="line">    while ((pid = waitpid(-1, NULL, WNOHANG)) &gt; 0) &#123;</span><br><span class="line">        printf(&quot;子进程 %d 已被回收\n&quot;, pid);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    errno = saved_errno;  // 恢复errno</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    // 设置SIGCHLD信号处理函数</span><br><span class="line">    struct sigaction sa;</span><br><span class="line">    sa.sa_handler = handle_sigchld;</span><br><span class="line">    sigemptyset(&amp;sa.sa_mask);</span><br><span class="line">    sa.sa_flags = SA_RESTART | SA_NOCLDSTOP;  // 重启被中断的系统调用</span><br><span class="line"></span><br><span class="line">    if (sigaction(SIGCHLD, &amp;sa, NULL) == -1) &#123;</span><br><span class="line">        perror(&quot;sigaction&quot;);</span><br><span class="line">        exit(1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 创建多个子进程</span><br><span class="line">    for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">        pid_t pid = fork();</span><br><span class="line"></span><br><span class="line">        if (pid &lt; 0) &#123;</span><br><span class="line">            perror(&quot;fork&quot;);</span><br><span class="line">            exit(1);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (pid == 0) &#123;  // 子进程</span><br><span class="line">            printf(&quot;子进程 %d 开始运行\n&quot;, getpid());</span><br><span class="line">            sleep(i + 1);  // 每个子进程睡眠不同时间</span><br><span class="line">            printf(&quot;子进程 %d 即将退出\n&quot;, getpid());</span><br><span class="line">            exit(0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 父进程继续做其他工作</span><br><span class="line">    printf(&quot;父进程继续运行...\n&quot;);</span><br><span class="line">    while (1) &#123;</span><br><span class="line">        sleep(1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="关键点解释"><a href="#关键点解释" class="headerlink" title="关键点解释"></a>关键点解释</h3><ol>
+<li><strong>信号处理函数设计</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">handle_sigchld</span><span class="params">(<span class="type">int</span> sig)</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> ((pid = waitpid(<span class="number">-1</span>, <span class="literal">NULL</span>, WNOHANG)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// WNOHANG: 非阻塞等待</span></span><br><span class="line">        <span class="comment">// -1: 等待任何子进程</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>信号处理器设置</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sa.sa_flags = SA_RESTART | SA_NOCLDSTOP;</span><br><span class="line"><span class="comment">// SA_RESTART: 重启被信号处理打断的系统调用</span></span><br><span class="line"><span class="comment">// SA_NOCLDSTOP: 只在子进程终止时发送信号，子进程暂停时不发送</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>保护 errno</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> saved_errno = errno;</span><br><span class="line"><span class="comment">// ... 信号处理 ...</span></span><br><span class="line">errno = saved_errno;</span><br></pre></td></tr></table></figure>
+
+<h3 id="为什么这样设计-1"><a href="#为什么这样设计-1" class="headerlink" title="为什么这样设计"></a>为什么这样设计</h3><ol>
+<li><p><strong>使用 while 循环处理 waitpid</strong></p>
+<ul>
+<li>多个子进程可能同时退出</li>
+<li>一次信号可能对应多个子进程终止</li>
+<li>确保处理所有已终止的子进程</li>
+</ul>
+</li>
+<li><p><strong>使用 WNOHANG 标志</strong></p>
+<ul>
+<li>非阻塞调用</li>
+<li>避免信号处理函数阻塞</li>
+<li>提高程序响应性</li>
+</ul>
+</li>
+<li><p><strong>保存和恢复 errno</strong></p>
+<ul>
+<li>信号处理可能改变 errno</li>
+<li>避免干扰主程序的错误处理</li>
+</ul>
+</li>
+</ol>
+<h3 id="使用建议"><a href="#使用建议" class="headerlink" title="使用建议"></a>使用建议</h3><ol>
+<li><strong>错误处理</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (sigaction(SIGCHLD, &amp;sa, <span class="literal">NULL</span>) == <span class="number">-1</span>) &#123;</span><br><span class="line">    perror(<span class="string">&quot;sigaction&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>在程序初始化时设置信号处理</strong><ul>
+<li>尽早设置，避免遗漏子进程</li>
+<li>确保所有 fork 之前都已设置好处理器</li>
+</ul>
+</li>
+</ol>
+<p>这种方式可以有效避免僵尸进程，同时不会影响父进程的正常工作。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://hmmmmmya.github.io">Hymns</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://hmmmmmya.github.io/2024/11/19/050-%E7%BA%BF%E7%A8%8B%E4%B8%8E%E8%BF%9B%E7%A8%8B/">https://hmmmmmya.github.io/2024/11/19/050-%E7%BA%BF%E7%A8%8B%E4%B8%8E%E8%BF%9B%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://hmmmmmya.github.io" target="_blank">Hymns</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2024/11/19/049-data-structure-and-algorithm-learning/" title="049-data-structure-and-algorithm-learning"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">049-data-structure-and-algorithm-learning</div></div><div class="info-2"><div class="info-item-1">数据结构与算法是计算机科学的基础，是解决实际问题的关键。   书籍 《大话数据结构》  网站 Hello 算法  </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Hymns</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8%E7%B1%BB%E4%BC%BC%E4%BA%8E-fork-%E7%9A%84%E6%96%B9%E5%BC%8F%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">为什么不用类似于 fork 的方式创建线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fork-%E5%88%9B%E5%BB%BA%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">fork 创建进程的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%9B%AE%E7%9A%84"><span class="toc-number">1.2.</span> <span class="toc-text">线程的设计目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E7%94%A8-fork-%E6%96%B9%E5%BC%8F%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E4%BC%9A%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">如果用 fork 方式创建线程会带来的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E4%B8%AD-%E4%B8%80%E4%B8%AA%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E7%A8%8B%E4%BD%BF%E7%94%A8-fork-%E7%94%9F%E6%88%90%E4%BA%86%E4%B8%80%E4%B8%AA%E6%96%B0%E8%BF%9B%E7%A8%8B-%E6%96%B0%E8%BF%9B%E7%A8%8B%E4%B8%AD%E4%BC%9A%E5%AD%98%E5%9C%A8%E5%87%A0%E4%B8%AA%E7%BA%BF%E7%A8%8B-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%99%E4%B9%88%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text">Linux 中,一个多线程进程使用 fork 生成了一个新进程, 新进程中会存在几个线程? 为什么要这么设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%A1%8C%E4%B8%BA"><span class="toc-number">2.1.</span> <span class="toc-text">基本行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E6%A0%B7%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.2.</span> <span class="toc-text">为什么这样设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">2.3.</span> <span class="toc-text">最佳实践</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E8%87%B3%E5%B0%91%E4%B8%A4%E7%A7%8D%E4%BD%BF%E7%94%A8-fork-%E7%9A%84%E7%A8%8B%E5%BA%8F-%E4%BD%BF-fork-%E6%89%A7%E8%A1%8C%E5%A4%B1%E8%B4%A5-%E5%B9%B6%E8%A7%A3%E9%87%8A-fork-%E5%A4%B1%E8%B4%A5%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">3.</span> <span class="toc-text">编写至少两种使用 fork 的程序, 使 fork 执行失败, 并解释 fork 失败的原因</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%80%97%E5%B0%BD%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E6%95%B0%E9%99%90%E5%88%B6"><span class="toc-number">3.1.</span> <span class="toc-text">1. 耗尽系统进程数限制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%80%97%E5%B0%BD%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AD%98"><span class="toc-number">3.2.</span> <span class="toc-text">2. 耗尽系统内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%8F%AF%E8%83%BD%E5%AF%BC%E8%87%B4-fork-%E5%A4%B1%E8%B4%A5%E7%9A%84%E6%83%85%E5%86%B5"><span class="toc-number">3.3.</span> <span class="toc-text">其他可能导致 fork 失败的情况</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%93%E5%AD%90%E8%BF%9B%E7%A8%8B%E7%BB%88%E6%AD%A2%E6%97%B6%EF%BC%8C%E7%94%B1%E4%BA%8E%E7%88%B6%E8%BF%9B%E7%A8%8B%E5%8F%AF%E8%83%BD%E6%AD%A3%E5%BF%99%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%B7%A5%E4%BD%9C%EF%BC%8C%E6%B2%A1%E8%83%BD%E5%8F%8A%E6%97%B6%E8%B0%83%E7%94%A8-wait%EF%BC%8C%E5%9B%A0%E6%AD%A4%E5%AD%90%E8%BF%9B%E7%A8%8B%E5%B0%86%E5%8F%98%E6%88%90%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E3%80%82%E4%B8%8D%E8%BF%87%EF%BC%8C%E7%94%B1%E4%BA%8E%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%AE%B0%E5%BD%95%E4%BA%86%E7%88%B6%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%AD%90%E8%BF%9B%E7%A8%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%EF%BC%8C%E5%9C%A8%E5%AD%90%E8%BF%9B%E7%A8%8B%E9%80%80%E5%87%BA%E6%97%B6%EF%BC%8C%E5%AE%83%E4%BC%9A%E5%8F%91%E9%80%81-SIGCHLD-%E4%BF%A1%E5%8F%B7%E7%BB%99%E7%88%B6%E8%BF%9B%E7%A8%8B%E3%80%82%E8%AF%B7%E5%9F%BA%E4%BA%8E%E8%AF%A5%E6%9C%BA%E5%88%B6%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%EF%BC%8C%E4%BD%BF%E5%BE%97%E7%88%B6%E8%BF%9B%E7%A8%8B%E8%83%BD%E5%8F%8A%E6%97%B6%E5%A4%84%E7%90%86%E5%AD%90%E8%BF%9B%E7%A8%8B%E7%9A%84%E9%80%80%E5%87%BA%EF%BC%8C%E5%B0%BD%E5%8F%AF%E8%83%BD%E9%81%BF%E5%85%8D%E5%AD%90%E8%BF%9B%E7%A8%8B%E6%88%90%E4%B8%BA%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">当子进程终止时，由于父进程可能正忙于自己的工作，没能及时调用 wait，因此子进程将变成僵尸进程。不过，由于操作系统记录了父进程与子进程之间的关系，在子进程退出时，它会发送 SIGCHLD 信号给父进程。请基于该机制实现程序，使得父进程能及时处理子进程的退出，尽可能避免子进程成为僵尸进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E7%82%B9%E8%A7%A3%E9%87%8A"><span class="toc-number">4.1.</span> <span class="toc-text">关键点解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E6%A0%B7%E8%AE%BE%E8%AE%A1-1"><span class="toc-number">4.2.</span> <span class="toc-text">为什么这样设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.3.</span> <span class="toc-text">使用建议</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/19/050-%E7%BA%BF%E7%A8%8B%E4%B8%8E%E8%BF%9B%E7%A8%8B/" title="050-线程与进程">050-线程与进程</a><time datetime="2024-11-19T08:33:17.000Z" title="发表于 2024-11-19 16:33:17">2024-11-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/19/049-data-structure-and-algorithm-learning/" title="049-data-structure-and-algorithm-learning">049-data-structure-and-algorithm-learning</a><time datetime="2024-11-19T06:32:23.000Z" title="发表于 2024-11-19 14:32:23">2024-11-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/18/048-%E4%BB%8A%E5%A4%A9%E6%8D%A2%E9%A1%B5%E6%9C%BA%E5%88%B6%E6%98%AF%E5%90%A6%E4%BB%8D%E7%84%B6%E6%9C%89%E5%BF%85%E8%A6%81/" title="048-今天换页机制是否仍然有必要">048-今天换页机制是否仍然有必要</a><time datetime="2024-11-18T07:33:27.000Z" title="发表于 2024-11-18 15:33:27">2024-11-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/15/047-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/" title="047-操作系统上下文切换">047-操作系统上下文切换</a><time datetime="2024-11-15T07:10:16.000Z" title="发表于 2024-11-15 15:10:16">2024-11-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/15/046-%E5%BC%82%E5%B8%B8%E5%92%8C%E4%B8%AD%E6%96%AD%E7%9A%84%E5%8C%BA%E5%88%AB/" title="046-异常和中断的区别">046-异常和中断的区别</a><time datetime="2024-11-15T06:58:43.000Z" title="发表于 2024-11-15 14:58:43">2024-11-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By Hymns</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
