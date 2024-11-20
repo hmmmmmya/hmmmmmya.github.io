@@ -2998,4 +2998,292 @@
         <tag>c++</tag>
       </tags>
   </entry>
+  <entry>
+    <title>052-进程间通信</title>
+    <url>/2024/11/19/052-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</url>
+    <content><![CDATA[<p>进程间通信(Inter-Process Communication, IPC)</p>
+<span id="more"></span>
+
+<h2 id="进程间通信有哪些方式"><a href="#进程间通信有哪些方式" class="headerlink" title="进程间通信有哪些方式"></a>进程间通信有哪些方式</h2><ul>
+<li>共享内存</li>
+<li>管道</li>
+<li>消息队列</li>
+<li>信号量</li>
+<li>套接字</li>
+</ul>
+<p>进程间通信（IPC）的连接可以通过多种机制建立，每种机制都有其特定的用途和实现方式。以下是几种常见的 IPC 机制及其连接建立方式：</p>
+<h3 id="1-管道（Pipe）"><a href="#1-管道（Pipe）" class="headerlink" title="1. 管道（Pipe）"></a>1. 管道（Pipe）</h3><ul>
+<li><p><strong>匿名管道</strong></p>
+<ul>
+<li>只能在父子进程之间使用</li>
+<li>通过<code>pipe()</code>系统调用创建</li>
+<li>创建后返回两个文件描述符：一个用于读，一个用于写</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> pipefd[<span class="number">2</span>];</span><br><span class="line"><span class="keyword">if</span> (pipe(pipefd) == <span class="number">-1</span>) &#123;</span><br><span class="line">    perror(<span class="string">&quot;pipe&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>命名管道（FIFO）</strong></p>
+<ul>
+<li>可以在无亲缘关系的进程间使用</li>
+<li>通过<code>mkfifo()</code>创建一个特殊文件</li>
+<li>进程通过打开这个文件进行读写</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">mkfifo(<span class="string">&quot;/tmp/myfifo&quot;</span>, <span class="number">0666</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-消息队列"><a href="#2-消息队列" class="headerlink" title="2. 消息队列"></a>2. 消息队列</h3><ul>
+<li><p>通过<code>msgget()</code>创建或获取一个消息队列标识符</p>
+</li>
+<li><p>使用<code>msgsnd()</code>和<code>msgrcv()</code>进行消息发送和接收</p>
+</li>
+<li><p>使用<code>msgctl()</code>进行消息队列控制，如删除消息队列或修改消息队列的权限</p>
+</li>
+<li><p>消息队列是基于消息的，消息队列是保存在内核中的链表，消息队列中每个消息都有一个类型和优先级</p>
+</li>
+<li><p>支持多进程并发访问</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">key_t</span> key = ftok(<span class="string">&quot;progfile&quot;</span>, <span class="number">65</span>);</span><br><span class="line"><span class="type">int</span> msgid = msgget(key, <span class="number">0666</span> | IPC_CREAT);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-共享内存"><a href="#3-共享内存" class="headerlink" title="3. 共享内存"></a>3. 共享内存</h3><ul>
+<li><p>使用共享内存的很重要原因是性能，内核为需要通信的进程分配了一块内存，进程可以直接访问这块内存，不需要内核介入</p>
+</li>
+<li><p>当进程不再希望共享内存时，通过<code>shmdt()</code>将共享内存段从进程的地址空间分离，取消共享内存段与进程的地址空间的映射，只影响当前进程，其他正在使用共享内存的进程不受影响</p>
+</li>
+<li><p>通过<code>shmget()</code>创建或获取一个共享内存段</p>
+</li>
+<li><p>使用<code>shmat()</code>将共享内存段附加到进程的地址空间</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">key_t</span> key = ftok(<span class="string">&quot;shmfile&quot;</span>, <span class="number">65</span>);</span><br><span class="line"><span class="type">int</span> shmid = shmget(key, <span class="number">1024</span>, <span class="number">0666</span> | IPC_CREAT);</span><br><span class="line"><span class="type">char</span> *str = (<span class="type">char</span>*) shmat(shmid, (<span class="type">void</span>*)<span class="number">0</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="4-信号量"><a href="#4-信号量" class="headerlink" title="4. 信号量"></a>4. 信号量</h3><ul>
+<li><p>信号量是用于进程间同步的机制</p>
+</li>
+<li><p>信号量的主要操作是两个原语：<code>P</code>操作和<code>V</code>操作，计数器值只能在 0 和 1 之间变化</p>
+<ul>
+<li><code>P</code>操作：计数器减一，如果计数器为 0，无法减一，则阻塞，直至计数器大于 0，减一成功</li>
+<li><code>V</code>操作：计数器加一，如果计数器超过 1，则无法加一，忽略本次操作</li>
+</ul>
+</li>
+<li><p>通过<code>semget()</code>创建或获取一个信号量集</p>
+</li>
+<li><p>使用<code>semop()</code>进行信号量操作</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">key_t</span> key = ftok(<span class="string">&quot;semfile&quot;</span>, <span class="number">65</span>);</span><br><span class="line"><span class="type">int</span> semid = semget(key, <span class="number">1</span>, <span class="number">0666</span> | IPC_CREAT);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="5-套接字（Sockets）"><a href="#5-套接字（Sockets）" class="headerlink" title="5. 套接字（Sockets）"></a>5. 套接字（Sockets）</h3><ul>
+<li><p><strong>本地套接字（UNIX 域套接字）</strong></p>
+<ul>
+<li>通过<code>socket()</code>创建</li>
+<li>使用<code>bind()</code>、<code>listen()</code>、<code>accept()</code>建立连接</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> sockfd = socket(AF_UNIX, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_un</span> <span class="title">addr</span>;</span></span><br><span class="line">addr.sun_family = AF_UNIX;</span><br><span class="line"><span class="built_in">strcpy</span>(addr.sun_path, <span class="string">&quot;/tmp/mysocket&quot;</span>);</span><br><span class="line">bind(sockfd, (<span class="keyword">struct</span> sockaddr*)&amp;addr, <span class="keyword">sizeof</span>(addr));</span><br><span class="line">listen(sockfd, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>网络套接字</strong></p>
+<ul>
+<li>用于不同主机间的通信</li>
+<li>通过<code>socket()</code>创建</li>
+<li>使用<code>connect()</code>、<code>bind()</code>、<code>listen()</code>、<code>accept()</code>建立连接</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> sockfd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">addr.sin_family = AF_INET;</span><br><span class="line">addr.sin_port = htons(<span class="number">8080</span>);</span><br><span class="line">addr.sin_addr.s_addr = INADDR_ANY;</span><br><span class="line">bind(sockfd, (<span class="keyword">struct</span> sockaddr*)&amp;addr, <span class="keyword">sizeof</span>(addr));</span><br><span class="line">listen(sockfd, <span class="number">5</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="6-信号"><a href="#6-信号" class="headerlink" title="6. 信号"></a>6. 信号</h3><ul>
+<li><p>通过<code>kill()</code>发送信号</p>
+</li>
+<li><p>进程通过<code>signal()</code>或<code>sigaction()</code>设置信号处理函数</p>
+</li>
+<li><p>Linux 常规信号有 32 个，信号值范围为 1-31，信号值为 0 的信号通常用于进程间同步；POSIX 引入了 32 个信号（实时信号），信号值范围为 32-64</p>
+</li>
+<li><p>使用信号，一个进程可以随时通知另一个进程某个事件的发生，并且接收者不需要阻塞等待该事件，内核会帮助其切换到对应的处理函数中响应信号事件</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">signal(SIGUSR1, handler_function);</span><br><span class="line">kill(pid, SIGUSR1);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="信号表"><a href="#信号表" class="headerlink" title="信号表"></a>信号表</h4><p>在终端，可通过<code>kill -l</code>查看所有的 signal 信号。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">:~$ kill -l</span><br><span class="line"> 1) SIGHUP       2) SIGINT       3) SIGQUIT      4) SIGILL       5) SIGTRAP</span><br><span class="line"> 6) SIGABRT      7) SIGBUS       8) SIGFPE       9) SIGKILL     10) SIGUSR1</span><br><span class="line">11) SIGSEGV     12) SIGUSR2     13) SIGPIPE     14) SIGALRM     15) SIGTERM</span><br><span class="line">16) SIGSTKFLT   17) SIGCHLD     18) SIGCONT     19) SIGSTOP     20) SIGTSTP</span><br><span class="line">21) SIGTTIN     22) SIGTTOU     23) SIGURG      24) SIGXCPU     25) SIGXFSZ</span><br><span class="line">26) SIGVTALRM   27) SIGPROF     28) SIGWINCH    29) SIGIO       30) SIGPWR</span><br><span class="line">31) SIGSYS      34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3</span><br><span class="line">38) SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8</span><br><span class="line">43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13</span><br><span class="line">48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12</span><br><span class="line">53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7</span><br><span class="line">58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2</span><br><span class="line">63) SIGRTMAX-1  64) SIGRTMAX</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20241120143758.png" alt="宏内核进程间通信机制对比"></p>
+<h2 id="请给出一个管道的设计-使其支持双向通信"><a href="#请给出一个管道的设计-使其支持双向通信" class="headerlink" title="请给出一个管道的设计,使其支持双向通信"></a>请给出一个管道的设计,使其支持双向通信</h2><p>实现双向通信的管道可以通过创建两个单向管道来完成，一个用于从 A 到 B 的通信，另一个用于从 B 到 A 的通信。以下是实现双向管道通信的设计方案：</p>
+<hr>
+<h3 id="1-管道结构设计"><a href="#1-管道结构设计" class="headerlink" title="1. 管道结构设计"></a>1. <strong>管道结构设计</strong></h3><ul>
+<li><strong>管道 A-&gt;B</strong>: 一个单向管道，负责从进程 A 向进程 B 发送数据。</li>
+<li><strong>管道 B-&gt;A</strong>: 另一个单向管道，负责从进程 B 向进程 A 发送数据。</li>
+</ul>
+<hr>
+<h3 id="2-关键步骤"><a href="#2-关键步骤" class="headerlink" title="2. 关键步骤"></a>2. <strong>关键步骤</strong></h3><p>假设使用 C 语言和 POSIX 标准管道 (<code>pipe</code>)：</p>
+<h4 id="1-创建管道"><a href="#1-创建管道" class="headerlink" title="(1) 创建管道"></a><strong>(1) 创建管道</strong></h4><p>每个管道由一对文件描述符表示：<code>fd[0]</code> 用于读，<code>fd[1]</code> 用于写。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> pipeAB[<span class="number">2</span>]; <span class="comment">// A-&gt;B</span></span><br><span class="line"><span class="type">int</span> pipeBA[<span class="number">2</span>]; <span class="comment">// B-&gt;A</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建两个单向管道</span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">pipe</span>(pipeAB) == <span class="number">-1</span> || <span class="built_in">pipe</span>(pipeBA) == <span class="number">-1</span>) &#123;</span><br><span class="line">    <span class="built_in">perror</span>(<span class="string">&quot;pipe&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-在父子进程间通信"><a href="#2-在父子进程间通信" class="headerlink" title="(2) 在父子进程间通信"></a><strong>(2) 在父子进程间通信</strong></h4><ul>
+<li><strong>父进程 A</strong>: 关闭 <code>pipeAB[0]</code> 和 <code>pipeBA[1]</code>，仅用于写入到 <code>pipeAB</code> 和读取 <code>pipeBA</code>。</li>
+<li><strong>子进程 B</strong>: 关闭 <code>pipeAB[1]</code> 和 <code>pipeBA[0]</code>，仅用于读取 <code>pipeAB</code> 和写入到 <code>pipeBA</code>。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">pid_t</span> pid = fork();</span><br><span class="line"><span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 子进程B</span></span><br><span class="line">    <span class="built_in">close</span>(pipeAB[<span class="number">1</span>]); <span class="comment">// 关闭写端</span></span><br><span class="line">    <span class="built_in">close</span>(pipeBA[<span class="number">0</span>]); <span class="comment">// 关闭读端</span></span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> buffer[<span class="number">256</span>];</span><br><span class="line">    <span class="comment">// 从 A-&gt;B 读取数据</span></span><br><span class="line">    <span class="built_in">read</span>(pipeAB[<span class="number">0</span>], buffer, <span class="built_in">sizeof</span>(buffer));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;B received: %s\n&quot;</span>, buffer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 向 B-&gt;A 写入数据</span></span><br><span class="line">    <span class="built_in">write</span>(pipeBA[<span class="number">1</span>], <span class="string">&quot;Hello A&quot;</span>, <span class="number">7</span>);</span><br><span class="line">    <span class="built_in">close</span>(pipeAB[<span class="number">0</span>]);</span><br><span class="line">    <span class="built_in">close</span>(pipeBA[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 父进程A</span></span><br><span class="line">    <span class="built_in">close</span>(pipeAB[<span class="number">0</span>]); <span class="comment">// 关闭读端</span></span><br><span class="line">    <span class="built_in">close</span>(pipeBA[<span class="number">1</span>]); <span class="comment">// 关闭写端</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 向 A-&gt;B 写入数据</span></span><br><span class="line">    <span class="built_in">write</span>(pipeAB[<span class="number">1</span>], <span class="string">&quot;Hello B&quot;</span>, <span class="number">7</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> buffer[<span class="number">256</span>];</span><br><span class="line">    <span class="comment">// 从 B-&gt;A 读取数据</span></span><br><span class="line">    <span class="built_in">read</span>(pipeBA[<span class="number">0</span>], buffer, <span class="built_in">sizeof</span>(buffer));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;A received: %s\n&quot;</span>, buffer);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">close</span>(pipeAB[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">close</span>(pipeBA[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-使用-select-或-poll-支持异步通信"><a href="#3-使用-select-或-poll-支持异步通信" class="headerlink" title="3. 使用 select 或 poll 支持异步通信"></a>3. <strong>使用 <code>select</code> 或 <code>poll</code> 支持异步通信</strong></h3><p>为了避免阻塞，可使用 <code>select</code> 或 <code>poll</code> 对管道的读写操作进行多路复用，检查管道是否有数据可读。</p>
+<hr>
+<h3 id="4-其他方案"><a href="#4-其他方案" class="headerlink" title="4. 其他方案"></a>4. <strong>其他方案</strong></h3><p>除了 POSIX 管道，还可以使用以下方法实现双向通信：</p>
+<ol>
+<li><strong>Socket</strong>: 使用 <code>socketpair</code> 创建全双工通信。</li>
+<li><strong>消息队列</strong>: 使用 System V 或 POSIX 消息队列。</li>
+<li><strong>共享内存</strong>: 配合信号量实现双向通信。</li>
+<li><strong>FIFO（命名管道）</strong>: 通过创建两个命名管道实现双向通信。</li>
+</ol>
+<p>选择哪种方式取决于具体的应用场景和需求。如果是本地进程间通信，<code>pipe</code> 和 <code>socketpair</code> 是推荐的简单方案。</p>
+<h3 id="选择合适的-IPC-机制"><a href="#选择合适的-IPC-机制" class="headerlink" title="选择合适的 IPC 机制"></a>选择合适的 IPC 机制</h3><ul>
+<li><strong>管道</strong>适合简单的父子进程通信</li>
+<li><strong>消息队列</strong>适合需要消息排序和优先级的场景</li>
+<li><strong>共享内存</strong>适合需要高效大数据量传输的场景</li>
+<li><strong>信号量</strong>常用于进程间同步</li>
+<li><strong>套接字</strong>适合网络通信或复杂的本地通信</li>
+</ul>
+<p>每种 IPC 机制都有其特定的应用场景和优缺点，选择时应根据具体需求和系统环境进行权衡。</p>
+<h2 id="在进程间通信过程中-数据和控制流分别是如何传输和转移的"><a href="#在进程间通信过程中-数据和控制流分别是如何传输和转移的" class="headerlink" title="在进程间通信过程中, 数据和控制流分别是如何传输和转移的"></a>在进程间通信过程中, 数据和控制流分别是如何传输和转移的</h2><p>一种常见的通信数据的抽象是消息。消息一般包含消息头和消息体。消息头中包含消息类型、消息长度、消息优先级等控制信息，消息体中包含实际需要传输的数据。</p>
+<h2 id="进程间通信的连接是如何建立的"><a href="#进程间通信的连接是如何建立的" class="headerlink" title="进程间通信的连接是如何建立的"></a>进程间通信的连接是如何建立的</h2><p>通信过程一般指通信的进程间具体的通信发起、回复、结束的过程。</p>
+<p>发送者将要传输的数据内容拷贝到发送者消息上，然后一次设置头部的状态（设置为“准备就绪”等）。</p>
+<p>接收者不停地轮询发送者消息的状态信息，当发现消息头部的状态变为“准备就绪”时，就表示发送者发送了一个消息。</p>
+<p>发送者一发送完消息，就开始轮询接收者消息的状态信息，当发现接收者消息头部的状态变为“准备就绪”时，就表示接收者接收到了一个消息。</p>
+<p>接收者在读取发送者的消息后，处理请求，并在接受者消息上准备返回结果。</p>
+<p>发送者不停地轮询接收者消息的状态信息，当发现接收者消息头部的状态变为“返回结果”时，就表示接收者处理完了消息，并准备返回结果。</p>
+<p>发送者读取接收者消息中的返回结果，并从消息中删除返回结果。</p>
+<h3 id="直接通信和间接通信"><a href="#直接通信和间接通信" class="headerlink" title="直接通信和间接通信"></a>直接通信和间接通信</h3><p>直接通信：发送者和接收者都知道彼此的标识符。比如进程号。</p>
+<p>间接通信：发送者和接收者不知道彼此的标识符，需要一个中间实体（如消息队列、共享内存、管道等）来传递消息。</p>
+<h2 id="什么是超时机制-为什么需要超时机制"><a href="#什么是超时机制-为什么需要超时机制" class="headerlink" title="什么是超时机制, 为什么需要超时机制"></a>什么是超时机制, 为什么需要超时机制</h2><p>超时机制是进程间通信中的一种机制，用于处理通信过程中可能出现的延迟或失败情况。允许发送者&#x2F;接收者设置一个超时时间，如果在这个时间内没有收到回复，则认为通信失败。由操作系统内核结束此次 IPC 调用，返回一个超时的错误。</p>
+<h2 id="一个进程如何找到另一个进程提供的服务"><a href="#一个进程如何找到另一个进程提供的服务" class="headerlink" title="一个进程如何找到另一个进程提供的服务"></a>一个进程如何找到另一个进程提供的服务</h2><p>一个进程找到另一个进程提供的服务，可以通过以下几种常见的通信机制实现，具体选择取决于操作系统环境和应用场景：</p>
+<hr>
+<h3 id="1-使用命名管道-FIFO"><a href="#1-使用命名管道-FIFO" class="headerlink" title="1. 使用命名管道 (FIFO)"></a><strong>1. 使用命名管道 (FIFO)</strong></h3><ul>
+<li><strong>适用场景</strong>: 本地进程间通信，简单高效。</li>
+<li><strong>实现步骤</strong>:<ol>
+<li>服务端创建一个命名管道（FIFO）。</li>
+<li>客户端打开该命名管道进行读写。</li>
+<li>使用文件路径标识管道。</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 服务端</span></span><br><span class="line"><span class="built_in">mkfifo</span>(<span class="string">&quot;/tmp/myservice&quot;</span>, <span class="number">0666</span>); <span class="comment">// 创建命名管道</span></span><br><span class="line"><span class="type">int</span> fd = <span class="built_in">open</span>(<span class="string">&quot;/tmp/myservice&quot;</span>, O_RDONLY); <span class="comment">// 打开管道用于读取</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 客户端</span></span><br><span class="line"><span class="type">int</span> fd = <span class="built_in">open</span>(<span class="string">&quot;/tmp/myservice&quot;</span>, O_WRONLY); <span class="comment">// 打开管道用于写入</span></span><br><span class="line"><span class="built_in">write</span>(fd, <span class="string">&quot;Hello Service&quot;</span>, <span class="built_in">strlen</span>(<span class="string">&quot;Hello Service&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-使用套接字（Socket）"><a href="#2-使用套接字（Socket）" class="headerlink" title="2. 使用套接字（Socket）"></a><strong>2. 使用套接字（Socket）</strong></h3><ul>
+<li><strong>适用场景</strong>: 本地或分布式场景，通过网络通信。</li>
+<li><strong>实现步骤</strong>:<ol>
+<li>服务端监听一个固定的地址和端口。</li>
+<li>客户端通过地址和端口连接到服务端。</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 服务端</span></span><br><span class="line"><span class="type">int</span> server_fd = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> address = &#123; ... &#125;; <span class="comment">// 设置地址和端口</span></span><br><span class="line"><span class="built_in">bind</span>(server_fd, (<span class="keyword">struct</span> sockaddr*)&amp;address, <span class="built_in">sizeof</span>(address));</span><br><span class="line"><span class="built_in">listen</span>(server_fd, <span class="number">3</span>);</span><br><span class="line"><span class="type">int</span> client_fd = <span class="built_in">accept</span>(server_fd, <span class="literal">NULL</span>, <span class="literal">NULL</span>); <span class="comment">// 等待客户端连接</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 客户端</span></span><br><span class="line"><span class="type">int</span> client_fd = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"><span class="built_in">connect</span>(client_fd, (<span class="keyword">struct</span> sockaddr*)&amp;address, <span class="built_in">sizeof</span>(address));</span><br><span class="line"><span class="built_in">write</span>(client_fd, <span class="string">&quot;Hello Service&quot;</span>, <span class="built_in">strlen</span>(<span class="string">&quot;Hello Service&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-使用共享内存"><a href="#3-使用共享内存" class="headerlink" title="3. 使用共享内存"></a><strong>3. 使用共享内存</strong></h3><ul>
+<li><strong>适用场景</strong>: 本地进程间通信，数据量大且需要高效。</li>
+<li><strong>实现步骤</strong>:<ol>
+<li>服务端创建一个共享内存段并设置标识符。</li>
+<li>客户端通过标识符访问共享内存。</li>
+<li>使用信号量或互斥锁同步访问。</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 服务端</span></span><br><span class="line"><span class="type">int</span> shm_id = <span class="built_in">shmget</span>(<span class="number">1234</span>, <span class="number">1024</span>, IPC_CREAT | <span class="number">0666</span>); <span class="comment">// 创建共享内存</span></span><br><span class="line"><span class="type">char</span>* shm_ptr = (<span class="type">char</span>*)<span class="built_in">shmat</span>(shm_id, <span class="literal">NULL</span>, <span class="number">0</span>); <span class="comment">// 映射到地址空间</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 客户端</span></span><br><span class="line"><span class="type">int</span> shm_id = <span class="built_in">shmget</span>(<span class="number">1234</span>, <span class="number">1024</span>, <span class="number">0666</span>); <span class="comment">// 获取共享内存</span></span><br><span class="line"><span class="type">char</span>* shm_ptr = (<span class="type">char</span>*)<span class="built_in">shmat</span>(shm_id, <span class="literal">NULL</span>, <span class="number">0</span>); <span class="comment">// 映射到地址空间</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-使用系统总线-如-D-Bus-或-ZeroMQ"><a href="#4-使用系统总线-如-D-Bus-或-ZeroMQ" class="headerlink" title="4. 使用系统总线 (如 D-Bus 或 ZeroMQ)"></a><strong>4. 使用系统总线 (如 D-Bus 或 ZeroMQ)</strong></h3><ul>
+<li><strong>适用场景</strong>: 复杂系统，支持服务发现和消息路由。</li>
+<li><strong>实现步骤</strong>:<ol>
+<li>服务端注册服务到消息总线。</li>
+<li>客户端通过总线查找服务。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="5-使用文件描述符或信号"><a href="#5-使用文件描述符或信号" class="headerlink" title="5. 使用文件描述符或信号"></a><strong>5. 使用文件描述符或信号</strong></h3><ul>
+<li><strong>适用场景</strong>: 简单标识服务状态。</li>
+<li><strong>实现方式</strong>:<ul>
+<li>服务端创建特定文件（如 Unix 域套接字文件）。</li>
+<li>客户端通过文件路径定位服务。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="6-使用注册表或配置文件"><a href="#6-使用注册表或配置文件" class="headerlink" title="6. 使用注册表或配置文件"></a><strong>6. 使用注册表或配置文件</strong></h3><ul>
+<li><strong>适用场景</strong>: 服务动态发布或客户端动态查找。</li>
+<li><strong>实现方式</strong>:<ul>
+<li>服务端将自身信息（如 PID、套接字地址）写入文件或注册表。</li>
+<li>客户端读取该文件查找服务。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 服务端</span></span><br><span class="line">FILE* f = <span class="built_in">fopen</span>(<span class="string">&quot;/tmp/service_info&quot;</span>, <span class="string">&quot;w&quot;</span>);</span><br><span class="line"><span class="built_in">fprintf</span>(f, <span class="string">&quot;127.0.0.1:8080\n&quot;</span>); <span class="comment">// 写入服务信息</span></span><br><span class="line"><span class="built_in">fclose</span>(f);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 客户端</span></span><br><span class="line">FILE* f = <span class="built_in">fopen</span>(<span class="string">&quot;/tmp/service_info&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br><span class="line"><span class="type">char</span> service_address[<span class="number">256</span>];</span><br><span class="line"><span class="built_in">fgets</span>(service_address, <span class="built_in">sizeof</span>(service_address), f);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="7-服务发现协议"><a href="#7-服务发现协议" class="headerlink" title="7. 服务发现协议"></a><strong>7. 服务发现协议</strong></h3><ul>
+<li><strong>适用场景</strong>: 动态服务发现，分布式系统。</li>
+<li><strong>实现方式</strong>:<ul>
+<li>使用诸如 <code>mDNS</code>、<code>Consul</code> 等服务发现工具。</li>
+<li>服务端注册到发现工具，客户端通过工具查找服务。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="综合建议"><a href="#综合建议" class="headerlink" title="综合建议"></a><strong>综合建议</strong></h3><ul>
+<li><strong>本地简单通信</strong>: 命名管道、共享内存。</li>
+<li><strong>本地或远程灵活通信</strong>: Socket。</li>
+<li><strong>动态服务发现</strong>: 服务总线或专用工具（如 Consul）。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>053-localhost和127.0.0.1的关系</title>
+    <url>/2024/11/20/053-localhost%E5%92%8C127-0-0-1%E7%9A%84%E5%85%B3%E7%B3%BB/</url>
+    <content><![CDATA[<p><code>localhost</code> 和 <code>127.0.0.1</code> 都是指向本地主机的地址，但它们在使用上有一些细微的区别：</p>
+<h3 id="1-127-0-0-1"><a href="#1-127-0-0-1" class="headerlink" title="1. 127.0.0.1"></a>1. <code>127.0.0.1</code></h3><ul>
+<li><strong>IPv4 地址</strong>：<code>127.0.0.1</code> 是一个标准的 IPv4 地址，专门用于指向本地计算机。</li>
+<li><strong>环回地址</strong>：它是一个环回地址，意味着任何发送到这个地址的数据包都会被返回到本地计算机。</li>
+<li><strong>网络接口</strong>：通常与名为<code>lo</code>或<code>lo0</code>的网络接口绑定。</li>
+</ul>
+<h3 id="2-localhost"><a href="#2-localhost" class="headerlink" title="2. localhost"></a>2. <code>localhost</code></h3><ul>
+<li><strong>主机名</strong>：<code>localhost</code> 是一个主机名，通常在系统的<code>/etc/hosts</code>文件中被解析为<code>127.0.0.1</code>。</li>
+<li><strong>域名解析</strong>：在大多数系统中，<code>localhost</code> 被解析为<code>127.0.0.1</code>，但它也可以被配置为解析为其他地址（如 IPv6 的<code>::1</code>）。</li>
+<li><strong>可配置性</strong>：用户可以在<code>/etc/hosts</code>文件中更改<code>localhost</code>的解析地址。</li>
+</ul>
+<h3 id="3-关系与区别"><a href="#3-关系与区别" class="headerlink" title="3. 关系与区别"></a>3. 关系与区别</h3><ul>
+<li><strong>默认解析</strong>：在大多数情况下，<code>localhost</code> 默认解析为<code>127.0.0.1</code>，但它是通过域名解析系统（如<code>/etc/hosts</code>文件）实现的。</li>
+<li><strong>IPv6 支持</strong>：<code>localhost</code> 也可以解析为 IPv6 地址<code>::1</code>，而<code>127.0.0.1</code>仅限于 IPv4。</li>
+<li><strong>使用场景</strong>：在编程和网络配置中，使用<code>localhost</code>可以使代码更具可移植性，因为它不依赖于特定的 IP 地址。</li>
+</ul>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>在大多数 Linux 系统中，<code>/etc/hosts</code>文件中会有如下配置：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">127.0.0.1   localhost</span><br><span class="line">::1         localhost</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">127.0.0.1 localhost</span><br><span class="line">127.0.1.1 wt400</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">The following lines are desirable <span class="keyword">for</span> IPv6 capable hosts</span></span><br><span class="line">::1     ip6-localhost ip6-loopback</span><br><span class="line">fe00::0 ip6-localnet</span><br><span class="line">ff00::0 ip6-mcastprefix</span><br><span class="line">ff02::1 ip6-allnodes</span><br><span class="line">ff02::2 ip6-allrouters</span><br></pre></td></tr></table></figure>
+
+<p>这意味着无论是 IPv4 还是 IPv6，<code>localhost</code>都会指向本地计算机。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><strong><code>127.0.0.1</code></strong> 是一个固定的 IPv4 地址，用于指向本地计算机。</li>
+<li><strong><code>localhost</code></strong> 是一个主机名，通常解析为<code>127.0.0.1</code>，但可以配置为其他地址。</li>
+<li>在大多数情况下，它们可以互换使用，但<code>localhost</code>提供了更大的灵活性和可移植性。</li>
+<li>在终端中，ping <code>localhost</code> 和 <code>127.0.0.1</code> 的效果是一样的。都不经过网卡。</li>
+</ul>
+<h3 id="为什么-ping-127-0-0-1-不经过网卡？"><a href="#为什么-ping-127-0-0-1-不经过网卡？" class="headerlink" title="为什么 ping 127.0.0.1 不经过网卡？"></a>为什么 <code>ping 127.0.0.1</code> 不经过网卡？</h3><p><code>ping 127.0.0.1</code> 并不是测试网卡的连接，而是测试本机的网络协议栈（loopback interface）。它通过回环地址测试网络协议栈是否正常工作。具体来说：</p>
+<ol>
+<li><p><strong>127.0.0.1 的作用</strong></p>
+<ul>
+<li>它是回环地址，代表本机，无论网络接口的状态如何，都不会发送数据到外部网络设备。</li>
+<li>即使你的网卡未连接到任何网络，<code>ping 127.0.0.1</code> 也会返回响应，因为它不依赖物理网卡。</li>
+</ul>
+</li>
+<li><p><strong>测试范围</strong></p>
+<ul>
+<li>如果 <code>ping 127.0.0.1</code> 成功，说明操作系统的 TCP&#x2F;IP 协议栈正常工作。</li>
+<li>如果失败，可能是 TCP&#x2F;IP 协议栈或相关配置出了问题，但与物理网卡无直接关系。</li>
+</ul>
+</li>
+<li><p><strong>测试网卡的方法</strong></p>
+<ul>
+<li>使用 <code>ping</code> 测试网卡的 IP 地址（如 <code>ping 192.168.1.x</code>），确保网卡与局域网设备通信正常。</li>
+<li>检查网卡硬件状态，可通过命令如 <code>ipconfig</code> (Windows) 或 <code>ifconfig</code> (Linux) 查看网卡是否被正确识别。</li>
+<li>使用 <code>ethtool</code>（Linux）或设备管理器（Windows）进一步诊断。</li>
+</ul>
+</li>
+</ol>
+<p>简单来说，<code>ping 127.0.0.1</code> 仅能确认协议栈的正常性，不能完全验证网卡的工作状态。</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+  </entry>
 </search>

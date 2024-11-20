@@ -1,0 +1,370 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>052-进程间通信 | Hymns</title><meta name="author" content="Hymns"><meta name="copyright" content="Hymns"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="进程间通信(Inter-Process Communication, IPC)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="052-进程间通信">
+<meta property="og:url" content="https://hmmmmmya.github.io/2024/11/19/052-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/index.html">
+<meta property="og:site_name" content="Hymns">
+<meta property="og:description" content="进程间通信(Inter-Process Communication, IPC)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hmmmmmya.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2024-11-19T09:52:38.000Z">
+<meta property="article:modified_time" content="2024-11-20T08:38:57.907Z">
+<meta property="article:author" content="Hymns">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hmmmmmya.github.io/img/butterfly-icon.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://hmmmmmya.github.io/2024/11/19/052-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '052-进程间通信',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="Hymns" type="application/atom+xml">
+</head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/cover1.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Hymns</span></a><a class="nav-page-title" href="/"><span class="site-name">052-进程间通信</span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">052-进程间通信</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-11-19T09:52:38.000Z" title="发表于 2024-11-19 17:52:38">2024-11-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-20T08:38:57.907Z" title="更新于 2024-11-20 16:38:57">2024-11-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>进程间通信(Inter-Process Communication, IPC)</p>
+<span id="more"></span>
+
+<h2 id="进程间通信有哪些方式"><a href="#进程间通信有哪些方式" class="headerlink" title="进程间通信有哪些方式"></a>进程间通信有哪些方式</h2><ul>
+<li>共享内存</li>
+<li>管道</li>
+<li>消息队列</li>
+<li>信号量</li>
+<li>套接字</li>
+</ul>
+<p>进程间通信（IPC）的连接可以通过多种机制建立，每种机制都有其特定的用途和实现方式。以下是几种常见的 IPC 机制及其连接建立方式：</p>
+<h3 id="1-管道（Pipe）"><a href="#1-管道（Pipe）" class="headerlink" title="1. 管道（Pipe）"></a>1. 管道（Pipe）</h3><ul>
+<li><p><strong>匿名管道</strong></p>
+<ul>
+<li>只能在父子进程之间使用</li>
+<li>通过<code>pipe()</code>系统调用创建</li>
+<li>创建后返回两个文件描述符：一个用于读，一个用于写</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> pipefd[<span class="number">2</span>];</span><br><span class="line"><span class="keyword">if</span> (pipe(pipefd) == <span class="number">-1</span>) &#123;</span><br><span class="line">    perror(<span class="string">&quot;pipe&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>命名管道（FIFO）</strong></p>
+<ul>
+<li>可以在无亲缘关系的进程间使用</li>
+<li>通过<code>mkfifo()</code>创建一个特殊文件</li>
+<li>进程通过打开这个文件进行读写</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfifo(<span class="string">&quot;/tmp/myfifo&quot;</span>, <span class="number">0666</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-消息队列"><a href="#2-消息队列" class="headerlink" title="2. 消息队列"></a>2. 消息队列</h3><ul>
+<li><p>通过<code>msgget()</code>创建或获取一个消息队列标识符</p>
+</li>
+<li><p>使用<code>msgsnd()</code>和<code>msgrcv()</code>进行消息发送和接收</p>
+</li>
+<li><p>使用<code>msgctl()</code>进行消息队列控制，如删除消息队列或修改消息队列的权限</p>
+</li>
+<li><p>消息队列是基于消息的，消息队列是保存在内核中的链表，消息队列中每个消息都有一个类型和优先级</p>
+</li>
+<li><p>支持多进程并发访问</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">key_t</span> key = ftok(<span class="string">&quot;progfile&quot;</span>, <span class="number">65</span>);</span><br><span class="line"><span class="type">int</span> msgid = msgget(key, <span class="number">0666</span> | IPC_CREAT);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-共享内存"><a href="#3-共享内存" class="headerlink" title="3. 共享内存"></a>3. 共享内存</h3><ul>
+<li><p>使用共享内存的很重要原因是性能，内核为需要通信的进程分配了一块内存，进程可以直接访问这块内存，不需要内核介入</p>
+</li>
+<li><p>当进程不再希望共享内存时，通过<code>shmdt()</code>将共享内存段从进程的地址空间分离，取消共享内存段与进程的地址空间的映射，只影响当前进程，其他正在使用共享内存的进程不受影响</p>
+</li>
+<li><p>通过<code>shmget()</code>创建或获取一个共享内存段</p>
+</li>
+<li><p>使用<code>shmat()</code>将共享内存段附加到进程的地址空间</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">key_t</span> key = ftok(<span class="string">&quot;shmfile&quot;</span>, <span class="number">65</span>);</span><br><span class="line"><span class="type">int</span> shmid = shmget(key, <span class="number">1024</span>, <span class="number">0666</span> | IPC_CREAT);</span><br><span class="line"><span class="type">char</span> *str = (<span class="type">char</span>*) shmat(shmid, (<span class="type">void</span>*)<span class="number">0</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="4-信号量"><a href="#4-信号量" class="headerlink" title="4. 信号量"></a>4. 信号量</h3><ul>
+<li><p>信号量是用于进程间同步的机制</p>
+</li>
+<li><p>信号量的主要操作是两个原语：<code>P</code>操作和<code>V</code>操作，计数器值只能在 0 和 1 之间变化</p>
+<ul>
+<li><code>P</code>操作：计数器减一，如果计数器为 0，无法减一，则阻塞，直至计数器大于 0，减一成功</li>
+<li><code>V</code>操作：计数器加一，如果计数器超过 1，则无法加一，忽略本次操作</li>
+</ul>
+</li>
+<li><p>通过<code>semget()</code>创建或获取一个信号量集</p>
+</li>
+<li><p>使用<code>semop()</code>进行信号量操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">key_t</span> key = ftok(<span class="string">&quot;semfile&quot;</span>, <span class="number">65</span>);</span><br><span class="line"><span class="type">int</span> semid = semget(key, <span class="number">1</span>, <span class="number">0666</span> | IPC_CREAT);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="5-套接字（Sockets）"><a href="#5-套接字（Sockets）" class="headerlink" title="5. 套接字（Sockets）"></a>5. 套接字（Sockets）</h3><ul>
+<li><p><strong>本地套接字（UNIX 域套接字）</strong></p>
+<ul>
+<li>通过<code>socket()</code>创建</li>
+<li>使用<code>bind()</code>、<code>listen()</code>、<code>accept()</code>建立连接</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> sockfd = socket(AF_UNIX, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_un</span> <span class="title">addr</span>;</span></span><br><span class="line">addr.sun_family = AF_UNIX;</span><br><span class="line"><span class="built_in">strcpy</span>(addr.sun_path, <span class="string">&quot;/tmp/mysocket&quot;</span>);</span><br><span class="line">bind(sockfd, (<span class="keyword">struct</span> sockaddr*)&amp;addr, <span class="keyword">sizeof</span>(addr));</span><br><span class="line">listen(sockfd, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>网络套接字</strong></p>
+<ul>
+<li>用于不同主机间的通信</li>
+<li>通过<code>socket()</code>创建</li>
+<li>使用<code>connect()</code>、<code>bind()</code>、<code>listen()</code>、<code>accept()</code>建立连接</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> sockfd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">addr.sin_family = AF_INET;</span><br><span class="line">addr.sin_port = htons(<span class="number">8080</span>);</span><br><span class="line">addr.sin_addr.s_addr = INADDR_ANY;</span><br><span class="line">bind(sockfd, (<span class="keyword">struct</span> sockaddr*)&amp;addr, <span class="keyword">sizeof</span>(addr));</span><br><span class="line">listen(sockfd, <span class="number">5</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="6-信号"><a href="#6-信号" class="headerlink" title="6. 信号"></a>6. 信号</h3><ul>
+<li><p>通过<code>kill()</code>发送信号</p>
+</li>
+<li><p>进程通过<code>signal()</code>或<code>sigaction()</code>设置信号处理函数</p>
+</li>
+<li><p>Linux 常规信号有 32 个，信号值范围为 1-31，信号值为 0 的信号通常用于进程间同步；POSIX 引入了 32 个信号（实时信号），信号值范围为 32-64</p>
+</li>
+<li><p>使用信号，一个进程可以随时通知另一个进程某个事件的发生，并且接收者不需要阻塞等待该事件，内核会帮助其切换到对应的处理函数中响应信号事件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">signal(SIGUSR1, handler_function);</span><br><span class="line">kill(pid, SIGUSR1);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="信号表"><a href="#信号表" class="headerlink" title="信号表"></a>信号表</h4><p>在终端，可通过<code>kill -l</code>查看所有的 signal 信号。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">:~$ kill -l</span><br><span class="line"> 1) SIGHUP       2) SIGINT       3) SIGQUIT      4) SIGILL       5) SIGTRAP</span><br><span class="line"> 6) SIGABRT      7) SIGBUS       8) SIGFPE       9) SIGKILL     10) SIGUSR1</span><br><span class="line">11) SIGSEGV     12) SIGUSR2     13) SIGPIPE     14) SIGALRM     15) SIGTERM</span><br><span class="line">16) SIGSTKFLT   17) SIGCHLD     18) SIGCONT     19) SIGSTOP     20) SIGTSTP</span><br><span class="line">21) SIGTTIN     22) SIGTTOU     23) SIGURG      24) SIGXCPU     25) SIGXFSZ</span><br><span class="line">26) SIGVTALRM   27) SIGPROF     28) SIGWINCH    29) SIGIO       30) SIGPWR</span><br><span class="line">31) SIGSYS      34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3</span><br><span class="line">38) SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8</span><br><span class="line">43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13</span><br><span class="line">48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12</span><br><span class="line">53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7</span><br><span class="line">58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2</span><br><span class="line">63) SIGRTMAX-1  64) SIGRTMAX</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20241120143758.png" alt="宏内核进程间通信机制对比"></p>
+<h2 id="请给出一个管道的设计-使其支持双向通信"><a href="#请给出一个管道的设计-使其支持双向通信" class="headerlink" title="请给出一个管道的设计,使其支持双向通信"></a>请给出一个管道的设计,使其支持双向通信</h2><p>实现双向通信的管道可以通过创建两个单向管道来完成，一个用于从 A 到 B 的通信，另一个用于从 B 到 A 的通信。以下是实现双向管道通信的设计方案：</p>
+<hr>
+<h3 id="1-管道结构设计"><a href="#1-管道结构设计" class="headerlink" title="1. 管道结构设计"></a>1. <strong>管道结构设计</strong></h3><ul>
+<li><strong>管道 A-&gt;B</strong>: 一个单向管道，负责从进程 A 向进程 B 发送数据。</li>
+<li><strong>管道 B-&gt;A</strong>: 另一个单向管道，负责从进程 B 向进程 A 发送数据。</li>
+</ul>
+<hr>
+<h3 id="2-关键步骤"><a href="#2-关键步骤" class="headerlink" title="2. 关键步骤"></a>2. <strong>关键步骤</strong></h3><p>假设使用 C 语言和 POSIX 标准管道 (<code>pipe</code>)：</p>
+<h4 id="1-创建管道"><a href="#1-创建管道" class="headerlink" title="(1) 创建管道"></a><strong>(1) 创建管道</strong></h4><p>每个管道由一对文件描述符表示：<code>fd[0]</code> 用于读，<code>fd[1]</code> 用于写。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> pipeAB[<span class="number">2</span>]; <span class="comment">// A-&gt;B</span></span><br><span class="line"><span class="type">int</span> pipeBA[<span class="number">2</span>]; <span class="comment">// B-&gt;A</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建两个单向管道</span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">pipe</span>(pipeAB) == <span class="number">-1</span> || <span class="built_in">pipe</span>(pipeBA) == <span class="number">-1</span>) &#123;</span><br><span class="line">    <span class="built_in">perror</span>(<span class="string">&quot;pipe&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-在父子进程间通信"><a href="#2-在父子进程间通信" class="headerlink" title="(2) 在父子进程间通信"></a><strong>(2) 在父子进程间通信</strong></h4><ul>
+<li><strong>父进程 A</strong>: 关闭 <code>pipeAB[0]</code> 和 <code>pipeBA[1]</code>，仅用于写入到 <code>pipeAB</code> 和读取 <code>pipeBA</code>。</li>
+<li><strong>子进程 B</strong>: 关闭 <code>pipeAB[1]</code> 和 <code>pipeBA[0]</code>，仅用于读取 <code>pipeAB</code> 和写入到 <code>pipeBA</code>。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> pid = fork();</span><br><span class="line"><span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 子进程B</span></span><br><span class="line">    <span class="built_in">close</span>(pipeAB[<span class="number">1</span>]); <span class="comment">// 关闭写端</span></span><br><span class="line">    <span class="built_in">close</span>(pipeBA[<span class="number">0</span>]); <span class="comment">// 关闭读端</span></span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> buffer[<span class="number">256</span>];</span><br><span class="line">    <span class="comment">// 从 A-&gt;B 读取数据</span></span><br><span class="line">    <span class="built_in">read</span>(pipeAB[<span class="number">0</span>], buffer, <span class="built_in">sizeof</span>(buffer));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;B received: %s\n&quot;</span>, buffer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 向 B-&gt;A 写入数据</span></span><br><span class="line">    <span class="built_in">write</span>(pipeBA[<span class="number">1</span>], <span class="string">&quot;Hello A&quot;</span>, <span class="number">7</span>);</span><br><span class="line">    <span class="built_in">close</span>(pipeAB[<span class="number">0</span>]);</span><br><span class="line">    <span class="built_in">close</span>(pipeBA[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 父进程A</span></span><br><span class="line">    <span class="built_in">close</span>(pipeAB[<span class="number">0</span>]); <span class="comment">// 关闭读端</span></span><br><span class="line">    <span class="built_in">close</span>(pipeBA[<span class="number">1</span>]); <span class="comment">// 关闭写端</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 向 A-&gt;B 写入数据</span></span><br><span class="line">    <span class="built_in">write</span>(pipeAB[<span class="number">1</span>], <span class="string">&quot;Hello B&quot;</span>, <span class="number">7</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> buffer[<span class="number">256</span>];</span><br><span class="line">    <span class="comment">// 从 B-&gt;A 读取数据</span></span><br><span class="line">    <span class="built_in">read</span>(pipeBA[<span class="number">0</span>], buffer, <span class="built_in">sizeof</span>(buffer));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;A received: %s\n&quot;</span>, buffer);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">close</span>(pipeAB[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">close</span>(pipeBA[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-使用-select-或-poll-支持异步通信"><a href="#3-使用-select-或-poll-支持异步通信" class="headerlink" title="3. 使用 select 或 poll 支持异步通信"></a>3. <strong>使用 <code>select</code> 或 <code>poll</code> 支持异步通信</strong></h3><p>为了避免阻塞，可使用 <code>select</code> 或 <code>poll</code> 对管道的读写操作进行多路复用，检查管道是否有数据可读。</p>
+<hr>
+<h3 id="4-其他方案"><a href="#4-其他方案" class="headerlink" title="4. 其他方案"></a>4. <strong>其他方案</strong></h3><p>除了 POSIX 管道，还可以使用以下方法实现双向通信：</p>
+<ol>
+<li><strong>Socket</strong>: 使用 <code>socketpair</code> 创建全双工通信。</li>
+<li><strong>消息队列</strong>: 使用 System V 或 POSIX 消息队列。</li>
+<li><strong>共享内存</strong>: 配合信号量实现双向通信。</li>
+<li><strong>FIFO（命名管道）</strong>: 通过创建两个命名管道实现双向通信。</li>
+</ol>
+<p>选择哪种方式取决于具体的应用场景和需求。如果是本地进程间通信，<code>pipe</code> 和 <code>socketpair</code> 是推荐的简单方案。</p>
+<h3 id="选择合适的-IPC-机制"><a href="#选择合适的-IPC-机制" class="headerlink" title="选择合适的 IPC 机制"></a>选择合适的 IPC 机制</h3><ul>
+<li><strong>管道</strong>适合简单的父子进程通信</li>
+<li><strong>消息队列</strong>适合需要消息排序和优先级的场景</li>
+<li><strong>共享内存</strong>适合需要高效大数据量传输的场景</li>
+<li><strong>信号量</strong>常用于进程间同步</li>
+<li><strong>套接字</strong>适合网络通信或复杂的本地通信</li>
+</ul>
+<p>每种 IPC 机制都有其特定的应用场景和优缺点，选择时应根据具体需求和系统环境进行权衡。</p>
+<h2 id="在进程间通信过程中-数据和控制流分别是如何传输和转移的"><a href="#在进程间通信过程中-数据和控制流分别是如何传输和转移的" class="headerlink" title="在进程间通信过程中, 数据和控制流分别是如何传输和转移的"></a>在进程间通信过程中, 数据和控制流分别是如何传输和转移的</h2><p>一种常见的通信数据的抽象是消息。消息一般包含消息头和消息体。消息头中包含消息类型、消息长度、消息优先级等控制信息，消息体中包含实际需要传输的数据。</p>
+<h2 id="进程间通信的连接是如何建立的"><a href="#进程间通信的连接是如何建立的" class="headerlink" title="进程间通信的连接是如何建立的"></a>进程间通信的连接是如何建立的</h2><p>通信过程一般指通信的进程间具体的通信发起、回复、结束的过程。</p>
+<p>发送者将要传输的数据内容拷贝到发送者消息上，然后一次设置头部的状态（设置为“准备就绪”等）。</p>
+<p>接收者不停地轮询发送者消息的状态信息，当发现消息头部的状态变为“准备就绪”时，就表示发送者发送了一个消息。</p>
+<p>发送者一发送完消息，就开始轮询接收者消息的状态信息，当发现接收者消息头部的状态变为“准备就绪”时，就表示接收者接收到了一个消息。</p>
+<p>接收者在读取发送者的消息后，处理请求，并在接受者消息上准备返回结果。</p>
+<p>发送者不停地轮询接收者消息的状态信息，当发现接收者消息头部的状态变为“返回结果”时，就表示接收者处理完了消息，并准备返回结果。</p>
+<p>发送者读取接收者消息中的返回结果，并从消息中删除返回结果。</p>
+<h3 id="直接通信和间接通信"><a href="#直接通信和间接通信" class="headerlink" title="直接通信和间接通信"></a>直接通信和间接通信</h3><p>直接通信：发送者和接收者都知道彼此的标识符。比如进程号。</p>
+<p>间接通信：发送者和接收者不知道彼此的标识符，需要一个中间实体（如消息队列、共享内存、管道等）来传递消息。</p>
+<h2 id="什么是超时机制-为什么需要超时机制"><a href="#什么是超时机制-为什么需要超时机制" class="headerlink" title="什么是超时机制, 为什么需要超时机制"></a>什么是超时机制, 为什么需要超时机制</h2><p>超时机制是进程间通信中的一种机制，用于处理通信过程中可能出现的延迟或失败情况。允许发送者&#x2F;接收者设置一个超时时间，如果在这个时间内没有收到回复，则认为通信失败。由操作系统内核结束此次 IPC 调用，返回一个超时的错误。</p>
+<h2 id="一个进程如何找到另一个进程提供的服务"><a href="#一个进程如何找到另一个进程提供的服务" class="headerlink" title="一个进程如何找到另一个进程提供的服务"></a>一个进程如何找到另一个进程提供的服务</h2><p>一个进程找到另一个进程提供的服务，可以通过以下几种常见的通信机制实现，具体选择取决于操作系统环境和应用场景：</p>
+<hr>
+<h3 id="1-使用命名管道-FIFO"><a href="#1-使用命名管道-FIFO" class="headerlink" title="1. 使用命名管道 (FIFO)"></a><strong>1. 使用命名管道 (FIFO)</strong></h3><ul>
+<li><strong>适用场景</strong>: 本地进程间通信，简单高效。</li>
+<li><strong>实现步骤</strong>:<ol>
+<li>服务端创建一个命名管道（FIFO）。</li>
+<li>客户端打开该命名管道进行读写。</li>
+<li>使用文件路径标识管道。</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 服务端</span></span><br><span class="line"><span class="built_in">mkfifo</span>(<span class="string">&quot;/tmp/myservice&quot;</span>, <span class="number">0666</span>); <span class="comment">// 创建命名管道</span></span><br><span class="line"><span class="type">int</span> fd = <span class="built_in">open</span>(<span class="string">&quot;/tmp/myservice&quot;</span>, O_RDONLY); <span class="comment">// 打开管道用于读取</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 客户端</span></span><br><span class="line"><span class="type">int</span> fd = <span class="built_in">open</span>(<span class="string">&quot;/tmp/myservice&quot;</span>, O_WRONLY); <span class="comment">// 打开管道用于写入</span></span><br><span class="line"><span class="built_in">write</span>(fd, <span class="string">&quot;Hello Service&quot;</span>, <span class="built_in">strlen</span>(<span class="string">&quot;Hello Service&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-使用套接字（Socket）"><a href="#2-使用套接字（Socket）" class="headerlink" title="2. 使用套接字（Socket）"></a><strong>2. 使用套接字（Socket）</strong></h3><ul>
+<li><strong>适用场景</strong>: 本地或分布式场景，通过网络通信。</li>
+<li><strong>实现步骤</strong>:<ol>
+<li>服务端监听一个固定的地址和端口。</li>
+<li>客户端通过地址和端口连接到服务端。</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 服务端</span></span><br><span class="line"><span class="type">int</span> server_fd = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> address = &#123; ... &#125;; <span class="comment">// 设置地址和端口</span></span><br><span class="line"><span class="built_in">bind</span>(server_fd, (<span class="keyword">struct</span> sockaddr*)&amp;address, <span class="built_in">sizeof</span>(address));</span><br><span class="line"><span class="built_in">listen</span>(server_fd, <span class="number">3</span>);</span><br><span class="line"><span class="type">int</span> client_fd = <span class="built_in">accept</span>(server_fd, <span class="literal">NULL</span>, <span class="literal">NULL</span>); <span class="comment">// 等待客户端连接</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 客户端</span></span><br><span class="line"><span class="type">int</span> client_fd = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"><span class="built_in">connect</span>(client_fd, (<span class="keyword">struct</span> sockaddr*)&amp;address, <span class="built_in">sizeof</span>(address));</span><br><span class="line"><span class="built_in">write</span>(client_fd, <span class="string">&quot;Hello Service&quot;</span>, <span class="built_in">strlen</span>(<span class="string">&quot;Hello Service&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-使用共享内存"><a href="#3-使用共享内存" class="headerlink" title="3. 使用共享内存"></a><strong>3. 使用共享内存</strong></h3><ul>
+<li><strong>适用场景</strong>: 本地进程间通信，数据量大且需要高效。</li>
+<li><strong>实现步骤</strong>:<ol>
+<li>服务端创建一个共享内存段并设置标识符。</li>
+<li>客户端通过标识符访问共享内存。</li>
+<li>使用信号量或互斥锁同步访问。</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 服务端</span></span><br><span class="line"><span class="type">int</span> shm_id = <span class="built_in">shmget</span>(<span class="number">1234</span>, <span class="number">1024</span>, IPC_CREAT | <span class="number">0666</span>); <span class="comment">// 创建共享内存</span></span><br><span class="line"><span class="type">char</span>* shm_ptr = (<span class="type">char</span>*)<span class="built_in">shmat</span>(shm_id, <span class="literal">NULL</span>, <span class="number">0</span>); <span class="comment">// 映射到地址空间</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 客户端</span></span><br><span class="line"><span class="type">int</span> shm_id = <span class="built_in">shmget</span>(<span class="number">1234</span>, <span class="number">1024</span>, <span class="number">0666</span>); <span class="comment">// 获取共享内存</span></span><br><span class="line"><span class="type">char</span>* shm_ptr = (<span class="type">char</span>*)<span class="built_in">shmat</span>(shm_id, <span class="literal">NULL</span>, <span class="number">0</span>); <span class="comment">// 映射到地址空间</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-使用系统总线-如-D-Bus-或-ZeroMQ"><a href="#4-使用系统总线-如-D-Bus-或-ZeroMQ" class="headerlink" title="4. 使用系统总线 (如 D-Bus 或 ZeroMQ)"></a><strong>4. 使用系统总线 (如 D-Bus 或 ZeroMQ)</strong></h3><ul>
+<li><strong>适用场景</strong>: 复杂系统，支持服务发现和消息路由。</li>
+<li><strong>实现步骤</strong>:<ol>
+<li>服务端注册服务到消息总线。</li>
+<li>客户端通过总线查找服务。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="5-使用文件描述符或信号"><a href="#5-使用文件描述符或信号" class="headerlink" title="5. 使用文件描述符或信号"></a><strong>5. 使用文件描述符或信号</strong></h3><ul>
+<li><strong>适用场景</strong>: 简单标识服务状态。</li>
+<li><strong>实现方式</strong>:<ul>
+<li>服务端创建特定文件（如 Unix 域套接字文件）。</li>
+<li>客户端通过文件路径定位服务。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="6-使用注册表或配置文件"><a href="#6-使用注册表或配置文件" class="headerlink" title="6. 使用注册表或配置文件"></a><strong>6. 使用注册表或配置文件</strong></h3><ul>
+<li><strong>适用场景</strong>: 服务动态发布或客户端动态查找。</li>
+<li><strong>实现方式</strong>:<ul>
+<li>服务端将自身信息（如 PID、套接字地址）写入文件或注册表。</li>
+<li>客户端读取该文件查找服务。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 服务端</span></span><br><span class="line">FILE* f = <span class="built_in">fopen</span>(<span class="string">&quot;/tmp/service_info&quot;</span>, <span class="string">&quot;w&quot;</span>);</span><br><span class="line"><span class="built_in">fprintf</span>(f, <span class="string">&quot;127.0.0.1:8080\n&quot;</span>); <span class="comment">// 写入服务信息</span></span><br><span class="line"><span class="built_in">fclose</span>(f);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 客户端</span></span><br><span class="line">FILE* f = <span class="built_in">fopen</span>(<span class="string">&quot;/tmp/service_info&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br><span class="line"><span class="type">char</span> service_address[<span class="number">256</span>];</span><br><span class="line"><span class="built_in">fgets</span>(service_address, <span class="built_in">sizeof</span>(service_address), f);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="7-服务发现协议"><a href="#7-服务发现协议" class="headerlink" title="7. 服务发现协议"></a><strong>7. 服务发现协议</strong></h3><ul>
+<li><strong>适用场景</strong>: 动态服务发现，分布式系统。</li>
+<li><strong>实现方式</strong>:<ul>
+<li>使用诸如 <code>mDNS</code>、<code>Consul</code> 等服务发现工具。</li>
+<li>服务端注册到发现工具，客户端通过工具查找服务。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="综合建议"><a href="#综合建议" class="headerlink" title="综合建议"></a><strong>综合建议</strong></h3><ul>
+<li><strong>本地简单通信</strong>: 命名管道、共享内存。</li>
+<li><strong>本地或远程灵活通信</strong>: Socket。</li>
+<li><strong>动态服务发现</strong>: 服务总线或专用工具（如 Consul）。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://hmmmmmya.github.io">Hymns</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://hmmmmmya.github.io/2024/11/19/052-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">https://hmmmmmya.github.io/2024/11/19/052-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://hmmmmmya.github.io" target="_blank">Hymns</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/11/20/053-localhost%E5%92%8C127-0-0-1%E7%9A%84%E5%85%B3%E7%B3%BB/" title="053-localhost和127.0.0.1的关系"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">053-localhost和127.0.0.1的关系</div></div><div class="info-2"><div class="info-item-1">localhost 和 127.0.0.1 都是指向本地主机的地址，但它们在使用上有一些细微的区别： 1. 127.0.0.1 IPv4 地址：127.0.0.1 是一个标准的 IPv4 地址，专门用于指向本地计算机。 环回地址：它是一个环回地址，意味着任何发送到这个地址的数据包都会被返回到本地计算机。 网络接口：通常与名为lo或lo0的网络接口绑定。  2. localhost 主机名：localhost 是一个主机名，通常在系统的/etc/hosts文件中被解析为127.0.0.1。 域名解析：在大多数系统中，localhost 被解析为127.0.0.1，但它也可以被配置为解析为其他地址（如 IPv6 的::1）。 可配置性：用户可以在/etc/hosts文件中更改localhost的解析地址。  3. 关系与区别 默认解析：在大多数情况下，localhost 默认解析为127.0.0.1，但它是通过域名解析系统（如/etc/hosts文件）实现的。 IPv6 支持：localhost 也可以解析为 IPv6 地址::1，而127.0.0.1仅限于...</div></div></div></a><a class="pagination-related" href="/2024/11/19/051-%E4%BD%BF%E7%94%A8cmake%E7%BC%96%E8%AF%91%E9%A1%B9%E7%9B%AE/" title="051-使用cmake编译项目"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">051-使用cmake编译项目</div></div><div class="info-2"><div class="info-item-1">要编译一个已有 CMakeLists.txt 文件的 C++ 项目，你需要按照以下步骤进行操作：   CMake 和 make1. 确保安装了 CMake 和编译工具首先，确保你的系统已经安装了 CMake 和适当的 C++ 编译工具。具体取决于你的操作系统，下面是一些常见的安装方式：  Windows：安装 CMake 和 Visual Studio 或 MinGW（如果你使用的是命令行编译器）。 Linux&#x2F;Mac：可以通过包管理器安装 CMake 和 g++ 编译器： Linux: sudo apt-get install cmake g++ macOS: brew install cmake（如果使用 Homebrew）    2. 创建构建目录通常我们不直接在项目的根目录中进行构建，而是创建一个单独的构建目录，这样可以保持项目目录的整洁。 在项目的根目录下，执行以下命令： 12mkdir buildcd build  3. 运行 CMake 配置项目在构建目录中，使用 cmake 命令来配置项目。这会生成平台特定的构建文件（如 Makefile 或...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Hymns</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">进程间通信有哪些方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%AE%A1%E9%81%93%EF%BC%88Pipe%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">1. 管道（Pipe）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">1.2.</span> <span class="toc-text">2. 消息队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98"><span class="toc-number">1.3.</span> <span class="toc-text">3. 共享内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="toc-number">1.4.</span> <span class="toc-text">4. 信号量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%A5%97%E6%8E%A5%E5%AD%97%EF%BC%88Sockets%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">5. 套接字（Sockets）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E4%BF%A1%E5%8F%B7"><span class="toc-number">1.6.</span> <span class="toc-text">6. 信号</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E8%A1%A8"><span class="toc-number">1.6.1.</span> <span class="toc-text">信号表</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E4%B8%80%E4%B8%AA%E7%AE%A1%E9%81%93%E7%9A%84%E8%AE%BE%E8%AE%A1-%E4%BD%BF%E5%85%B6%E6%94%AF%E6%8C%81%E5%8F%8C%E5%90%91%E9%80%9A%E4%BF%A1"><span class="toc-number">2.</span> <span class="toc-text">请给出一个管道的设计,使其支持双向通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%AE%A1%E9%81%93%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.1.</span> <span class="toc-text">1. 管道结构设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%85%B3%E9%94%AE%E6%AD%A5%E9%AA%A4"><span class="toc-number">2.2.</span> <span class="toc-text">2. 关键步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA%E7%AE%A1%E9%81%93"><span class="toc-number">2.2.1.</span> <span class="toc-text">(1) 创建管道</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%9C%A8%E7%88%B6%E5%AD%90%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1"><span class="toc-number">2.2.2.</span> <span class="toc-text">(2) 在父子进程间通信</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-select-%E6%88%96-poll-%E6%94%AF%E6%8C%81%E5%BC%82%E6%AD%A5%E9%80%9A%E4%BF%A1"><span class="toc-number">2.3.</span> <span class="toc-text">3. 使用 select 或 poll 支持异步通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%85%B6%E4%BB%96%E6%96%B9%E6%A1%88"><span class="toc-number">2.4.</span> <span class="toc-text">4. 其他方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84-IPC-%E6%9C%BA%E5%88%B6"><span class="toc-number">2.5.</span> <span class="toc-text">选择合适的 IPC 机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B%E4%B8%AD-%E6%95%B0%E6%8D%AE%E5%92%8C%E6%8E%A7%E5%88%B6%E6%B5%81%E5%88%86%E5%88%AB%E6%98%AF%E5%A6%82%E4%BD%95%E4%BC%A0%E8%BE%93%E5%92%8C%E8%BD%AC%E7%A7%BB%E7%9A%84"><span class="toc-number">3.</span> <span class="toc-text">在进程间通信过程中, 数据和控制流分别是如何传输和转移的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%98%AF%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E7%9A%84"><span class="toc-number">4.</span> <span class="toc-text">进程间通信的连接是如何建立的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E9%80%9A%E4%BF%A1%E5%92%8C%E9%97%B4%E6%8E%A5%E9%80%9A%E4%BF%A1"><span class="toc-number">4.1.</span> <span class="toc-text">直接通信和间接通信</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%B6%85%E6%97%B6%E6%9C%BA%E5%88%B6-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E8%B6%85%E6%97%B6%E6%9C%BA%E5%88%B6"><span class="toc-number">5.</span> <span class="toc-text">什么是超时机制, 为什么需要超时机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B%E5%A6%82%E4%BD%95%E6%89%BE%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B%E6%8F%90%E4%BE%9B%E7%9A%84%E6%9C%8D%E5%8A%A1"><span class="toc-number">6.</span> <span class="toc-text">一个进程如何找到另一个进程提供的服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8%E5%91%BD%E5%90%8D%E7%AE%A1%E9%81%93-FIFO"><span class="toc-number">6.1.</span> <span class="toc-text">1. 使用命名管道 (FIFO)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8%E5%A5%97%E6%8E%A5%E5%AD%97%EF%BC%88Socket%EF%BC%89"><span class="toc-number">6.2.</span> <span class="toc-text">2. 使用套接字（Socket）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98"><span class="toc-number">6.3.</span> <span class="toc-text">3. 使用共享内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF-%E5%A6%82-D-Bus-%E6%88%96-ZeroMQ"><span class="toc-number">6.4.</span> <span class="toc-text">4. 使用系统总线 (如 D-Bus 或 ZeroMQ)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%E6%88%96%E4%BF%A1%E5%8F%B7"><span class="toc-number">6.5.</span> <span class="toc-text">5. 使用文件描述符或信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E4%BD%BF%E7%94%A8%E6%B3%A8%E5%86%8C%E8%A1%A8%E6%88%96%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">6.6.</span> <span class="toc-text">6. 使用注册表或配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E5%8D%8F%E8%AE%AE"><span class="toc-number">6.7.</span> <span class="toc-text">7. 服务发现协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%BC%E5%90%88%E5%BB%BA%E8%AE%AE"><span class="toc-number">6.8.</span> <span class="toc-text">综合建议</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/20/053-localhost%E5%92%8C127-0-0-1%E7%9A%84%E5%85%B3%E7%B3%BB/" title="053-localhost和127.0.0.1的关系">053-localhost和127.0.0.1的关系</a><time datetime="2024-11-20T07:50:24.000Z" title="发表于 2024-11-20 15:50:24">2024-11-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/19/052-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" title="052-进程间通信">052-进程间通信</a><time datetime="2024-11-19T09:52:38.000Z" title="发表于 2024-11-19 17:52:38">2024-11-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/19/051-%E4%BD%BF%E7%94%A8cmake%E7%BC%96%E8%AF%91%E9%A1%B9%E7%9B%AE/" title="051-使用cmake编译项目">051-使用cmake编译项目</a><time datetime="2024-11-19T09:43:16.000Z" title="发表于 2024-11-19 17:43:16">2024-11-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/19/050-%E7%BA%BF%E7%A8%8B%E4%B8%8E%E8%BF%9B%E7%A8%8B/" title="050-线程与进程">050-线程与进程</a><time datetime="2024-11-19T08:33:17.000Z" title="发表于 2024-11-19 16:33:17">2024-11-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/19/049-data-structure-and-algorithm-learning/" title="049-data-structure-and-algorithm-learning">049-data-structure-and-algorithm-learning</a><time datetime="2024-11-19T06:32:23.000Z" title="发表于 2024-11-19 14:32:23">2024-11-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By Hymns</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
