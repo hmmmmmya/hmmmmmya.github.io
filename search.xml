@@ -3286,4 +3286,186 @@
         <category>计算机网络</category>
       </categories>
   </entry>
+  <entry>
+    <title>054-Microsoft Visual Studio 怎么编译c++项目, 项目中包含了.sln文件</title>
+    <url>/2024/11/21/054-Microsoft-Visual-Studio-%E6%80%8E%E4%B9%88%E7%BC%96%E8%AF%91cpp-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%8C%85%E5%90%AB%E4%BA%86-sln%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<p>在 Microsoft Visual Studio 中编译包含 <code>.sln</code> 文件的 C++ 项目通常需要以下步骤：</p>
+<span id="more"></span>
+
+<h2 id="Microsoft-Visual-Studio-编译-c-项目"><a href="#Microsoft-Visual-Studio-编译-c-项目" class="headerlink" title="Microsoft Visual Studio 编译 c++ 项目"></a>Microsoft Visual Studio 编译 c++ 项目</h2><h3 id="步骤-1-打开解决方案"><a href="#步骤-1-打开解决方案" class="headerlink" title="步骤 1: 打开解决方案"></a><strong>步骤 1: 打开解决方案</strong></h3><ol>
+<li>启动 Microsoft Visual Studio。</li>
+<li>点击 <strong>“文件” -&gt; “打开” -&gt; “项目&#x2F;解决方案”</strong>。</li>
+<li>浏览到包含 <code>.sln</code> 文件的目录，选择该文件，然后点击 <strong>“打开”</strong>。</li>
+</ol>
+<hr>
+<h3 id="步骤-2-设置构建配置"><a href="#步骤-2-设置构建配置" class="headerlink" title="步骤 2: 设置构建配置"></a><strong>步骤 2: 设置构建配置</strong></h3><ol>
+<li>在 Visual Studio 窗口的工具栏中找到 <strong>“解决方案配置”</strong> 下拉菜单（通常在右上角），选择合适的配置：<ul>
+<li><strong>Debug</strong>：用于调试，包含调试信息，优化级别较低。</li>
+<li><strong>Release</strong>：用于发布，优化级别较高，无调试信息。</li>
+</ul>
+</li>
+<li>根据需要，选择 <strong>“平台”</strong>（如 x86 或 x64）。</li>
+</ol>
+<hr>
+<h3 id="步骤-3-检查项目设置"><a href="#步骤-3-检查项目设置" class="headerlink" title="步骤 3: 检查项目设置"></a><strong>步骤 3: 检查项目设置</strong></h3><ol>
+<li>在解决方案资源管理器（<strong>Solution Explorer</strong>）中右键单击项目名称，选择 <strong>“属性”</strong>。</li>
+<li>在弹出的 <strong>“属性页”</strong> 中检查关键配置：<ul>
+<li><strong>常规</strong>:<ul>
+<li>确保 <strong>输出目录</strong> 和 <strong>中间目录</strong> 是合适的。</li>
+</ul>
+</li>
+<li><strong>C&#x2F;C++</strong>:<ul>
+<li>确保包含路径（Include Directories）正确。</li>
+<li>根据需要设置警告等级、优化选项等。</li>
+</ul>
+</li>
+<li><strong>链接器</strong>:<ul>
+<li>确保库路径（Library Directories）正确。</li>
+<li>确保引用的库文件（Additional Dependencies）正确。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="步骤-4-编译项目"><a href="#步骤-4-编译项目" class="headerlink" title="步骤 4: 编译项目"></a><strong>步骤 4: 编译项目</strong></h3><ol>
+<li>在工具栏中点击 <strong>“生成” -&gt; “生成解决方案”</strong> 或按下快捷键 <code>Ctrl+Shift+B</code>。</li>
+<li>Visual Studio 会开始编译项目，编译日志将显示在下方的 <strong>“输出”</strong> 窗口中。</li>
+<li>如果没有错误，生成的可执行文件通常会保存在项目的 <code>Debug</code> 或 <code>Release</code> 文件夹中。</li>
+</ol>
+<hr>
+<h3 id="步骤-5-运行项目"><a href="#步骤-5-运行项目" class="headerlink" title="步骤 5: 运行项目"></a><strong>步骤 5: 运行项目</strong></h3><ol>
+<li>点击工具栏中的绿色箭头（<strong>“本地 Windows 调试器”</strong>），或者按下 <code>F5</code> 运行项目。</li>
+<li>如果只想运行而不调试，可以按下 <code>Ctrl+F5</code>。</li>
+</ol>
+<hr>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a><strong>常见问题</strong></h3><ul>
+<li><strong>缺少库文件</strong>：<ul>
+<li>确保在项目属性中的 <strong>链接器 -&gt; 输入 -&gt; 附加依赖项</strong> 中添加了所有必要的库文件。</li>
+</ul>
+</li>
+<li><strong>头文件找不到</strong>：<ul>
+<li>确保在 <strong>C&#x2F;C++ -&gt; 常规 -&gt; 附加包含目录</strong> 中添加了所有必要的头文件路径。</li>
+</ul>
+</li>
+<li><strong>编译错误</strong>：<ul>
+<li>查看 <strong>“错误列表”</strong> 窗口中的错误信息，逐一修复。</li>
+</ul>
+</li>
+</ul>
+<p>按照以上步骤操作后，您应该能够成功编译和运行包含 <code>.sln</code> 文件的 C++ 项目。</p>
+<h2 id="怎么看-Visual-Studio-中是否有某个头文件"><a href="#怎么看-Visual-Studio-中是否有某个头文件" class="headerlink" title="怎么看 Visual Studio 中是否有某个头文件"></a>怎么看 Visual Studio 中是否有某个头文件</h2><p>在 Microsoft Visual Studio 中检查某个头文件是否存在，可以通过以下几种方法：</p>
+<hr>
+<h3 id="方法-1-使用-IntelliSense"><a href="#方法-1-使用-IntelliSense" class="headerlink" title="方法 1: 使用 IntelliSense"></a><strong>方法 1: 使用 IntelliSense</strong></h3><ol>
+<li>打开需要检查的 <code>.cpp</code> 或 <code>.h</code> 文件。</li>
+<li>在代码中键入：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;your_header_file.h&quot;</span></span></span><br></pre></td></tr></table></figure></li>
+<li>如果 IntelliSense 提示报错，例如 <strong>“Cannot open source file”</strong> 或波浪线，说明头文件未被找到或路径有问题。</li>
+<li>如果没有错误提示，按住 <code>Ctrl</code> 并点击该头文件名称，Visual Studio 会尝试跳转到文件所在位置。</li>
+</ol>
+<hr>
+<h3 id="方法-2-使用“转到文件”功能"><a href="#方法-2-使用“转到文件”功能" class="headerlink" title="方法 2: 使用“转到文件”功能"></a><strong>方法 2: 使用“转到文件”功能</strong></h3><ol>
+<li>按下 <code>Ctrl+T</code> 或 <code>Ctrl+逗号</code> 打开“转到”窗口。</li>
+<li>在弹出的输入框中，输入头文件的名称（例如 <code>your_header_file.h</code>）。</li>
+<li>如果头文件存在并且在项目路径或已包含的目录中，Visual Studio 会列出相关文件。</li>
+</ol>
+<hr>
+<h3 id="方法-3-检查包含路径"><a href="#方法-3-检查包含路径" class="headerlink" title="方法 3: 检查包含路径"></a><strong>方法 3: 检查包含路径</strong></h3><ol>
+<li>在 <strong>解决方案资源管理器</strong> 中右键点击项目名称，选择 <strong>“属性”</strong>。</li>
+<li>在 <strong>属性页</strong> 中导航到 <strong>C&#x2F;C++ -&gt; 常规 -&gt; 附加包含目录</strong>。</li>
+<li>检查包含路径中是否包含目标头文件所在的目录。<ul>
+<li>如果没有，将包含头文件的目录添加进去，格式如下：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$(SolutionDir)include</span><br></pre></td></tr></table></figure></li>
+<li>确保路径正确且文件确实在其中。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="方法-4-全局文件搜索"><a href="#方法-4-全局文件搜索" class="headerlink" title="方法 4: 全局文件搜索"></a><strong>方法 4: 全局文件搜索</strong></h3><ol>
+<li>按下 <code>Ctrl+Shift+F</code> 打开“查找文件”窗口。</li>
+<li>在 <strong>“文件内容”</strong> 输入框中，输入头文件的名称（例如 <code>your_header_file.h</code>）。</li>
+<li>设置查找范围为项目目录或整个解决方案。</li>
+<li>点击 <strong>“查找全部”</strong>，如果文件存在，则会列出结果。</li>
+</ol>
+<hr>
+<h3 id="方法-5-手动检查文件路径"><a href="#方法-5-手动检查文件路径" class="headerlink" title="方法 5: 手动检查文件路径"></a><strong>方法 5: 手动检查文件路径</strong></h3><ol>
+<li>检查您的项目目录或代码仓库中是否存在目标头文件。</li>
+<li>如果使用第三方库，检查库的 <code>include</code> 文件夹是否包含该头文件。</li>
+<li>确保 <code>附加包含目录</code> 已正确配置。</li>
+</ol>
+<hr>
+<h3 id="补充-确保头文件生效的注意事项"><a href="#补充-确保头文件生效的注意事项" class="headerlink" title="补充: 确保头文件生效的注意事项"></a><strong>补充: 确保头文件生效的注意事项</strong></h3><ul>
+<li><strong>自定义头文件</strong>：确保头文件已添加到项目中。如果头文件未包含在解决方案中，右键项目 -&gt; 添加 -&gt; 现有项，将头文件加入到项目。</li>
+<li><strong>第三方头文件</strong>：检查是否安装了相关的第三方库，并确保其路径正确。</li>
+</ul>
+<p>通过以上方法，您可以快速确认目标头文件是否在 Visual Studio 的项目中以及它的路径是否被正确配置。</p>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>055-windwos下用Studio编译缺少jsoncpp库怎么办</title>
+    <url>/2024/11/21/055-windwos%E4%B8%8B%E7%94%A8Studio%E7%BC%96%E8%AF%91%E7%BC%BA%E5%B0%91jsoncpp%E5%BA%93%E6%80%8E%E4%B9%88%E5%8A%9E/</url>
+    <content><![CDATA[<p>在 Windows 下使用 Microsoft Visual Studio 时，如果没有<code>jsoncpp</code>库，你可以通过以下几种方式来解决这个问题：</p>
+<ol>
+<li><p><strong>使用 vcpkg 安装 jsoncpp 库</strong>：</p>
+<ul>
+<li><p>首先，确保你已经安装并设置好<code>vcpkg</code>。如果没有，请参考<a href="https://github.com/microsoft/vcpkg">vcpkg 的官方文档</a>进行安装。</p>
+</li>
+<li><p>打开命令提示符，导航到<code>vcpkg</code>的安装目录，然后运行以下命令来安装<code>jsoncpp</code>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vcpkg install jsoncpp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装完成后，将<code>vcpkg</code>集成到 Visual Studio 中：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vcpkg integrate install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在你的项目中，确保在项目属性中包含<code>vcpkg</code>的头文件和库路径。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>手动下载和编译 jsoncpp 库</strong>：</p>
+<ul>
+<li>访问<a href="https://github.com/open-source-parsers/jsoncpp">jsoncpp 的 GitHub 页面</a>下载源码。</li>
+<li>使用 CMake 生成 Visual Studio 项目文件，然后在 Visual Studio 中打开并编译。</li>
+<li>将生成的库文件和头文件添加到你的项目中。</li>
+</ul>
+</li>
+<li><p><strong>使用 NuGet 包管理器</strong>：</p>
+<ul>
+<li>在 Visual Studio 中，右键点击你的项目，选择“管理 NuGet 包”。</li>
+<li>搜索<code>jsoncpp</code>并安装。</li>
+</ul>
+</li>
+<li><p><strong>替代库</strong>：</p>
+<ul>
+<li>如果<code>jsoncpp</code>不适合你的需求，可以考虑使用其他 JSON 库，比如<code>nlohmann/json</code>，它也可以通过<code>vcpkg</code>或<code>NuGet</code>安装。</li>
+</ul>
+</li>
+</ol>
+<p>通过以上方法，你应该能够在 Visual Studio 中使用<code>jsoncpp</code>库。希望这些建议对你有帮助！如果有其他问题，请随时问我。</p>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>057-nlohmann_json库的使用</title>
+    <url>/2024/11/22/057-nlohmann-json%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>一.json.hpp 库下载及安装</p>
+<p>1.1 开源地址及引入方法<br>nlohmann json 的开源项目地址，其中有对 json 使用方法的详细说明：</p>
+<p><a href="https://github.com/nlohmann/json#serialization%E2%80%93deserialization">https://github.com/nlohmann/json#serialization–deserialization</a></p>
+<p>对于我们项目中要使用 nlohmann json 工具，只需要引入 json.hpp 这一个文件，其中包含所有接口函数，正如其文档中所述 json.hpp 文件在 single_include&#x2F;nlohmann 目录下，我们只需要下载该文件即可：</p>
+<p>git clone <a href="https://github.com/nlohmann/json/blob/develop/single_include/nlohmann/json.hpp">https://github.com/nlohmann/json/blob/develop/single_include/nlohmann/json.hpp</a></p>
+<p>注意：不是 include&#x2F;nlohmann&#x2F;json.hpp，而是 single_include&#x2F;nlohmann&#x2F;json.hpp，前者要包含整个文件夹，后者只需要包含 json.hpp 文件。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>056-ifndef LINUX</title>
+    <url>/2024/11/21/056-ifndef-LINUX/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+  </entry>
 </search>
