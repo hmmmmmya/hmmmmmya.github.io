@@ -2334,6 +2334,27 @@
 <li><a href="https://changkun.de/modern-cpp/zh-cn/00-preface/">现代 c++教程-changkun</a></li>
 <li><a href="https://www.cnblogs.com/cate/cpp/">博客园-c++</a></li>
 </ul>
+<h3 id="常用-c-库"><a href="#常用-c-库" class="headerlink" title="常用 c++库"></a>常用 c++库</h3><ul>
+<li>日志: <a href="https://github.com/gabime/spdlog">spdlog</a></li>
+<li>事件: <a href="https://github.com/libevent/libevent">libevent</a></li>
+<li>JSON: <a href="https://github.com/nlohmann/json">nlohmann_json</a></li>
+<li>CSV: <a href="https://github.com/ben-strasser/fast-cpp-csv-parser">fast-cpp-csv-parser</a></li>
+<li>SCPI: <a href="https://github.com/j123b567/scpi-parser">scpi-parser</a></li>
+<li>网络:<ul>
+<li>socket: <a href="https://github.com/yhirose/cpp-httplib">cpp-httplib</a></li>
+<li>webserver: <a href="https://github.com/qinguoyi/TinyWebServer">TinyWebServer</a></li>
+</ul>
+</li>
+<li>并发:<ul>
+<li>并发队列: <a href="https://github.com/cameron314/concurrentqueue">concurrentqueue</a></li>
+<li>线程池:<ul>
+<li><a href="https://github.com/progschj/ThreadPool">progschj thread-pool</a></li>
+<li><a href="https://github.com/mtrebi/thread-pool">mtrebi thread-pool</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>c++</category>
