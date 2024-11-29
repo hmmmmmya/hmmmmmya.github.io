@@ -6,7 +6,7 @@
   <link href="https://hmmmmmya.github.io/atom.xml" rel="self"/>
   
   <link href="https://hmmmmmya.github.io/"/>
-  <updated>2024-11-22T07:56:14.586Z</updated>
+  <updated>2024-11-29T01:24:45.419Z</updated>
   <id>https://hmmmmmya.github.io/</id>
   
   <author>
@@ -17,22 +17,45 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>058-design-patterns-learning</title>
+    <link href="https://hmmmmmya.github.io/2024/11/28/058-design-patterns-learning/"/>
+    <id>https://hmmmmmya.github.io/2024/11/28/058-design-patterns-learning/</id>
+    <published>2024-11-28T09:04:03.000Z</published>
+    <updated>2024-11-29T01:24:45.419Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><h3 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h3><ul><li><a href="https://refactoringguru.cn/design-patterns/cpp">refactoringguru 设计模式</a></li><li><a href="https://design-patterns.readthedocs.io/zh-cn/latest/index.html">图说设计模式</a></li></ul><h3 id="视频"><a href="#视频" class="headerlink" title="视频"></a>视频</h3><ul><li><a href="https://www.bilibili.com/video/BV1Zd4y1t7HK/?vd_source=afd9bb086cf8c56bfa160a01bb00e8d8">设计模式-阿西拜编程</a></li></ul><h3 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h3><ul><li><a href="https://github.com/kamranahmedse/design-patterns-for-humans">design-patterns-for-humans</a></li><li><a href="https://github.com/JakubVojvoda/design-patterns-cpp?tab=readme-ov-file">design-patterns-cpp</a></li></ul>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;设计模式&quot;&gt;&lt;a href=&quot;#设计模式&quot; class=&quot;headerlink&quot; title=&quot;设计模式&quot;&gt;&lt;/a&gt;设计模式&lt;/h2&gt;&lt;h3 id=&quot;网站&quot;&gt;&lt;a href=&quot;#网站&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="设计模式" scheme="https://hmmmmmya.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>057-nlohmann_json库的使用</title>
     <link href="https://hmmmmmya.github.io/2024/11/22/057-nlohmann-json%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
     <id>https://hmmmmmya.github.io/2024/11/22/057-nlohmann-json%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/</id>
     <published>2024-11-22T07:54:26.000Z</published>
-    <updated>2024-11-22T07:56:14.586Z</updated>
+    <updated>2024-11-27T07:13:22.388Z</updated>
     
-    <content type="html"><![CDATA[<p>一.json.hpp 库下载及安装</p><p>1.1 开源地址及引入方法<br>nlohmann json 的开源项目地址，其中有对 json 使用方法的详细说明：</p><p><a href="https://github.com/nlohmann/json#serialization%E2%80%93deserialization">https://github.com/nlohmann/json#serialization–deserialization</a></p><p>对于我们项目中要使用 nlohmann json 工具，只需要引入 json.hpp 这一个文件，其中包含所有接口函数，正如其文档中所述 json.hpp 文件在 single_include&#x2F;nlohmann 目录下，我们只需要下载该文件即可：</p><p>git clone <a href="https://github.com/nlohmann/json/blob/develop/single_include/nlohmann/json.hpp">https://github.com/nlohmann/json/blob/develop/single_include/nlohmann/json.hpp</a></p><p>注意：不是 include&#x2F;nlohmann&#x2F;json.hpp，而是 single_include&#x2F;nlohmann&#x2F;json.hpp，前者要包含整个文件夹，后者只需要包含 json.hpp 文件。</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="json-hpp-库下载及安装"><a href="#json-hpp-库下载及安装" class="headerlink" title="json.hpp 库下载及安装"></a>json.hpp 库下载及安装</h2><p>nlohmann json 的开源项目地址：</p><p><a href="https://github.com/nlohmann/json#serialization%E2%80%93deserialization">https://github.com/nlohmann/json#serialization–deserialization</a></p><p>对于我们项目中要使用 nlohmann json 工具，只需要引入 json.hpp 这一个文件，其中包含所有接口函数，正如其文档中所述 json.hpp 文件在 single_include&#x2F;nlohmann 目录下，我们只需要下载该文件即可：</p><p>git clone <a href="https://github.com/nlohmann/json/blob/develop/single_include/nlohmann/json.hpp">https://github.com/nlohmann/json/blob/develop/single_include/nlohmann/json.hpp</a></p><p>注意：不是 include&#x2F;nlohmann&#x2F;json.hpp，而是 single_include&#x2F;nlohmann&#x2F;json.hpp，前者要包含整个文件夹，后者只需要包含 json.hpp 文件。</p><h2 id="用-json-赋值"><a href="#用-json-赋值" class="headerlink" title="用 json 赋值"></a>用 json 赋值</h2><p>在使用 nlohmann JSON 库时，如果 JSON 中存储的类型与要赋值的变量类型一致，通常不需要显式地使用 <code>get&lt;&gt;()</code> 进行类型转换。<code>at()</code> 方法会返回一个 JSON 值对象，该对象可以直接赋值给与其类型兼容的变量。</p><p>例如：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;nlohmann/json.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    nlohmann::json j;</span><br><span class="line">    j[<span class="string">&quot;pi&quot;</span>] = <span class="number">3.14159</span>;</span><br><span class="line">    j[<span class="string">&quot;name&quot;</span>] = <span class="string">&quot;GPT-4&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 直接赋值</span></span><br><span class="line">    <span class="type">float</span> pi = j.<span class="built_in">at</span>(<span class="string">&quot;pi&quot;</span>);</span><br><span class="line">    std::string name = j.<span class="built_in">at</span>(<span class="string">&quot;name&quot;</span>);</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;pi: &quot;</span> &lt;&lt; pi &lt;&lt; <span class="string">&quot;, name: &quot;</span> &lt;&lt; name &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在这个例子中，<code>j.at(&quot;pi&quot;)</code> 返回一个 JSON 值对象，该对象可以直接赋值给 <code>float</code> 类型的变量 <code>pi</code>，因为 JSON 中的值是一个浮点数。同样，<code>j.at(&quot;name&quot;)</code> 返回一个字符串，可以直接赋值给 <code>std::string</code> 类型的变量 <code>name</code>。</p><h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol><li><p><strong>类型匹配</strong>：确保 JSON 中的值类型与变量类型匹配，否则会抛出异常。例如，如果 JSON 中的值是整数而你试图将其赋值给浮点数，可能会导致类型不匹配错误。</p></li><li><p><strong>异常处理</strong>：使用 <code>at()</code> 方法时，如果键不存在，会抛出 <code>std::out_of_range</code> 异常。因此，确保键存在或使用异常处理机制。</p></li><li><p><strong>类型安全</strong>：虽然可以直接赋值，但在某些情况下，显式使用 <code>get&lt;&gt;()</code> 可以提高代码的可读性和类型安全性，特别是在处理复杂数据结构时。</p></li></ol>]]></content>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;一.json.hpp 库下载及安装&lt;/p&gt;
-&lt;p&gt;1.1 开源地址及引入方法&lt;br&gt;nlohmann json 的开源项目地址，其中有对 json 使用方法的详细说明：&lt;/p&gt;
-&lt;p&gt;&lt;a</summary>
+    <summary type="html">&lt;h2 id=&quot;json-hpp-库下载及安装&quot;&gt;&lt;a href=&quot;#json-hpp-库下载及安装&quot; class=&quot;headerlink&quot; title=&quot;json.hpp 库下载及安装&quot;&gt;&lt;/a&gt;json.hpp 库下载及安装&lt;/h2&gt;&lt;p&gt;nlohmann json</summary>
         
       
     
@@ -363,9 +386,9 @@
     <link href="https://hmmmmmya.github.io/2024/11/14/041-cpp-learning/"/>
     <id>https://hmmmmmya.github.io/2024/11/14/041-cpp-learning/</id>
     <published>2024-11-14T02:12:00.000Z</published>
-    <updated>2024-11-26T07:16:59.624Z</updated>
+    <updated>2024-11-26T07:25:59.139Z</updated>
     
-    <content type="html"><![CDATA[<p>自用 c++ 学习资料</p><span id="more"></span><h2 id="c"><a href="#c" class="headerlink" title="c++"></a>c++</h2><h3 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h3><ul><li>《c++ primer 5th》</li><li>《Effective c++》</li><li>《Effective modern c++》<a href="https://cntransgroup.github.io/EffectiveModernCppChinese/">中文</a></li><li>《Google c++ style guide》<a href="https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents.html">中文</a>, <a href="https://google.github.io/styleguide/cppguide.html">英文</a></li><li>《C++ Concurrency in Action》</li></ul><h3 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h3><ul><li>cppreference <a href="https://zh.cppreference.com/w/">中文</a>, <a href="https://en.cppreference.com/w/">英文</a></li></ul><h3 id="c-库"><a href="#c-库" class="headerlink" title="c++库"></a>c++库</h3><ul><li><a href="https://www.boost.org/">boost</a></li><li><a href="https://github.com/fffaraz/awesome-cpp">awesome-cpp</a></li><li><a href="https://zh.cppreference.com/w/cpp/links/libs">开源 C++ 库- cppreference</a></li></ul><h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ul><li><a href="https://c.runoob.com/compile/12/">c++在线编译</a></li><li><a href="https://www.geeksforgeeks.org/cpp-data-types/?ref=shm">c++数据类型</a></li><li><a href="https://blog.csdn.net/rongrongyaofeiqi/article/details/52442169">c++数据类型转换</a></li></ul><h3 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h3><ul><li><a href="https://roadmap.sh/cpp">c++学习路线</a></li><li><a href="https://light-city.github.io/stories_things/">c++那些事-光城</a></li><li><a href="https://changkun.de/modern-cpp/zh-cn/00-preface/">现代 c++教程-changkun</a></li><li><a href="https://www.cnblogs.com/cate/cpp/">博客园-c++</a></li></ul><h3 id="常用-c-库"><a href="#常用-c-库" class="headerlink" title="常用 c++库"></a>常用 c++库</h3><ul><li>信息源:<ul><li><a href="https://github.com/fffaraz/awesome-cpp#readme">awesome-cpp</a></li><li><a href="https://github.com/sindresorhus/awesome?tab=readme-ov-file#readme">awesome</a></li></ul></li><li>日志:<ul><li><a href="https://github.com/gabime/spdlog">spdlog</a></li></ul></li><li>网络库:<ul><li><a href="https://github.com/ithewei/libhv">libhv</a></li><li><a href="https://github.com/libevent/libevent">libevent</a></li></ul></li><li>JSON:<ul><li><a href="https://github.com/nlohmann/json">nlohmann-json</a></li></ul></li><li>CSV:<ul><li><a href="https://github.com/ben-strasser/fast-cpp-csv-parser">fast-cpp-csv-parser</a></li></ul></li><li>SCPI:<ul><li><a href="https://github.com/j123b567/scpi-parser">scpi-parser</a></li></ul></li><li>网络:<ul><li>socket:<ul><li><a href="https://github.com/yhirose/cpp-httplib">cpp-httplib</a></li></ul></li><li>webserver:<ul><li><a href="https://github.com/qinguoyi/TinyWebServer">TinyWebServer</a></li></ul></li></ul></li><li>并发:<ul><li>并发队列:<ul><li><a href="https://github.com/cameron314/concurrentqueue">concurrentqueue</a></li></ul></li><li>线程池:<ul><li><a href="https://github.com/progschj/ThreadPool">progschj thread-pool</a></li><li><a href="https://github.com/mtrebi/thread-pool">mtrebi thread-pool</a></li></ul></li></ul></li></ul>]]></content>
+    <content type="html"><![CDATA[<p>自用 c++ 学习资料</p><span id="more"></span><h2 id="c"><a href="#c" class="headerlink" title="c++"></a>c++</h2><h3 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h3><ul><li>《c++ primer 5th》</li><li>《Effective c++》</li><li>《Effective modern c++》<a href="https://cntransgroup.github.io/EffectiveModernCppChinese/">中文</a></li><li>《Google c++ style guide》<a href="https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents.html">中文</a>, <a href="https://google.github.io/styleguide/cppguide.html">英文</a></li><li>《C++ Concurrency in Action》</li></ul><h3 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h3><ul><li>cppreference <a href="https://zh.cppreference.com/w/">中文</a>, <a href="https://en.cppreference.com/w/">英文</a></li></ul><h3 id="c-库"><a href="#c-库" class="headerlink" title="c++库"></a>c++库</h3><ul><li><a href="https://www.boost.org/">boost</a></li><li><a href="https://github.com/fffaraz/awesome-cpp">awesome-cpp</a></li><li><a href="https://zh.cppreference.com/w/cpp/links/libs">开源 C++ 库- cppreference</a></li></ul><h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ul><li><a href="https://c.runoob.com/compile/12/">c++在线编译</a></li><li><a href="https://www.geeksforgeeks.org/cpp-data-types/?ref=shm">c++数据类型</a></li><li><a href="https://blog.csdn.net/rongrongyaofeiqi/article/details/52442169">c++数据类型转换</a></li></ul><h3 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h3><ul><li><a href="https://roadmap.sh/cpp">c++学习路线</a></li><li><a href="https://light-city.github.io/stories_things/">c++那些事-光城</a></li><li><a href="https://changkun.de/modern-cpp/zh-cn/00-preface/">现代 c++教程-changkun</a></li><li><a href="https://www.cnblogs.com/cate/cpp/">博客园-c++</a></li></ul><h3 id="常用-c-库"><a href="#常用-c-库" class="headerlink" title="常用 c++库"></a>常用 c++库</h3><ul><li>信息源:<ul><li><a href="https://github.com/fffaraz/awesome-cpp#readme">awesome-cpp</a></li><li><a href="https://github.com/sindresorhus/awesome?tab=readme-ov-file#readme">awesome</a></li></ul></li><li>日志:<ul><li><a href="https://github.com/gabime/spdlog">spdlog</a></li></ul></li><li>事件:<ul><li><a href="https://github.com/ithewei/libhv">libhv</a></li><li><a href="https://github.com/libevent/libevent">libevent</a></li></ul></li><li>JSON:<ul><li><a href="https://github.com/nlohmann/json">nlohmann-json</a></li></ul></li><li>CSV:<ul><li><a href="https://github.com/ben-strasser/fast-cpp-csv-parser">fast-cpp-csv-parser</a></li></ul></li><li>SCPI:<ul><li><a href="https://github.com/j123b567/scpi-parser">scpi-parser</a></li></ul></li><li>网络:<ul><li>socket:<ul><li><a href="https://github.com/yhirose/cpp-httplib">cpp-httplib</a></li></ul></li><li>webserver:<ul><li><a href="https://github.com/qinguoyi/TinyWebServer">TinyWebServer</a></li></ul></li></ul></li><li>并发:<ul><li>并发队列:<ul><li><a href="https://github.com/cameron314/concurrentqueue">concurrentqueue</a></li></ul></li><li>线程池:<ul><li><a href="https://github.com/progschj/ThreadPool">progschj thread-pool</a></li><li><a href="https://github.com/mtrebi/thread-pool">mtrebi thread-pool</a></li></ul></li></ul></li></ul>]]></content>
     
     
     <summary type="html">&lt;p&gt;自用 c++ 学习资料&lt;/p&gt;</summary>
@@ -420,27 +443,6 @@
     
     
     <category term="Linux" scheme="https://hmmmmmya.github.io/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>038-网关</title>
-    <link href="https://hmmmmmya.github.io/2024/11/13/038-%E7%BD%91%E5%85%B3/"/>
-    <id>https://hmmmmmya.github.io/2024/11/13/038-%E7%BD%91%E5%85%B3/</id>
-    <published>2024-11-13T06:20:46.000Z</published>
-    <updated>2024-11-13T06:21:50.158Z</updated>
-    
-    <content type="html"><![CDATA[<p>网关（Gateway）是一种网络设备，充当不同网络之间的接口或连接点，允许不同网络协议或架构之间的通信。它不仅仅是数据的转发者，还可以进行数据的转换、协议的转换、地址转换和流量控制。以下是关于网关的一些详细信息：</p><span id="more"></span><h2 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h2><h3 id="1-基本功能"><a href="#1-基本功能" class="headerlink" title="1. 基本功能"></a>1. <strong>基本功能</strong></h3><p>网关在两个不同的网络之间进行数据包的传输和转换。它可以处理不同协议之间的通信，确保数据能够在异构网络之间正确传递。</p><h3 id="2-协议转换"><a href="#2-协议转换" class="headerlink" title="2. 协议转换"></a>2. <strong>协议转换</strong></h3><p>网关可以在两个不同协议的网络之间转换数据。例如，从 IPv4 网络到 IPv6 网络，或从 TCP&#x2F;IP 网络到另一种非 IP 网络。</p><h3 id="3-应用场景"><a href="#3-应用场景" class="headerlink" title="3. 应用场景"></a>3. <strong>应用场景</strong></h3><p>网关常用于以下场景：</p><ul><li><strong>企业网络</strong>：在企业内部网与外部互联网之间充当连接点。</li><li><strong>家庭网络</strong>：在家庭局域网和互联网之间进行数据传输，通常路由器具有网关功能。</li><li><strong>物联网</strong>：在物联网设备和传统网络之间进行数据转换。</li></ul><h3 id="4-类型"><a href="#4-类型" class="headerlink" title="4. 类型"></a>4. <strong>类型</strong></h3><p>根据功能和应用场景的不同，网关可以分为几种类型：</p><ul><li><strong>路由器网关</strong>：用于家庭和企业网络的路由器，经常充当网关，连接内部网络和互联网。</li><li><strong>防火墙网关</strong>：在网络安全方面起作用，控制内部网络和外部网络之间的通信，防止非法访问。</li><li><strong>应用层网关（ALG）</strong>：处理应用层协议，如 HTTP、FTP 等，进行协议转换和数据过滤。</li></ul><h3 id="5-示例"><a href="#5-示例" class="headerlink" title="5. 示例"></a>5. <strong>示例</strong></h3><ul><li><strong>家庭网络网关</strong>：家庭路由器通常作为网关，连接家庭的所有设备到互联网。</li><li><strong>企业网关</strong>：企业使用网关连接内部网络到外部网络（如互联网），并可能使用 VPN 网关来实现安全的远程连接。</li></ul><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>网关在现代网络架构中起到关键作用，通过连接和转换不同网络和协议，实现数据的无缝传输。</p><h2 id="网关和路由器"><a href="#网关和路由器" class="headerlink" title="网关和路由器"></a>网关和路由器</h2><p>网关和路由器虽然都有连接网络的功能，但它们在用途和功能上有显著的区别。以下是两者的主要区别：</p><h3 id="网关-1"><a href="#网关-1" class="headerlink" title="网关"></a>网关</h3><ol><li><strong>基本功能</strong>：网关主要用于连接不同类型的网络，负责协议转换和数据传输。它可以在不同协议或架构的网络之间进行通信，例如从 IPv4 到 IPv6 网络，或从 TCP&#x2F;IP 网络到非 IP 网络。</li><li><strong>使用场景</strong>：常用于连接两种不同类型的网络，如企业内部网和外部互联网、物联网设备与传统网络等。</li><li><strong>协议转换</strong>：网关能够转换不同协议的数据格式，使得不同网络中的设备能够互相通信。</li><li><strong>复杂度</strong>：通常比路由器更复杂，因为它需要处理不同协议之间的转换。</li></ol><h3 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h3><ol><li><strong>基本功能</strong>：路由器主要用于在同类型的网络之间传输数据包。它根据网络层协议（如 IP 协议）进行数据包的路由选择，确保数据包能够到达正确的目的地。</li><li><strong>使用场景</strong>：常用于连接同一类型的网络，如家庭网络和互联网之间的连接，或者企业内部不同子网之间的连接。</li><li><strong>数据转发</strong>：路由器主要关注数据包的转发和路由选择，使用路由表来决定数据包的最佳传输路径。</li><li><strong>简单性</strong>：相对网关，路由器的功能更简单，因为它主要处理相同协议的数据包转发。</li></ol><h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><ul><li><strong>网关</strong>：主要用于连接不同类型的网络，执行协议转换和数据传输。</li><li><strong>路由器</strong>：主要用于在同类型的网络之间转发数据包，负责路由选择和数据包传输。</li></ul><p>通过这两种设备，网络能够实现灵活、高效的通信。</p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;网关（Gateway）是一种网络设备，充当不同网络之间的接口或连接点，允许不同网络协议或架构之间的通信。它不仅仅是数据的转发者，还可以进行数据的转换、协议的转换、地址转换和流量控制。以下是关于网关的一些详细信息：&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="计算机网络" scheme="https://hmmmmmya.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-    
-    <category term="计算机网络" scheme="https://hmmmmmya.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   

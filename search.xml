@@ -2344,7 +2344,7 @@
 <li><a href="https://github.com/gabime/spdlog">spdlog</a></li>
 </ul>
 </li>
-<li>网络库:<ul>
+<li>事件:<ul>
 <li><a href="https://github.com/ithewei/libhv">libhv</a></li>
 <li><a href="https://github.com/libevent/libevent">libevent</a></li>
 </ul>
@@ -3500,12 +3500,24 @@
   <entry>
     <title>057-nlohmann_json库的使用</title>
     <url>/2024/11/22/057-nlohmann-json%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>一.json.hpp 库下载及安装</p>
-<p>1.1 开源地址及引入方法<br>nlohmann json 的开源项目地址，其中有对 json 使用方法的详细说明：</p>
+    <content><![CDATA[<h2 id="json-hpp-库下载及安装"><a href="#json-hpp-库下载及安装" class="headerlink" title="json.hpp 库下载及安装"></a>json.hpp 库下载及安装</h2><p>nlohmann json 的开源项目地址：</p>
 <p><a href="https://github.com/nlohmann/json#serialization%E2%80%93deserialization">https://github.com/nlohmann/json#serialization–deserialization</a></p>
 <p>对于我们项目中要使用 nlohmann json 工具，只需要引入 json.hpp 这一个文件，其中包含所有接口函数，正如其文档中所述 json.hpp 文件在 single_include&#x2F;nlohmann 目录下，我们只需要下载该文件即可：</p>
 <p>git clone <a href="https://github.com/nlohmann/json/blob/develop/single_include/nlohmann/json.hpp">https://github.com/nlohmann/json/blob/develop/single_include/nlohmann/json.hpp</a></p>
 <p>注意：不是 include&#x2F;nlohmann&#x2F;json.hpp，而是 single_include&#x2F;nlohmann&#x2F;json.hpp，前者要包含整个文件夹，后者只需要包含 json.hpp 文件。</p>
+<h2 id="用-json-赋值"><a href="#用-json-赋值" class="headerlink" title="用 json 赋值"></a>用 json 赋值</h2><p>在使用 nlohmann JSON 库时，如果 JSON 中存储的类型与要赋值的变量类型一致，通常不需要显式地使用 <code>get&lt;&gt;()</code> 进行类型转换。<code>at()</code> 方法会返回一个 JSON 值对象，该对象可以直接赋值给与其类型兼容的变量。</p>
+<p>例如：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;nlohmann/json.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    nlohmann::json j;</span><br><span class="line">    j[<span class="string">&quot;pi&quot;</span>] = <span class="number">3.14159</span>;</span><br><span class="line">    j[<span class="string">&quot;name&quot;</span>] = <span class="string">&quot;GPT-4&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 直接赋值</span></span><br><span class="line">    <span class="type">float</span> pi = j.<span class="built_in">at</span>(<span class="string">&quot;pi&quot;</span>);</span><br><span class="line">    std::string name = j.<span class="built_in">at</span>(<span class="string">&quot;name&quot;</span>);</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;pi: &quot;</span> &lt;&lt; pi &lt;&lt; <span class="string">&quot;, name: &quot;</span> &lt;&lt; name &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>j.at(&quot;pi&quot;)</code> 返回一个 JSON 值对象，该对象可以直接赋值给 <code>float</code> 类型的变量 <code>pi</code>，因为 JSON 中的值是一个浮点数。同样，<code>j.at(&quot;name&quot;)</code> 返回一个字符串，可以直接赋值给 <code>std::string</code> 类型的变量 <code>name</code>。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li><p><strong>类型匹配</strong>：确保 JSON 中的值类型与变量类型匹配，否则会抛出异常。例如，如果 JSON 中的值是整数而你试图将其赋值给浮点数，可能会导致类型不匹配错误。</p>
+</li>
+<li><p><strong>异常处理</strong>：使用 <code>at()</code> 方法时，如果键不存在，会抛出 <code>std::out_of_range</code> 异常。因此，确保键存在或使用异常处理机制。</p>
+</li>
+<li><p><strong>类型安全</strong>：虽然可以直接赋值，但在某些情况下，显式使用 <code>get&lt;&gt;()</code> 可以提高代码的可读性和类型安全性，特别是在处理复杂数据结构时。</p>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>C++</category>
@@ -3517,6 +3529,25 @@
     <content><![CDATA[]]></content>
       <categories>
         <category>c++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>058-design-patterns-learning</title>
+    <url>/2024/11/28/058-design-patterns-learning/</url>
+    <content><![CDATA[<h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><h3 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h3><ul>
+<li><a href="https://refactoringguru.cn/design-patterns/cpp">refactoringguru 设计模式</a></li>
+<li><a href="https://design-patterns.readthedocs.io/zh-cn/latest/index.html">图说设计模式</a></li>
+</ul>
+<h3 id="视频"><a href="#视频" class="headerlink" title="视频"></a>视频</h3><ul>
+<li><a href="https://www.bilibili.com/video/BV1Zd4y1t7HK/?vd_source=afd9bb086cf8c56bfa160a01bb00e8d8">设计模式-阿西拜编程</a></li>
+</ul>
+<h3 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h3><ul>
+<li><a href="https://github.com/kamranahmedse/design-patterns-for-humans">design-patterns-for-humans</a></li>
+<li><a href="https://github.com/JakubVojvoda/design-patterns-cpp?tab=readme-ov-file">design-patterns-cpp</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>设计模式</category>
       </categories>
   </entry>
 </search>
