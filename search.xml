@@ -3708,4 +3708,339 @@
         <category>c++</category>
       </categories>
   </entry>
+  <entry>
+    <title>060-cpp成员函数</title>
+    <url>/2024/12/02/060-cpp%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<p>在 C++中，类的成员函数通常包括以下几种类型：</p>
+<ol>
+<li><p><strong>构造函数（Constructor）</strong>：</p>
+<ul>
+<li>用于初始化对象。构造函数的名称与类名相同，没有返回类型。</li>
+<li>可以有多个构造函数（重载），以支持不同的初始化方式。</li>
+</ul>
+</li>
+<li><p><strong>析构函数（Destructor）</strong>：</p>
+<ul>
+<li>用于清理对象。析构函数的名称是类名的前面加上波浪号（~），没有返回类型，也没有参数。</li>
+<li>在对象生命周期结束时自动调用。</li>
+</ul>
+</li>
+<li><p><strong>拷贝构造函数（Copy Constructor）</strong>：</p>
+<ul>
+<li>用于复制对象。通常用于对象的复制初始化。</li>
+<li>形如：<code>ClassName(const ClassName &amp;other)</code></li>
+</ul>
+</li>
+<li><p><strong>赋值运算符重载（Assignment Operator Overload）</strong>：</p>
+<ul>
+<li>用于对象的赋值操作。</li>
+<li>形如：<code>ClassName&amp; operator=(const ClassName &amp;other)</code></li>
+</ul>
+</li>
+<li><p><strong>移动构造函数（Move Constructor）</strong>：</p>
+<ul>
+<li>用于移动语义，提高性能。</li>
+<li>形如：<code>ClassName(ClassName &amp;&amp;other)</code></li>
+</ul>
+</li>
+<li><p><strong>移动赋值运算符重载（Move Assignment Operator Overload）</strong>：</p>
+<ul>
+<li>用于移动语义的赋值操作。</li>
+<li>形如：<code>ClassName&amp; operator=(ClassName &amp;&amp;other)</code></li>
+</ul>
+</li>
+<li><p><strong>访问器（Accessors）</strong>：</p>
+<ul>
+<li>用于获取对象的私有成员变量的值。</li>
+<li>通常是<code>const</code>函数，不修改对象的状态。</li>
+</ul>
+</li>
+<li><p><strong>修改器（Mutators）</strong>：</p>
+<ul>
+<li>用于设置对象的私有成员变量的值。</li>
+<li>通常会对输入值进行验证。</li>
+</ul>
+</li>
+<li><p><strong>静态成员函数（Static Member Functions）</strong>：</p>
+<ul>
+<li>不依赖于对象实例，可以通过类名直接调用。</li>
+<li>不能访问非静态成员变量。</li>
+</ul>
+</li>
+<li><p><strong>友元函数（Friend Functions）</strong>：</p>
+<ul>
+<li>不是类的成员，但可以访问类的私有和保护成员。</li>
+<li>通过<code>friend</code>关键字声明。</li>
+</ul>
+</li>
+<li><p><strong>虚函数（Virtual Functions）</strong>：</p>
+<ul>
+<li>用于实现多态行为。</li>
+<li>在基类中声明为<code>virtual</code>，在派生类中可以重写。</li>
+</ul>
+</li>
+<li><p><strong>常成员函数（Const Member Functions）</strong>：</p>
+<ul>
+<li>不修改对象的状态。</li>
+<li>在函数声明后加上<code>const</code>关键字。</li>
+</ul>
+</li>
+</ol>
+<p>这些成员函数的具体实现和使用取决于类的设计需求和功能。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>062-const</title>
+    <url>/2024/12/03/062-const/</url>
+    <content><![CDATA[<h2 id="基本数据类型和字面值-直接传值-不要使用const"><a href="#基本数据类型和字面值-直接传值-不要使用const" class="headerlink" title="基本数据类型和字面值, 直接传值, 不要使用const&amp;"></a>基本数据类型和字面值, 直接传值, 不要使用<code>const&amp;</code></h2><p>在 C++中，<code>const&amp;</code>通常用于避免拷贝传递参数，尤其是对于较大的对象。然而，对于基本数据类型（如<code>int</code>、<code>float</code>等），传递它们的引用（包括<code>const&amp;</code>）通常没有太大意义，因为它们本身就很小，拷贝的开销很低。对于基本数据类型，这种做法是可以的，但并不是必要的。你可以直接传值而不是引用，尤其是当你传递的是字面值（如<code>0</code>和<code>1</code>）时。</p>
+<p>即: 基本数据类型和字面值, 直接传值, 不要使用<code>const&amp;</code></p>
+<h2 id="函数参数使用const"><a href="#函数参数使用const" class="headerlink" title="函数参数使用const"></a>函数参数使用<code>const</code></h2><p>在 C++中，使用<code>const</code>来修饰函数参数可以防止在函数内部修改这些参数的值。对于基本数据类型（如<code>int</code>、<code>float</code>等），使用<code>const</code>来修饰传值参数通常没有太大意义，因为传值本身就意味着在函数内部的修改不会影响到外部。</p>
+<p>然而，如果你希望明确表达参数在函数内部不应被修改的意图，或者为了代码的一致性，你可以使用<code>const</code>来修饰传值参数。这样做不会影响性能或功能，但可以提高代码的可读性。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>061-右值引用</title>
+    <url>/2024/12/02/061-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/</url>
+    <content><![CDATA[<hr>
+<h2 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h2><p>右值引用只能绑定到临时对象</p>
+<ul>
+<li>所引用的对象将要被销毁</li>
+<li>该对象没有其他用户</li>
+</ul>
+<p>意味着, 使用右值引用的代码可以自由地接管所引用的对象的资源</p>
+<p>变量是左值, 离开作用域才会销毁, 所以不能将一个右值引用直接绑定到一个变量, 即使这个变量是右值引用类型</p>
+<h2 id="移动语义"><a href="#移动语义" class="headerlink" title="移动语义"></a>移动语义</h2><p>可以销毁一个 <code>std::move</code> 后的源对象, 也可以赋予新值, 但不能使用一个 <code>std::move</code> 后的对象的值</p>
+<p><code>std::move</code> 是一个标准库函数模板。它的目的是显式地将一个左值转换为右值引用，以便可以将其转移到另一个对象中，而不是进行复制。以下是逐步解析代码的细节：</p>
+<h3 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释"></a>代码解释</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">typename</span> remove_reference&lt;T&gt;::<span class="function">type &amp;&amp;<span class="title">move</span><span class="params">(T &amp;&amp;param)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">using</span> ReturnType = <span class="keyword">typename</span> remove_reference&lt;T&gt;::type &amp;&amp;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;ReturnType&gt;(param);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-模板参数-T"><a href="#1-模板参数-T" class="headerlink" title="1. 模板参数 T"></a>1. <strong>模板参数 <code>T</code></strong></h4><ul>
+<li><code>T</code> 是一个万能引用类型（也称为转发引用，Forwarding Reference）。它可以绑定到左值或右值。</li>
+<li>在使用时，编译器会根据传入的参数推导出 <code>T</code> 的类型。</li>
+</ul>
+<h4 id="2-remove-reference-type"><a href="#2-remove-reference-type" class="headerlink" title="2. remove_reference&lt;T&gt;::type"></a>2. <strong><code>remove_reference&lt;T&gt;::type</code></strong></h4><ul>
+<li><code>std::remove_reference</code> 是一个类型特征工具，用于移除 <code>T</code> 类型中的引用修饰符（左值引用<code>&amp;</code>或右值引用<code>&amp;&amp;</code>）。<ul>
+<li>如果 <code>T</code> 是 <code>int&amp;</code>，则 <code>remove_reference&lt;T&gt;::type</code> 是 <code>int</code>。</li>
+<li>如果 <code>T</code> 是 <code>int&amp;&amp;</code>，则 <code>remove_reference&lt;T&gt;::type</code> 也是 <code>int</code>。</li>
+<li>如果 <code>T</code> 是 <code>int</code>，则 <code>remove_reference&lt;T&gt;::type</code> 还是 <code>int</code>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-返回类型-ReturnType"><a href="#3-返回类型-ReturnType" class="headerlink" title="3. 返回类型 ReturnType"></a>3. <strong>返回类型 <code>ReturnType</code></strong></h4><ul>
+<li><code>ReturnType</code> 定义为 <code>remove_reference&lt;T&gt;::type &amp;&amp;</code>，它是一个右值引用类型。<ul>
+<li>例如，如果 <code>T</code> 是 <code>int&amp;</code>，则 <code>ReturnType</code> 是 <code>int&amp;&amp;</code>。</li>
+<li>如果 <code>T</code> 是 <code>int</code>，则 <code>ReturnType</code> 是 <code>int&amp;&amp;</code>。</li>
+<li>如果 <code>T</code> 是 <code>int&amp;&amp;</code>，则 <code>ReturnType</code> 仍是 <code>int&amp;&amp;</code>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-static-cast-param"><a href="#4-static-cast-param" class="headerlink" title="4. static_cast&lt;ReturnType&gt;(param)"></a>4. <strong><code>static_cast&lt;ReturnType&gt;(param)</code></strong></h4><ul>
+<li><code>static_cast</code> 将 <code>param</code> 转换为右值引用类型（即 <code>ReturnType</code>）。</li>
+<li>这是实现右值语义的关键，使得调用 <code>std::move</code> 后，可以显式地告知编译器 “此对象可以被移动”，而不是执行复制操作。</li>
+</ul>
+<hr>
+<h3 id="理解-std-move-的目的"><a href="#理解-std-move-的目的" class="headerlink" title="理解 std::move 的目的"></a>理解 <code>std::move</code> 的目的</h3><ol>
+<li><p><strong>传递右值语义：</strong></p>
+<ul>
+<li>左值通常用于赋值或复制，而右值（包括临时对象和 <code>std::move</code> 转换后的对象）可以直接参与移动操作。</li>
+<li><code>std::move</code> 是一个语义标记，它并不会真正地移动数据，而是明确表示这个对象可以被移动。</li>
+</ul>
+</li>
+<li><p><strong>触发移动构造&#x2F;移动赋值：</strong></p>
+<ul>
+<li>当对象被 <code>std::move</code> 转换后，编译器会优先选择移动构造函数或移动赋值运算符（如果它们可用）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="一个实际例子"><a href="#一个实际例子" class="headerlink" title="一个实际例子"></a>一个实际例子</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string str = <span class="string">&quot;Hello, world!&quot;</span>;</span><br><span class="line">    std::string newStr = std::<span class="built_in">move</span>(str);  <span class="comment">// 移动操作</span></span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;str: &quot;</span> &lt;&lt; str &lt;&lt; std::endl;  <span class="comment">// 可能为空或未定义（实现依赖）</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;newStr: &quot;</span> &lt;&lt; newStr &lt;&lt; std::endl;  <span class="comment">// &quot;Hello, world!&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ol>
+<li><code>std::move(str)</code> 将 <code>str</code> 显式转换为右值引用。</li>
+<li>这使得构造 <code>newStr</code> 时使用的是 <code>std::string</code> 的移动构造函数，而不是复制构造函数。</li>
+<li>移动构造函数通常只会转移底层资源的所有权，而不是复制内容，因此效率更高。</li>
+</ol>
+<hr>
+<h3 id="为什么-std-move-的实现显得有些复杂？"><a href="#为什么-std-move-的实现显得有些复杂？" class="headerlink" title="为什么 std::move 的实现显得有些复杂？"></a>为什么 <code>std::move</code> 的实现显得有些复杂？</h3><ol>
+<li><p><strong>类型安全：</strong></p>
+<ul>
+<li><code>std::move</code> 需要处理所有可能的类型（包括左值引用、右值引用、非引用类型）。</li>
+<li>使用模板和 <code>remove_reference</code> 可以保证它适用于广泛的场景。</li>
+</ul>
+</li>
+<li><p><strong>避免额外的拷贝：</strong></p>
+<ul>
+<li>使用 <code>static_cast</code> 确保转换是高效的，并避免额外的临时对象创建。</li>
+</ul>
+</li>
+<li><p><strong>明确右值语义：</strong></p>
+<ul>
+<li>编译器无法通过常规代码自动推断出某些左值可以被移动。通过 <code>std::move</code> 显式告知编译器可以安全地应用右值语义。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="无论是左值还是右值-经过-std-move-转化后-都变成右值吗"><a href="#无论是左值还是右值-经过-std-move-转化后-都变成右值吗" class="headerlink" title="无论是左值还是右值, 经过 std::move 转化后, 都变成右值吗"></a>无论是左值还是右值, 经过 std::move 转化后, 都变成右值吗</h2><p>是的，经过 <code>std::move</code> 转换后，无论输入的是左值还是右值，结果都会变成<strong>右值引用</strong>（准确地说是 <code>T&amp;&amp;</code> 类型，其中 <code>T</code> 是去掉引用后的类型）。</p>
+<p>不过，需要特别注意的是，<code>std::move</code> 不会改变对象本身的值类别，它只是返回一个右值引用。这意味着：</p>
+<ol>
+<li><strong>对象本身仍然是左值：</strong><br>即使通过 <code>std::move</code> 转换，对象本身仍然存在，仍然可以通过左值访问它。</li>
+<li><strong>调用 <code>std::move</code> 的结果是右值引用：</strong><br>这是一种“显式标记”，告诉编译器该对象的资源可以安全地被转移。</li>
+</ol>
+<hr>
+<h3 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h3><h4 id="转换的效果"><a href="#转换的效果" class="headerlink" title="转换的效果"></a>转换的效果</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">10</span>;         <span class="comment">// x 是左值</span></span><br><span class="line">    <span class="type">int</span>&amp;&amp; y = std::<span class="built_in">move</span>(x);  <span class="comment">// std::move(x) 将 x 转换为右值引用</span></span><br><span class="line"></span><br><span class="line">    y = <span class="number">20</span>;             <span class="comment">// 可以通过 y 修改 x 的值</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;x: &quot;</span> &lt;&lt; x &lt;&lt; std::endl;  <span class="comment">// 输出 20，x 本身没有消失</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">x: 20</span><br></pre></td></tr></table></figure>
+
+<p><strong>分析：</strong></p>
+<ul>
+<li><code>x</code> 是左值。</li>
+<li><code>std::move(x)</code> 返回的是一个右值引用 <code>int&amp;&amp;</code>，但它仍然指向 <code>x</code> 的内存。</li>
+<li><code>x</code> 的值可以通过 <code>y</code> 被修改，但编译器会认为 <code>y</code> 是右值引用，可能触发移动语义。</li>
+</ul>
+<hr>
+<h3 id="理解-“右值引用”和“右值”"><a href="#理解-“右值引用”和“右值”" class="headerlink" title="理解 “右值引用”和“右值”"></a>理解 “右值引用”和“右值”</h3><h4 id="右值引用不是右值"><a href="#右值引用不是右值" class="headerlink" title="右值引用不是右值"></a>右值引用不是右值</h4><ul>
+<li><strong>右值引用</strong>（<code>T&amp;&amp;</code>）是一个可以绑定到右值的引用类型，但它本身是一个左值（因为它有名字）。</li>
+<li><strong>右值</strong> 是不具名的值，例如 <code>10</code>、临时对象或通过 <code>std::move</code> 返回的表达式。</li>
+</ul>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">process</span><span class="params">(<span class="type">int</span>&amp;&amp; val)</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;process(int&amp;&amp;): &quot;</span> &lt;&lt; val &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">42</span>;</span><br><span class="line">    <span class="built_in">process</span>(std::<span class="built_in">move</span>(x));  <span class="comment">// std::move(x) 是右值</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span>&amp;&amp; y = std::<span class="built_in">move</span>(x);  <span class="comment">// y 是右值引用，但 y 本身是左值</span></span><br><span class="line">    <span class="comment">// process(y);           // 编译错误，因为 y 是左值</span></span><br><span class="line">    <span class="built_in">process</span>(std::<span class="built_in">move</span>(y));   <span class="comment">// 需要再次 std::move 转换为右值</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出-1"><a href="#输出-1" class="headerlink" title="输出"></a>输出</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">process(int&amp;&amp;): 42</span><br><span class="line">process(int&amp;&amp;): 42</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li><p><strong><code>std::move</code> 的作用：</strong></p>
+<ul>
+<li>它把传入的对象转换为右值引用，告诉编译器可以对其执行移动操作。</li>
+<li>它不会改变对象本身的值类别或状态。</li>
+</ul>
+</li>
+<li><p><strong>左值经过 <code>std::move</code> 转换：</strong></p>
+<ul>
+<li>变为右值引用。</li>
+</ul>
+</li>
+<li><p><strong>右值经过 <code>std::move</code> 转换：</strong></p>
+<ul>
+<li>仍然是右值引用，但语法上统一为右值处理。</li>
+</ul>
+</li>
+<li><p><strong><code>std::move</code> 不会销毁或重置对象：</strong></p>
+<ul>
+<li>对象在经过 <code>std::move</code> 后仍然存在，可以继续访问和使用（尽管其资源可能已被转移）。</li>
+</ul>
+</li>
+</ol>
+<p>注意: 在移动构造函数和移动赋值运算符这些类实现代码之外的地方, 只有确信需要进行移动操作且移动操作是安全的, 才使用 <code>std::move</code> 显式地移动对象</p>
+<h2 id="基本类型和类类型的移动操作"><a href="#基本类型和类类型的移动操作" class="headerlink" title="基本类型和类类型的移动操作"></a>基本类型和类类型的移动操作</h2><p>这两个例子看似相似，但它们在底层行为上有根本的区别，原因在于对象类型及其资源管理方式的不同。</p>
+<hr>
+<h3 id="第一例：基本类型-int"><a href="#第一例：基本类型-int" class="headerlink" title="第一例：基本类型 int"></a>第一例：基本类型 <code>int</code></h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">10</span>;         <span class="comment">// x 是左值</span></span><br><span class="line">    <span class="type">int</span>&amp;&amp; y = std::<span class="built_in">move</span>(x);  <span class="comment">// std::move(x) 将 x 转换为右值引用</span></span><br><span class="line"></span><br><span class="line">    y = <span class="number">20</span>;             <span class="comment">// 可以通过 y 修改 x 的值</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;x: &quot;</span> &lt;&lt; x &lt;&lt; std::endl;  <span class="comment">// 输出 20，x 本身没有消失</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h4><ol>
+<li><p><strong><code>std::move</code> 转换的作用：</strong></p>
+<ul>
+<li><code>std::move(x)</code> 将 <code>x</code> 标记为右值引用，但不会对 <code>x</code> 本身的值或状态造成任何改变。</li>
+<li><code>int&amp;&amp; y</code> 是一个右值引用，但它仍然直接绑定到 <code>x</code>，共享同一块内存。</li>
+</ul>
+</li>
+<li><p><strong>操作效果：</strong></p>
+<ul>
+<li>修改 <code>y</code> 的值实际上就是修改 <code>x</code>，因为 <code>y</code> 绑定到 <code>x</code> 的内存。</li>
+<li>因此，输出 <code>x</code> 时，其值已经更新为 <code>20</code>。</li>
+</ul>
+</li>
+<li><p><strong>为什么行为正常：</strong></p>
+<ul>
+<li>对于基本类型（如 <code>int</code>），<code>std::move</code> 仅改变类型语义，而不涉及实际的数据移动。</li>
+<li><code>int</code> 是轻量的 POD（Plain Old Data），无需复杂的资源管理。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="第二例：类类型-std-string"><a href="#第二例：类类型-std-string" class="headerlink" title="第二例：类类型 std::string"></a>第二例：类类型 <code>std::string</code></h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string str = <span class="string">&quot;Hello, world!&quot;</span>;</span><br><span class="line">    std::string newStr = std::<span class="built_in">move</span>(str);  <span class="comment">// 移动操作</span></span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;str: &quot;</span> &lt;&lt; str &lt;&lt; std::endl;  <span class="comment">// 可能为空或未定义（实现依赖）</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;newStr: &quot;</span> &lt;&lt; newStr &lt;&lt; std::endl;  <span class="comment">// &quot;Hello, world!&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h4><ol>
+<li><p><strong><code>std::move</code> 的作用：</strong></p>
+<ul>
+<li>对于类类型（如 <code>std::string</code>），<code>std::move</code> 同样只是标记为右值引用。</li>
+<li>但是，类类型的赋值操作会优先调用<strong>移动构造函数</strong>或<strong>移动赋值运算符</strong>（如果可用）。</li>
+</ul>
+</li>
+<li><p><strong>移动操作的效果：</strong></p>
+<ul>
+<li><code>std::move(str)</code> 会触发 <code>std::string</code> 的移动构造函数。</li>
+<li>在移动过程中，<code>newStr</code> 接管了 <code>str</code> 的底层资源（如堆上的字符串缓冲区）。</li>
+<li>移动完成后，<code>str</code> 的资源被转移，其状态通常会被置为“空”或“无效”（例如，其缓冲区指针可能为 <code>nullptr</code>，长度为 0）。</li>
+</ul>
+</li>
+<li><p><strong>为什么 <code>str</code> 状态不稳定：</strong></p>
+<ul>
+<li>C++ 标准没有强制规定移动后对象的具体状态，只要求它可以被安全地析构。</li>
+<li>因此，移动后的 <code>str</code> 可能变为空字符串、未定义状态，或保持部分有效性，具体取决于标准库的实现。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="两者的关键区别"><a href="#两者的关键区别" class="headerlink" title="两者的关键区别"></a>两者的关键区别</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>第一例（<code>int</code>）</th>
+<th>第二例（<code>std::string</code>）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>类型</td>
+<td>基本类型（POD）</td>
+<td>类类型（具有资源管理）</td>
+</tr>
+<tr>
+<td><code>std::move</code>作用</td>
+<td>仅改变类型语义，不转移资源</td>
+<td>转移底层资源所有权</td>
+</tr>
+<tr>
+<td>是否触发移动操作</td>
+<td>否</td>
+<td>是，调用移动构造函数</td>
+</tr>
+<tr>
+<td>移动后原对象状态</td>
+<td>完全不变</td>
+<td>可能为空或实现依赖</td>
+</tr>
+<tr>
+<td>是否需要资源管理</td>
+<td>否</td>
+<td>是，底层资源可能在堆上</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p><strong>对于基本类型：</strong></p>
+<ul>
+<li><code>std::move</code> 不涉及资源移动，仅改变语义。</li>
+<li>原变量的状态完全保持。</li>
+</ul>
+</li>
+<li><p><strong>对于类类型：</strong></p>
+<ul>
+<li><code>std::move</code> 通常触发移动操作，将资源转移到新对象。</li>
+<li>原对象可能被置为“资源空”的状态，具体行为依赖于类的实现。</li>
+</ul>
+</li>
+</ul>
+<p>了解这些区别有助于正确使用 <code>std::move</code> 和理解其作用范围。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
 </search>
