@@ -2104,8 +2104,10 @@
     <content><![CDATA[<p>Lambda 表达式在 C++中是一个非常强大且灵活的特性，它在以下场景中会特别有用：</p>
 <span id="more"></span>
 
-<h3 id="1-简化代码"><a href="#1-简化代码" class="headerlink" title="1. 简化代码"></a>1. <strong>简化代码</strong></h3><p>Lambda 表达式可以用来简化代码，特别是在需要定义短小的匿名函数时。例如，在 STL 算法（如<code>std::sort</code>）中传递自定义比较函数时：</p>
+<h3 id="1-算法"><a href="#1-算法" class="headerlink" title="1. 算法"></a>1. 算法</h3><p>Lambda 表达式可以用来简化代码，特别是在需要定义短小的匿名函数时。例如，在 STL 算法（如<code>std::sort</code>）中传递自定义比较函数时：</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt; vec = &#123;<span class="number">1</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    std::<span class="built_in">sort</span>(vec.<span class="built_in">begin</span>(), vec.<span class="built_in">end</span>(), [](<span class="type">int</span> a, <span class="type">int</span> b) &#123;</span><br><span class="line">        <span class="keyword">return</span> a &lt; b;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> n : vec) &#123;</span><br><span class="line">        std::cout &lt;&lt; n &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">auto</span> it = std::<span class="built_in">find_if</span>(m_servers.<span class="built_in">begin</span>(), m_servers.<span class="built_in">end</span>(),</span><br><span class="line">        [&amp;](<span class="type">const</span> VxiServerInfo&amp; server) &#123;</span><br><span class="line">            <span class="keyword">return</span> server.session_name == session_name;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
 
 <h3 id="2-捕获局部变量"><a href="#2-捕获局部变量" class="headerlink" title="2. 捕获局部变量"></a>2. <strong>捕获局部变量</strong></h3><p>Lambda 表达式可以捕获所在作用域内的变量，这样可以在回调或处理函数中使用这些变量，而不需要传递额外的参数：</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> x = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">auto</span> add_x = [x](<span class="type">int</span> y) &#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;;</span><br><span class="line">std::cout &lt;&lt; <span class="built_in">add_x</span>(<span class="number">5</span>) &lt;&lt; std::endl; <span class="comment">// 输出 15</span></span><br></pre></td></tr></table></figure>
@@ -3530,7 +3532,7 @@
 </ol>
 ]]></content>
       <categories>
-        <category>C++</category>
+        <category>c++</category>
       </categories>
   </entry>
   <entry>
@@ -3789,11 +3791,8 @@
 <p>这些成员函数的具体实现和使用取决于类的设计需求和功能。</p>
 ]]></content>
       <categories>
-        <category>C++</category>
+        <category>c++</category>
       </categories>
-      <tags>
-        <tag>C++</tag>
-      </tags>
   </entry>
   <entry>
     <title>062-const</title>
@@ -3804,7 +3803,7 @@
 <p>然而，如果你希望明确表达参数在函数内部不应被修改的意图，或者为了代码的一致性，你可以使用<code>const</code>来修饰传值参数。这样做不会影响性能或功能，但可以提高代码的可读性。</p>
 ]]></content>
       <categories>
-        <category>C++</category>
+        <category>c++</category>
       </categories>
   </entry>
   <entry>
@@ -3982,7 +3981,7 @@
 </li>
 <li><p><strong>为什么 <code>str</code> 状态不稳定：</strong></p>
 <ul>
-<li>C++ 标准没有强制规定移动后对象的具体状态，只要求它可以被安全地析构。</li>
+<li>c++ 标准没有强制规定移动后对象的具体状态，只要求它可以被安全地析构。</li>
 <li>因此，移动后的 <code>str</code> 可能变为空字符串、未定义状态，或保持部分有效性，具体取决于标准库的实现。</li>
 </ul>
 </li>
@@ -4040,7 +4039,125 @@
 <p>了解这些区别有助于正确使用 <code>std::move</code> 和理解其作用范围。</p>
 ]]></content>
       <categories>
-        <category>C++</category>
+        <category>c++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>063-模板</title>
+    <url>/2024/12/03/063-%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[<h2 id="模板参数会保留其传入类型的所有修饰符"><a href="#模板参数会保留其传入类型的所有修饰符" class="headerlink" title="模板参数会保留其传入类型的所有修饰符"></a>模板参数会保留其传入类型的所有修饰符</h2><p>在 C++中，模板参数会保留其传入类型的所有修饰符，包括<code>const</code>和引用（<code>&amp;</code>或<code>&amp;&amp;</code>）。这意味着如果你传递一个<code>const</code>类型或引用类型作为模板参数，模板会保留这些修饰符。</p>
+<p>例如：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(T param)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// param的类型会保留T的所有修饰符</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line">    <span class="built_in">func</span>(a); <span class="comment">// T为const int</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> b = <span class="number">20</span>;</span><br><span class="line">    <span class="built_in">func</span>(b); <span class="comment">// T为int</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span>&amp; c = b;</span><br><span class="line">    <span class="built_in">func</span>(c); <span class="comment">// T为int&amp;</span></span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">int</span>&amp; d = a;</span><br><span class="line">    <span class="built_in">func</span>(d); <span class="comment">// T为const int&amp;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>func</code>函数的模板参数<code>T</code>会保留传入参数的<code>const</code>和引用修饰符。因此，<code>T</code>的类型会根据传入的参数类型而有所不同。</p>
+<p>如果你希望在模板中去掉这些修饰符，可以使用标准库中的类型萃取工具，如<code>std::remove_const</code>和<code>std::remove_reference</code>。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;type_traits&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(T param)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">using</span> PlainType = <span class="keyword">typename</span> std::remove_const&lt;<span class="keyword">typename</span> std::remove_reference&lt;T&gt;::type&gt;::type;</span><br><span class="line">    <span class="comment">// PlainType是去掉const和引用后的基本类型</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，你可以在模板中根据需要处理类型的修饰符。</p>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>064-数据结构</title>
+    <url>/2024/12/04/064-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[<h2 id="常见概念"><a href="#常见概念" class="headerlink" title="常见概念"></a>常见概念</h2><h3 id="随机访问"><a href="#随机访问" class="headerlink" title="随机访问"></a>随机访问</h3><p>随机访问（Random Access）是指在数据结构中，可以在常数时间内（O(1)）直接访问任意一个元素，而不需要从头开始遍历数据结构。数组（Array）是支持随机访问的典型数据结构，因为可以通过<strong>索引</strong>(数据地址+偏移量)直接访问任意位置的元素。</p>
+<p>在支持随机访问的数据结构中，元素的存储位置是连续的，这使得通过计算偏移量来直接定位元素成为可能。相比之下，链表（Linked List）不支持随机访问，因为访问某个元素需要从头开始逐个遍历，时间复杂度为 O(n)。</p>
+<p>随机访问的优势在于其高效性，特别是在需要频繁访问或修改特定位置的元素时。然而，这种高效性通常是以牺牲插入和删除操作的效率为代价的，因为在数组中插入或删除元素可能需要移动大量数据。</p>
+<h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><h3 id="哈希表就是键值对吗"><a href="#哈希表就是键值对吗" class="headerlink" title="哈希表就是键值对吗"></a>哈希表就是键值对吗</h3><p>哈希表（Hash Table）确实是基于键值对（key-value pair）的一种数据结构。它通过一个哈希函数将键映射到一个数组中的位置，以便快速查找对应的值。以下是哈希表的一些关键特性：</p>
+<ol>
+<li><p><strong>键值对存储</strong>：哈希表中的每个元素都是一个键值对。键用于标识数据，值是与该键相关联的数据。</p>
+</li>
+<li><p><strong>快速查找</strong>：通过哈希函数，哈希表可以在平均情况下以常数时间复杂度（O(1)）进行查找、插入和删除操作。</p>
+</li>
+<li><p><strong>哈希冲突</strong>：由于不同的键可能映射到相同的哈希值，哈希表需要处理冲突。常见的冲突解决方法包括链地址法（使用链表存储冲突的元素）和开放地址法（在数组中寻找下一个空闲位置）。</p>
+</li>
+<li><p><strong>动态调整</strong>：为了保持高效性，哈希表通常会在负载因子（已存储元素数量与数组大小的比值）超过某个阈值时进行扩展和重哈希。</p>
+</li>
+</ol>
+<p>因此，哈希表不仅仅是键值对的简单集合，它还包含了用于高效存储和检索的机制。</p>
+<h3 id="哈希冲突"><a href="#哈希冲突" class="headerlink" title="哈希冲突"></a>哈希冲突</h3><p>哈希冲突（Hash Collision）是指在哈希表中，不同的键通过哈希函数映射到相同的哈希值或数组位置的情况。由于哈希表的核心是通过哈希函数将键映射到数组中的位置，因此冲突是不可避免的。处理哈希冲突的方法主要有以下几种：</p>
+<ol>
+<li><p><strong>链地址法（Separate Chaining）</strong>：</p>
+<ul>
+<li>在每个数组位置存储一个链表（或其他数据结构），所有映射到同一位置的元素都存储在这个链表中。</li>
+<li>当发生冲突时，将新元素添加到链表中。</li>
+<li>查找时，需要遍历链表来查找目标元素。</li>
+</ul>
+</li>
+<li><p><strong>开放地址法（Open Addressing）</strong>：</p>
+<ul>
+<li>当发生冲突时，寻找数组中的下一个空闲位置来存储元素。</li>
+<li>常见的开放地址法策略包括线性探测（Linear Probing）、二次探测（Quadratic Probing）和双重哈希（Double Hashing）。</li>
+</ul>
+</li>
+<li><p><strong>再哈希（Rehashing）</strong>：</p>
+<ul>
+<li>当哈希表的负载因子超过某个阈值时，创建一个更大的哈希表，并将所有元素重新哈希到新的表中(扩容)。</li>
+<li>这可以减少冲突的发生频率。</li>
+</ul>
+</li>
+</ol>
+<h4 id="扩容哈希表"><a href="#扩容哈希表" class="headerlink" title="扩容哈希表"></a>扩容哈希表</h4><p>负载因子定义为哈希表中元素数量除以桶数量，反映了哈希冲突的严重程度，常用作触发哈希表扩容的条件。</p>
+<p>简单粗暴，但是效率低，因为哈希表扩容需要进行大量的数据搬运与哈希值计算。</p>
+<p>改良哈希表数据结构，使得哈希表可以在出现哈希冲突时正常工作。</p>
+<ul>
+<li>仅在必要时，即当哈希冲突比较严重时，才执行扩容操作。</li>
+<li>哈希表的结构改良方法主要包括“链式地址”和“开放寻址”。</li>
+</ul>
+<h4 id="链式地址的局限性"><a href="#链式地址的局限性" class="headerlink" title="链式地址的局限性"></a>链式地址的局限性</h4><ul>
+<li>占用空间增大：链表包含节点指针，它相比数组更加耗费内存空间。</li>
+<li>查询效率降低：因为需要线性遍历链表来查找对应元素。</li>
+</ul>
+<p>值得注意的是，当链表很长时，查询效率 O(n) 很差。此时可以将链表转换为“AVL 树”或“红黑树”，从而将查询操作的时间复杂度优化至 O(logn)。</p>
+<h4 id="开放寻址的局限性"><a href="#开放寻址的局限性" class="headerlink" title="开放寻址的局限性"></a>开放寻址的局限性</h4><ul>
+<li>线性探测容易产生“聚集现象”。数组中连续被占用的位置越长，这些连续位置发生哈希冲突的可能性越大，从而进一步促使该位置的聚堆生长，形成恶性循环，最终导致增删查改操作效率劣化。</li>
+<li>负载因子不能太大，否则会降低查询效率。</li>
+<li>删除元素比较麻烦，不能直接删除，需要惰性删除(lazy delete)。这是因为删除元素会在数组内产生一个空桶 None ，而当查询元素时，线性探测到该空桶就会返回，因此在该空桶之下的元素都无法再被访问到，程序可能误判这些元素不存在。<ul>
+<li>惰性删除: 不直接从哈希表中移除元素，而是利用一个常量 TOMBSTONE 来标记这个桶。在该机制下，None 和 TOMBSTONE 都代表空桶，都可以放置键值对。但不同的是，线性探测到 TOMBSTONE 时应该继续遍历，因为其之下可能还存在键值对。</li>
+</ul>
+</li>
+</ul>
+<p>请注意，开放寻址（线性探测、平方探测和多次哈希）哈希表都存在“不能直接删除元素”的问题。</p>
+<h3 id="怎么理解哈希的输入空间通常远大于输出空间（数组长度）"><a href="#怎么理解哈希的输入空间通常远大于输出空间（数组长度）" class="headerlink" title="怎么理解哈希的输入空间通常远大于输出空间（数组长度）"></a>怎么理解哈希的输入空间通常远大于输出空间（数组长度）</h3><p>哈希函数的输入空间通常远大于输出空间的原因在于，哈希函数需要将一个非常大的输入集合（如所有可能的字符串或整数）映射到一个相对较小的输出集合（如哈希表的数组索引）。这种映射过程不可避免地会导致哈希冲突，因为多个不同的输入可能会被映射到相同的输出值。</p>
+<h4 id="理解这一点的几个关键点"><a href="#理解这一点的几个关键点" class="headerlink" title="理解这一点的几个关键点"></a>理解这一点的几个关键点</h4><ol>
+<li><p><strong>输入空间的广泛性</strong>：</p>
+<ul>
+<li>输入空间可以是非常大的集合。例如，所有可能的字符串组合、所有可能的整数等。这些集合的大小通常是无限的或非常大的。</li>
+</ul>
+</li>
+<li><p><strong>输出空间的有限性</strong>：</p>
+<ul>
+<li>输出空间是哈希表的大小，即数组的长度。这个长度是有限的，因为计算机的内存是有限的，哈希表的大小通常是一个固定的数值。</li>
+</ul>
+</li>
+<li><p><strong>映射的必要性</strong>：</p>
+<ul>
+<li>哈希函数的作用是将大输入空间映射到小输出空间，以便在有限的内存中高效地存储和检索数据。</li>
+</ul>
+</li>
+<li><p><strong>冲突的不可避免性</strong>：</p>
+<ul>
+<li>由于输入空间远大于输出空间，必然会有不同的输入映射到相同的输出值，这就是哈希冲突。</li>
+</ul>
+</li>
+</ol>
+<h4 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h4><p>假设你有一个哈希表，其数组长度为 1000（输出空间），而你需要存储的可能输入是所有可能的 32 位整数（输入空间）。32 位整数的可能值有 2^32 个（约 43 亿），显然远大于 1000。因此，多个不同的整数可能会映射到同一个数组索引，导致冲突。</p>
+<p>这种映射机制是哈希表设计中的一个基本挑战，处理冲突的方法（如链地址法和开放地址法）就是为了解决这个问题。</p>
+<h2 id="树"><a href="#树" class="headerlink" title="树"></a>树</h2><p>递: 向下<br>归: 向上</p>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>堆是一种特殊的树形数据结构，其中每个节点都满足特定的堆性质。堆通常用于实现优先队列（Priority Queue），因为它可以高效地支持插入和删除操作，同时保持元素的有序性。</p>
+<p>堆有两种主要类型：</p>
+<ul>
+<li>最大堆（Max Heap）：在最大堆中，每个节点的值都大于或等于其子节点的值。</li>
+<li>最小堆（Min Heap）：在最小堆中，每个节点的值都小于或等于其子节点的值。</li>
+</ul>
+<p>Q：数据结构的“堆”与内存管理的“堆”是同一个概念吗？</p>
+<p>两者不是同一个概念，只是碰巧都叫“堆”。</p>
+<p>数据结构的“堆”是基于数组实现的树形数据结构，而内存管理的“堆”是内存管理机制。</p>
+<h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2>]]></content>
+      <categories>
+        <category>数据结构与算法</category>
       </categories>
   </entry>
 </search>
