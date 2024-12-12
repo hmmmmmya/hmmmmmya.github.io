@@ -4160,4 +4160,47 @@
         <category>数据结构与算法</category>
       </categories>
   </entry>
+  <entry>
+    <title>065-cpp-sleep</title>
+    <url>/2024/12/12/065-cpp-sleep/</url>
+    <content><![CDATA[<h3 id="C-休眠函数"><a href="#C-休眠函数" class="headerlink" title="C++ 休眠函数"></a>C++ 休眠函数</h3><p>让我用中文解释这两种休眠方式的区别：</p>
+<ol>
+<li><code>std::this_thread::sleep_for</code></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">milliseconds</span>(<span class="number">100</span>)); <span class="comment">// C++11 方式</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这是 C++11 引入的现代休眠方法</li>
+<li>跨平台兼容性好</li>
+<li>可以使用不同的时间单位（毫秒、微秒、秒等）</li>
+<li>提供类型安全</li>
+<li>可以与其他 C++时间相关的功能无缝配合</li>
+<li>精度依赖于操作系统实现</li>
+</ul>
+<ol start="2">
+<li><code>usleep</code></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">usleep</span>(<span class="number">100000</span>); <span class="comment">// 参数单位是微秒</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>POSIX 系统的传统 C 函数</li>
+<li>只在 UNIX&#x2F;Linux 系统上可用</li>
+<li>只接受微秒作为参数单位</li>
+<li>参数类型是无符号整数</li>
+<li>在某些系统上已经被废弃</li>
+<li>可能会被信号中断</li>
+</ul>
+<p>建议：</p>
+<ol>
+<li>在现代 C++代码中，推荐使用<code>std::this_thread::sleep_for</code></li>
+<li>如果是只针对 UNIX&#x2F;Linux 的老代码，<code>usleep</code>也是可以接受的</li>
+<li>如果需要高精度定时，两者都不够理想，应该考虑使用专门的实时编程方案</li>
+</ol>
+<p>示例对比：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 现代C++方式，休眠100毫秒</span></span><br><span class="line">std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">milliseconds</span>(<span class="number">100</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 传统方式，休眠100毫秒</span></span><br><span class="line"><span class="built_in">usleep</span>(<span class="number">100</span> * <span class="number">1000</span>);  <span class="comment">// 需要自己转换单位</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+  </entry>
 </search>
