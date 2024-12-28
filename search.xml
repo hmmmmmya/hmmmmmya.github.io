@@ -4204,4 +4204,63 @@
         <category>c++</category>
       </categories>
   </entry>
+  <entry>
+    <title>067-read/write和recv/send的区别</title>
+    <url>/2024/12/28/067-read-write%E5%92%8Crecv-send%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<p><code>read()</code>&#x2F;<code>write()</code> 和 <code>recv()</code>&#x2F;<code>send()</code> 是用于数据传输的系统调用，但它们有一些区别：</p>
+<ol>
+<li><p><strong>通用性</strong>：</p>
+<ul>
+<li><code>read()</code> 和 <code>write()</code> 是通用的 I&#x2F;O 操作函数，可以用于文件、管道、套接字等各种文件描述符。</li>
+<li><code>recv()</code> 和 <code>send()</code> 专门用于套接字操作，提供了一些额外的功能。</li>
+</ul>
+</li>
+<li><p><strong>功能性</strong>：</p>
+<ul>
+<li><code>recv()</code> 和 <code>send()</code> 可以指定额外的标志（flags），如 <code>MSG_DONTWAIT</code>、<code>MSG_PEEK</code> 等，这些标志可以改变函数的行为。</li>
+<li><code>read()</code> 和 <code>write()</code> 没有这些额外的标志。</li>
+</ul>
+</li>
+<li><p><strong>参数</strong>：</p>
+<ul>
+<li><code>recv()</code> 和 <code>send()</code> 的参数中包含一个 <code>flags</code> 参数，用于指定操作的行为。</li>
+<li><code>read()</code> 和 <code>write()</code> 没有 <code>flags</code> 参数。</li>
+</ul>
+</li>
+<li><p><strong>使用场景</strong>：</p>
+<ul>
+<li>在网络编程中，通常使用 <code>recv()</code> 和 <code>send()</code>，因为它们提供了更灵活的控制。</li>
+<li>对于文件 I&#x2F;O，通常使用 <code>read()</code> 和 <code>write()</code>。</li>
+</ul>
+</li>
+</ol>
+<p>总结来说，<code>recv()</code> 和 <code>send()</code> 是为网络编程设计的，提供了更多的控制选项，而 <code>read()</code> 和 <code>write()</code> 是更通用的 I&#x2F;O 操作函数。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>066-生产者消费者模型</title>
+    <url>/2024/12/13/066-%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<p>要实现 SCPI 回复与请求的匹配，可以考虑使用生产者-消费者模式或线程间同步机制。以下是一个简化的实现思路：</p>
+<ol>
+<li><strong>使用队列</strong>：可以使用一个线程安全的队列来存储请求和对应的回复。</li>
+<li><strong>生产者线程</strong>：负责发送 SCPI 命令并将请求信息（如请求 ID）放入队列。</li>
+<li><strong>消费者线程</strong>：负责从队列中取出请求信息，等待并接收对应的回复。</li>
+</ol>
+<p>以下是一个简化的代码示例，展示如何使用 C++的线程和队列来实现这一模式：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;condition_variable&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"></span><br><span class="line">std::queue&lt;std::pair&lt;<span class="type">int</span>, std::string&gt;&gt; request_queue;</span><br><span class="line">std::mutex queue_mutex;</span><br><span class="line">std::condition_variable queue_cv;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Producer</span><span class="params">(<span class="type">int</span> request_id, <span class="type">const</span> std::string&amp; command)</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(queue_mutex)</span></span>;</span><br><span class="line">        request_queue.<span class="built_in">push</span>(&#123;request_id, command&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    queue_cv.<span class="built_in">notify_one</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Consumer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(queue_mutex)</span></span>;</span><br><span class="line">        queue_cv.<span class="built_in">wait</span>(lock, [] &#123; <span class="keyword">return</span> !request_queue.<span class="built_in">empty</span>(); &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">auto</span> request = request_queue.<span class="built_in">front</span>();</span><br><span class="line">        request_queue.<span class="built_in">pop</span>();</span><br><span class="line">        lock.<span class="built_in">unlock</span>();</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> request_id = request.first;</span><br><span class="line">        std::string command = request.second;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 模拟发送命令并接收回复</span></span><br><span class="line">        std::string reply = <span class="string">&quot;Reply for &quot;</span> + command; <span class="comment">// 假设这是接收到的回复</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 处理回复</span></span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Request ID: &quot;</span> &lt;&lt; request_id &lt;&lt; <span class="string">&quot;, Reply: &quot;</span> &lt;&lt; reply &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">std::thread <span class="title">consumer_thread</span><span class="params">(Consumer)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 模拟发送请求</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; ++i) &#123;</span><br><span class="line">        <span class="built_in">Producer</span>(i, <span class="string">&quot;SCPI Command &quot;</span> + std::<span class="built_in">to_string</span>(i));</span><br><span class="line">        std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">milliseconds</span>(<span class="number">100</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    consumer_thread.<span class="built_in">join</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ul>
+<li><strong>生产者线程</strong>：<code>Producer</code>函数模拟发送 SCPI 命令，并将请求 ID 和命令放入队列。</li>
+<li><strong>消费者线程</strong>：<code>Consumer</code>函数从队列中取出请求，模拟接收回复，并输出结果。</li>
+<li><strong>线程同步</strong>：使用<code>std::mutex</code>和<code>std::condition_variable</code>来确保线程安全和同步。</li>
+</ul>
+<p>在实际应用中，你需要根据具体的 SCPI 命令和回复机制来调整代码，确保请求和回复能够正确匹配。可能还需要处理超时、错误等情况。</p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+  </entry>
 </search>
