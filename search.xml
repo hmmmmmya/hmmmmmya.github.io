@@ -4332,4 +4332,56 @@
         <category>c++</category>
       </categories>
   </entry>
+  <entry>
+    <title>073-提高c++运行效率的操作</title>
+    <url>/2025/02/12/073-%E6%8F%90%E9%AB%98cpp%E8%BF%90%E8%A1%8C%E6%95%88%E7%8E%87%E7%9A%84%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<p>C++ 提高运行效率的常见优化方法包括以下几类：</p>
+<h3 id="1-数据结构优化"><a href="#1-数据结构优化" class="headerlink" title="1. 数据结构优化"></a>1. <strong>数据结构优化</strong></h3><ul>
+<li><strong>选择合适的数据结构</strong>：根据具体应用选择 <code>std::vector</code>、<code>std::deque</code>、<code>std::list</code>、<code>std::unordered_map</code> 等。<ul>
+<li>例如，<code>std::vector</code> 由于数据局部性好，通常比 <code>std::list</code> 更快（适用于频繁遍历的场景）。</li>
+<li><code>std::unordered_map</code> 适用于快速查找，而 <code>std::map</code> 适用于有序存储。</li>
+</ul>
+</li>
+<li>**使用 <code>std::bitset</code> 代替 <code>std::vector&lt;bool&gt;</code>**（你已经在用 <code>std::bitset</code>）。</li>
+<li><strong>避免不必要的动态内存分配</strong>：可以使用 <code>std::array</code> 或 <code>std::vector::reserve()</code> 预分配空间。</li>
+</ul>
+<h3 id="2-算法优化"><a href="#2-算法优化" class="headerlink" title="2. 算法优化"></a>2. <strong>算法优化</strong></h3><ul>
+<li><strong>减少不必要的计算</strong>：避免重复计算中间值，使用缓存（如 <code>std::unordered_map</code> 进行记忆化）。</li>
+<li>**使用 <code>std::sort()</code> 而非 <code>qsort()</code>**：C++ 的 <code>std::sort()</code> 采用 introsort，比 C 语言的 <code>qsort()</code> 更快。</li>
+<li><strong>使用合适的搜索和排序算法</strong>：如二分查找 (<code>std::lower_bound</code>)、快速排序、堆排序 (<code>std::priority_queue</code>)。</li>
+</ul>
+<h3 id="3-减少拷贝，提高内存管理效率"><a href="#3-减少拷贝，提高内存管理效率" class="headerlink" title="3. 减少拷贝，提高内存管理效率"></a>3. <strong>减少拷贝，提高内存管理效率</strong></h3><ul>
+<li><strong>使用 <code>std::move</code> 和 <code>std::forward</code></strong> 避免不必要的拷贝：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">std::string <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Hello&quot;</span>;  <span class="comment">// 返回值优化（RVO），避免拷贝</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>**使用 <code>std::unique_ptr</code> 或 <code>std::shared_ptr</code>**，避免手动 <code>new/delete</code>。</li>
+<li><strong>使用 <code>emplace_back</code> 代替 <code>push_back</code></strong> 避免额外拷贝：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::vector&lt;std::string&gt; vec;</span><br><span class="line">vec.<span class="built_in">emplace_back</span>(<span class="string">&quot;hello&quot;</span>);  <span class="comment">// 直接构造，避免额外的拷贝</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="4-减少锁的争用"><a href="#4-减少锁的争用" class="headerlink" title="4. 减少锁的争用"></a>4. <strong>减少锁的争用</strong></h3><ul>
+<li><strong>使用 <code>std::atomic</code> 代替锁</strong>（适用于简单的数据同步）。</li>
+<li>**使用 <code>std::shared_mutex</code>**，在读多写少的情况下，减少锁的开销。</li>
+<li><strong>缩小锁的粒度</strong>：尽量减少锁的持有时间，你已经考虑在 <code>VxiSession::ProcessData</code> 里用 <code>swap</code> 来减少锁的影响。</li>
+</ul>
+<h3 id="5-提高-CPU-缓存命中率"><a href="#5-提高-CPU-缓存命中率" class="headerlink" title="5. 提高 CPU 缓存命中率"></a>5. <strong>提高 CPU 缓存命中率</strong></h3><ul>
+<li><strong>尽量使用连续存储的容器（如 <code>std::vector</code>）</strong>，避免 <code>std::list</code> 造成的缓存不友好情况。</li>
+<li><strong>减少指针跳转</strong>，如避免 <code>std::list&lt;std::shared_ptr&lt;T&gt;&gt;</code> 这样的嵌套结构。</li>
+<li><strong>使用 <code>restrict</code>（仅 C++20 的 <code>__restrict__</code> 关键字）</strong> 提示编译器优化指针别名分析。</li>
+</ul>
+<h3 id="6-编译优化"><a href="#6-编译优化" class="headerlink" title="6. 编译优化"></a>6. <strong>编译优化</strong></h3><ul>
+<li><strong>使用 <code>-O2</code> 或 <code>-O3</code></strong> 进行编译优化（<code>g++ -O3</code>）。</li>
+<li>**启用 <code>-march=native</code>**，让编译器生成针对本地 CPU 的优化指令。</li>
+<li><strong>启用 LTO（链接时优化）</strong>：<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">g++ -O3 -flto -march=native</span><br></pre></td></tr></table></figure></li>
+<li><strong>使用 <code>constexpr</code></strong> 让编译期计算结果：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="type">int</span> <span class="title">factorial</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (n &lt;= <span class="number">1</span>) ? <span class="number">1</span> : (n * <span class="built_in">factorial</span>(n - <span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> result = <span class="built_in">factorial</span>(<span class="number">5</span>);  <span class="comment">// 5! 在编译期计算</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="7-多线程优化"><a href="#7-多线程优化" class="headerlink" title="7. 多线程优化"></a>7. <strong>多线程优化</strong></h3><ul>
+<li><strong>避免 false sharing（伪共享）</strong>：在多线程中，多个线程修改同一个缓存行可能导致性能下降，可以使用 <code>alignas(64)</code> 让数据对齐。<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">alignas</span>(<span class="number">64</span>) Data &#123;</span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="8-内存管理优化"><a href="#8-内存管理优化" class="headerlink" title="8. 内存管理优化"></a>8. <strong>内存管理优化</strong></h3><ul>
+<li><strong>减少 <code>new/delete</code> 调用</strong>：可以使用对象池（如 <code>boost::pool</code>）。</li>
+<li><strong>使用 <code>std::vector::reserve()</code> 预分配内存</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::vector&lt;<span class="type">int</span>&gt; v;</span><br><span class="line">v.<span class="built_in">reserve</span>(<span class="number">1000</span>);  <span class="comment">// 预分配 1000 个元素，避免频繁扩容</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>使用 <code>std::string_view</code> 代替 <code>std::string</code> 进行字符串处理，避免拷贝</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(std::string_view str)</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; str &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Hello, world&quot;</span>);  <span class="comment">// 不会创建新的字符串对象</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+  </entry>
 </search>

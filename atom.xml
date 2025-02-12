@@ -6,7 +6,7 @@
   <link href="https://hmmmmmya.github.io/atom.xml" rel="self"/>
   
   <link href="https://hmmmmmya.github.io/"/>
-  <updated>2025-02-11T06:54:39.714Z</updated>
+  <updated>2025-02-12T03:26:41.141Z</updated>
   <id>https://hmmmmmya.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>073-提高c++运行效率的操作</title>
+    <link href="https://hmmmmmya.github.io/2025/02/12/073-%E6%8F%90%E9%AB%98cpp%E8%BF%90%E8%A1%8C%E6%95%88%E7%8E%87%E7%9A%84%E6%93%8D%E4%BD%9C/"/>
+    <id>https://hmmmmmya.github.io/2025/02/12/073-%E6%8F%90%E9%AB%98cpp%E8%BF%90%E8%A1%8C%E6%95%88%E7%8E%87%E7%9A%84%E6%93%8D%E4%BD%9C/</id>
+    <published>2025-02-12T03:26:10.000Z</published>
+    <updated>2025-02-12T03:26:41.141Z</updated>
+    
+    <content type="html"><![CDATA[<p>C++ 提高运行效率的常见优化方法包括以下几类：</p><h3 id="1-数据结构优化"><a href="#1-数据结构优化" class="headerlink" title="1. 数据结构优化"></a>1. <strong>数据结构优化</strong></h3><ul><li><strong>选择合适的数据结构</strong>：根据具体应用选择 <code>std::vector</code>、<code>std::deque</code>、<code>std::list</code>、<code>std::unordered_map</code> 等。<ul><li>例如，<code>std::vector</code> 由于数据局部性好，通常比 <code>std::list</code> 更快（适用于频繁遍历的场景）。</li><li><code>std::unordered_map</code> 适用于快速查找，而 <code>std::map</code> 适用于有序存储。</li></ul></li><li>**使用 <code>std::bitset</code> 代替 <code>std::vector&lt;bool&gt;</code>**（你已经在用 <code>std::bitset</code>）。</li><li><strong>避免不必要的动态内存分配</strong>：可以使用 <code>std::array</code> 或 <code>std::vector::reserve()</code> 预分配空间。</li></ul><h3 id="2-算法优化"><a href="#2-算法优化" class="headerlink" title="2. 算法优化"></a>2. <strong>算法优化</strong></h3><ul><li><strong>减少不必要的计算</strong>：避免重复计算中间值，使用缓存（如 <code>std::unordered_map</code> 进行记忆化）。</li><li>**使用 <code>std::sort()</code> 而非 <code>qsort()</code>**：C++ 的 <code>std::sort()</code> 采用 introsort，比 C 语言的 <code>qsort()</code> 更快。</li><li><strong>使用合适的搜索和排序算法</strong>：如二分查找 (<code>std::lower_bound</code>)、快速排序、堆排序 (<code>std::priority_queue</code>)。</li></ul><h3 id="3-减少拷贝，提高内存管理效率"><a href="#3-减少拷贝，提高内存管理效率" class="headerlink" title="3. 减少拷贝，提高内存管理效率"></a>3. <strong>减少拷贝，提高内存管理效率</strong></h3><ul><li><strong>使用 <code>std::move</code> 和 <code>std::forward</code></strong> 避免不必要的拷贝：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::string <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Hello&quot;</span>;  <span class="comment">// 返回值优化（RVO），避免拷贝</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li>**使用 <code>std::unique_ptr</code> 或 <code>std::shared_ptr</code>**，避免手动 <code>new/delete</code>。</li><li><strong>使用 <code>emplace_back</code> 代替 <code>push_back</code></strong> 避免额外拷贝：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;std::string&gt; vec;</span><br><span class="line">vec.<span class="built_in">emplace_back</span>(<span class="string">&quot;hello&quot;</span>);  <span class="comment">// 直接构造，避免额外的拷贝</span></span><br></pre></td></tr></table></figure></li></ul><h3 id="4-减少锁的争用"><a href="#4-减少锁的争用" class="headerlink" title="4. 减少锁的争用"></a>4. <strong>减少锁的争用</strong></h3><ul><li><strong>使用 <code>std::atomic</code> 代替锁</strong>（适用于简单的数据同步）。</li><li>**使用 <code>std::shared_mutex</code>**，在读多写少的情况下，减少锁的开销。</li><li><strong>缩小锁的粒度</strong>：尽量减少锁的持有时间，你已经考虑在 <code>VxiSession::ProcessData</code> 里用 <code>swap</code> 来减少锁的影响。</li></ul><h3 id="5-提高-CPU-缓存命中率"><a href="#5-提高-CPU-缓存命中率" class="headerlink" title="5. 提高 CPU 缓存命中率"></a>5. <strong>提高 CPU 缓存命中率</strong></h3><ul><li><strong>尽量使用连续存储的容器（如 <code>std::vector</code>）</strong>，避免 <code>std::list</code> 造成的缓存不友好情况。</li><li><strong>减少指针跳转</strong>，如避免 <code>std::list&lt;std::shared_ptr&lt;T&gt;&gt;</code> 这样的嵌套结构。</li><li><strong>使用 <code>restrict</code>（仅 C++20 的 <code>__restrict__</code> 关键字）</strong> 提示编译器优化指针别名分析。</li></ul><h3 id="6-编译优化"><a href="#6-编译优化" class="headerlink" title="6. 编译优化"></a>6. <strong>编译优化</strong></h3><ul><li><strong>使用 <code>-O2</code> 或 <code>-O3</code></strong> 进行编译优化（<code>g++ -O3</code>）。</li><li>**启用 <code>-march=native</code>**，让编译器生成针对本地 CPU 的优化指令。</li><li><strong>启用 LTO（链接时优化）</strong>：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -O3 -flto -march=native</span><br></pre></td></tr></table></figure></li><li><strong>使用 <code>constexpr</code></strong> 让编译期计算结果：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="type">int</span> <span class="title">factorial</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (n &lt;= <span class="number">1</span>) ? <span class="number">1</span> : (n * <span class="built_in">factorial</span>(n - <span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> result = <span class="built_in">factorial</span>(<span class="number">5</span>);  <span class="comment">// 5! 在编译期计算</span></span><br></pre></td></tr></table></figure></li></ul><h3 id="7-多线程优化"><a href="#7-多线程优化" class="headerlink" title="7. 多线程优化"></a>7. <strong>多线程优化</strong></h3><ul><li><strong>避免 false sharing（伪共享）</strong>：在多线程中，多个线程修改同一个缓存行可能导致性能下降，可以使用 <code>alignas(64)</code> 让数据对齐。<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">alignas</span>(<span class="number">64</span>) Data &#123;</span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li></ul><h3 id="8-内存管理优化"><a href="#8-内存管理优化" class="headerlink" title="8. 内存管理优化"></a>8. <strong>内存管理优化</strong></h3><ul><li><strong>减少 <code>new/delete</code> 调用</strong>：可以使用对象池（如 <code>boost::pool</code>）。</li><li><strong>使用 <code>std::vector::reserve()</code> 预分配内存</strong>：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;<span class="type">int</span>&gt; v;</span><br><span class="line">v.<span class="built_in">reserve</span>(<span class="number">1000</span>);  <span class="comment">// 预分配 1000 个元素，避免频繁扩容</span></span><br></pre></td></tr></table></figure></li><li><strong>使用 <code>std::string_view</code> 代替 <code>std::string</code> 进行字符串处理，避免拷贝</strong>：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(std::string_view str)</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; str &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Hello, world&quot;</span>);  <span class="comment">// 不会创建新的字符串对象</span></span><br></pre></td></tr></table></figure></li></ul>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;C++ 提高运行效率的常见优化方法包括以下几类：&lt;/p&gt;
+&lt;h3 id=&quot;1-数据结构优化&quot;&gt;&lt;a href=&quot;#1-数据结构优化&quot; class=&quot;headerlink&quot; title=&quot;1. 数据结构优化&quot;&gt;&lt;/a&gt;1.</summary>
+        
+      
+    
+    
+    
+    <category term="c++" scheme="https://hmmmmmya.github.io/categories/c/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>072-spdlog使用方法</title>
@@ -479,32 +505,6 @@
     
     
     <category term="c++" scheme="https://hmmmmmya.github.io/categories/c/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>053-localhost和127.0.0.1的关系</title>
-    <link href="https://hmmmmmya.github.io/2024/11/20/053-localhost%E5%92%8C127-0-0-1%E7%9A%84%E5%85%B3%E7%B3%BB/"/>
-    <id>https://hmmmmmya.github.io/2024/11/20/053-localhost%E5%92%8C127-0-0-1%E7%9A%84%E5%85%B3%E7%B3%BB/</id>
-    <published>2024-11-20T07:50:24.000Z</published>
-    <updated>2024-11-20T08:17:34.085Z</updated>
-    
-    <content type="html"><![CDATA[<p><code>localhost</code> 和 <code>127.0.0.1</code> 都是指向本地主机的地址，但它们在使用上有一些细微的区别：</p><h3 id="1-127-0-0-1"><a href="#1-127-0-0-1" class="headerlink" title="1. 127.0.0.1"></a>1. <code>127.0.0.1</code></h3><ul><li><strong>IPv4 地址</strong>：<code>127.0.0.1</code> 是一个标准的 IPv4 地址，专门用于指向本地计算机。</li><li><strong>环回地址</strong>：它是一个环回地址，意味着任何发送到这个地址的数据包都会被返回到本地计算机。</li><li><strong>网络接口</strong>：通常与名为<code>lo</code>或<code>lo0</code>的网络接口绑定。</li></ul><h3 id="2-localhost"><a href="#2-localhost" class="headerlink" title="2. localhost"></a>2. <code>localhost</code></h3><ul><li><strong>主机名</strong>：<code>localhost</code> 是一个主机名，通常在系统的<code>/etc/hosts</code>文件中被解析为<code>127.0.0.1</code>。</li><li><strong>域名解析</strong>：在大多数系统中，<code>localhost</code> 被解析为<code>127.0.0.1</code>，但它也可以被配置为解析为其他地址（如 IPv6 的<code>::1</code>）。</li><li><strong>可配置性</strong>：用户可以在<code>/etc/hosts</code>文件中更改<code>localhost</code>的解析地址。</li></ul><h3 id="3-关系与区别"><a href="#3-关系与区别" class="headerlink" title="3. 关系与区别"></a>3. 关系与区别</h3><ul><li><strong>默认解析</strong>：在大多数情况下，<code>localhost</code> 默认解析为<code>127.0.0.1</code>，但它是通过域名解析系统（如<code>/etc/hosts</code>文件）实现的。</li><li><strong>IPv6 支持</strong>：<code>localhost</code> 也可以解析为 IPv6 地址<code>::1</code>，而<code>127.0.0.1</code>仅限于 IPv4。</li><li><strong>使用场景</strong>：在编程和网络配置中，使用<code>localhost</code>可以使代码更具可移植性，因为它不依赖于特定的 IP 地址。</li></ul><h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>在大多数 Linux 系统中，<code>/etc/hosts</code>文件中会有如下配置：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1   localhost</span><br><span class="line">::1         localhost</span><br></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 localhost</span><br><span class="line">127.0.1.1 wt400</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">The following lines are desirable <span class="keyword">for</span> IPv6 capable hosts</span></span><br><span class="line">::1     ip6-localhost ip6-loopback</span><br><span class="line">fe00::0 ip6-localnet</span><br><span class="line">ff00::0 ip6-mcastprefix</span><br><span class="line">ff02::1 ip6-allnodes</span><br><span class="line">ff02::2 ip6-allrouters</span><br></pre></td></tr></table></figure><p>这意味着无论是 IPv4 还是 IPv6，<code>localhost</code>都会指向本地计算机。</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul><li><strong><code>127.0.0.1</code></strong> 是一个固定的 IPv4 地址，用于指向本地计算机。</li><li><strong><code>localhost</code></strong> 是一个主机名，通常解析为<code>127.0.0.1</code>，但可以配置为其他地址。</li><li>在大多数情况下，它们可以互换使用，但<code>localhost</code>提供了更大的灵活性和可移植性。</li><li>在终端中，ping <code>localhost</code> 和 <code>127.0.0.1</code> 的效果是一样的。都不经过网卡。</li></ul><h3 id="为什么-ping-127-0-0-1-不经过网卡？"><a href="#为什么-ping-127-0-0-1-不经过网卡？" class="headerlink" title="为什么 ping 127.0.0.1 不经过网卡？"></a>为什么 <code>ping 127.0.0.1</code> 不经过网卡？</h3><p><code>ping 127.0.0.1</code> 并不是测试网卡的连接，而是测试本机的网络协议栈（loopback interface）。它通过回环地址测试网络协议栈是否正常工作。具体来说：</p><ol><li><p><strong>127.0.0.1 的作用</strong></p><ul><li>它是回环地址，代表本机，无论网络接口的状态如何，都不会发送数据到外部网络设备。</li><li>即使你的网卡未连接到任何网络，<code>ping 127.0.0.1</code> 也会返回响应，因为它不依赖物理网卡。</li></ul></li><li><p><strong>测试范围</strong></p><ul><li>如果 <code>ping 127.0.0.1</code> 成功，说明操作系统的 TCP&#x2F;IP 协议栈正常工作。</li><li>如果失败，可能是 TCP&#x2F;IP 协议栈或相关配置出了问题，但与物理网卡无直接关系。</li></ul></li><li><p><strong>测试网卡的方法</strong></p><ul><li>使用 <code>ping</code> 测试网卡的 IP 地址（如 <code>ping 192.168.1.x</code>），确保网卡与局域网设备通信正常。</li><li>检查网卡硬件状态，可通过命令如 <code>ipconfig</code> (Windows) 或 <code>ifconfig</code> (Linux) 查看网卡是否被正确识别。</li><li>使用 <code>ethtool</code>（Linux）或设备管理器（Windows）进一步诊断。</li></ul></li></ol><p>简单来说，<code>ping 127.0.0.1</code> 仅能确认协议栈的正常性，不能完全验证网卡的工作状态。</p>]]></content>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;&lt;code&gt;localhost&lt;/code&gt; 和 &lt;code&gt;127.0.0.1&lt;/code&gt; 都是指向本地主机的地址，但它们在使用上有一些细微的区别：&lt;/p&gt;
-&lt;h3 id=&quot;1-127-0-0-1&quot;&gt;&lt;a href=&quot;#1-127-0-0-1&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="计算机网络" scheme="https://hmmmmmya.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
   </entry>
