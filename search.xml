@@ -4883,4 +4883,129 @@
         <category>c++</category>
       </categories>
   </entry>
+  <entry>
+    <title>078-vscode搜索最大显示19999+</title>
+    <url>/2025/03/06/078-vscode%E6%90%9C%E7%B4%A2%E6%9C%80%E5%A4%A7%E6%98%BE%E7%A4%BA19999/</url>
+    <content><![CDATA[<p>vscode 搜索最大显示 19999+, 超过后无法显示精确数量</p>
+<p>可以用 notepad++的计数功能, 可以准确显示具体数量</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20250306095800.png"></p>
+]]></content>
+      <categories>
+        <category>vscode</category>
+        <category>cursor</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>077-cpp类成员变量的声明顺序</title>
+    <url>/2025/02/28/077-cpp%E7%B1%BB%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E7%9A%84%E5%A3%B0%E6%98%8E%E9%A1%BA%E5%BA%8F/</url>
+    <content><![CDATA[<think>
+
+<p>在 C++中，类成员变量的声明顺序直接影响它们的初始化顺序。以下是关键点：</p>
+<ol>
+<li><strong>初始化顺序规则</strong>：</li>
+</ol>
+<ul>
+<li>成员变量按照在类定义中的声明顺序进行初始化</li>
+<li>与构造函数初始化列表中的顺序无关</li>
+</ul>
+<ol start="2">
+<li><strong>错误示例</strong>：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Example</span> &#123;</span><br><span class="line">    <span class="type">int</span> a = b;  <span class="comment">// 错误：b未声明</span></span><br><span class="line">    <span class="type">int</span> b = <span class="number">5</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>正确声明顺序</strong>：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Example</span> &#123;</span><br><span class="line">    <span class="type">int</span> b = <span class="number">5</span>;   <span class="comment">// 先声明b</span></span><br><span class="line">    <span class="type">int</span> a = b;   <span class="comment">// 正确使用已声明的b</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong>内存布局影响</strong>：</li>
+</ol>
+<ul>
+<li>声明顺序影响类的内存布局</li>
+<li>不同访问控制符（public&#x2F;protected&#x2F;private）的成员不会改变整体声明顺序</li>
+</ul>
+<ol start="5">
+<li><strong>最佳实践</strong>：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Widget</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:    <span class="comment">// 按初始化顺序分组声明</span></span><br><span class="line">    <span class="type">int</span> width;   <span class="comment">// 基础类型优先</span></span><br><span class="line">    <span class="type">int</span> height;</span><br><span class="line">    std::string name;  <span class="comment">// 复杂类型在后</span></span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt; data;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Widget</span>(<span class="type">int</span> w, <span class="type">int</span> h) : <span class="built_in">width</span>(w), <span class="built_in">height</span>(h) &#123;&#125; <span class="comment">// 初始化列表顺序不影响</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><strong>特殊注意事项</strong>：</li>
+</ol>
+<ul>
+<li>静态成员变量不受此规则限制</li>
+<li>常量成员必须在构造函数初始化列表中初始化</li>
+<li>引用类型成员必须初始化且不能重新绑定</li>
+</ul>
+<p>需要特别注意在存在依赖关系的成员变量之间，必须确保被依赖的成员先声明。<br></think></p>
+<p>在 C++中，类成员变量的声明顺序有以下重要规则和影响：</p>
+<ol>
+<li><strong>初始化顺序</strong>：</li>
+</ol>
+<ul>
+<li>成员变量按照在类定义中的声明顺序进行初始化</li>
+<li>与构造函数初始化列表中的顺序无关</li>
+<li>析构顺序与构造顺序相反</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Example</span> &#123;</span><br><span class="line">    <span class="type">int</span> a = b;  <span class="comment">// 错误：b还未声明</span></span><br><span class="line">    <span class="type">int</span> b = <span class="number">5</span>;  <span class="comment">// 实际初始化顺序：b先于a</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>内存布局</strong>：</li>
+</ol>
+<ul>
+<li>成员变量在内存中的排列顺序与声明顺序一致</li>
+<li>不同访问控制符（public&#x2F;protected&#x2F;private）的成员不会改变内存布局顺序</li>
+</ul>
+<ol start="3">
+<li><strong>最佳实践</strong>：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Widget</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:    <span class="comment">// 推荐声明顺序</span></span><br><span class="line">    <span class="comment">// 1. 类型定义和内部类型</span></span><br><span class="line">    <span class="keyword">using</span> Size = <span class="type">int</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 常量成员</span></span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> MAX_SIZE = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 引用成员</span></span><br><span class="line">    <span class="type">int</span>&amp; ref;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 基础类型成员</span></span><br><span class="line">    <span class="type">int</span> width;</span><br><span class="line">    <span class="type">int</span> height;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5. 复杂对象成员</span></span><br><span class="line">    std::string name;</span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt; data;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6. 静态成员</span></span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> count;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Widget</span>(<span class="type">int</span>&amp; r) : <span class="built_in">ref</span>(r), <span class="built_in">width</span>(<span class="number">0</span>), <span class="built_in">height</span>(<span class="number">0</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong>需要特别注意的情况</strong>：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dependency</span> &#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">10</span>;</span><br><span class="line">    <span class="type">int</span> y = x * <span class="number">2</span>;  <span class="comment">// 正确：x已声明</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CircularDependency</span> &#123;</span><br><span class="line">    <span class="type">int</span> a = b + <span class="number">1</span>;  <span class="comment">// 错误：b未声明</span></span><br><span class="line">    <span class="type">int</span> b = a * <span class="number">2</span>;  <span class="comment">// 双重错误</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><strong>标准建议（C++ Core Guidelines）</strong>：</li>
+</ol>
+<ul>
+<li>C.47: 按照成员变量声明的顺序定义构造函数初始化列表</li>
+<li>C.48: 优先使用类内初始化器进行成员变量初始化</li>
+</ul>
+<p>总结：</p>
+<ol>
+<li><p>总是按照依赖关系声明成员变量</p>
+</li>
+<li><p>基础类型优先于复杂类型声明</p>
+</li>
+<li><p>保持声明顺序与初始化需求一致</p>
+</li>
+<li><p>在初始化列表中保持与声明顺序一致（虽然编译器不强制，但可读性更好）</p>
+</li>
+<li><p>控制标志前置：</p>
+<ul>
+<li>保证线程启动时标志已就绪</li>
+<li>析构时最后销毁，避免悬空访问</li>
+</ul>
+</li>
+<li><p>同步原语提前：</p>
+<ul>
+<li>确保其他成员使用时互斥体已就绪</li>
+</ul>
+</li>
+<li><p>线程与队列顺序：</p>
+<ul>
+<li>保证队列在线程启动前完成构造</li>
+</ul>
+</li>
+<li><p>资源管理类排序：</p>
+<ul>
+<li>符合 RAII 对象优先原则</li>
+</ul>
+</li>
+</ol>
+]]></content>
+  </entry>
 </search>
