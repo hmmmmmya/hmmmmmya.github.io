@@ -4889,6 +4889,7 @@
     <content><![CDATA[<p>vscode 搜索最大显示 19999+, 超过后无法显示精确数量</p>
 <p>可以用 notepad++的计数功能, 可以准确显示具体数量</p>
 <p><img src="https://cdn.jsdelivr.net/gh/hmmmmmya/MyResources@main/typora/20250306095800.png"></p>
+<p>notepad 选中列(块)的方法, 即长内容选择<br>Alt + 双击左键</p>
 ]]></content>
       <categories>
         <category>vscode</category>
@@ -5007,5 +5008,41 @@
 </li>
 </ol>
 ]]></content>
+  </entry>
+  <entry>
+    <title>079-ClouDNSandCloudflare_mailtransfer</title>
+    <url>/2025/03/20/079-ClouDNSandCloudflare-mailtransfer/</url>
+    <content><![CDATA[<p>注册免费域名：<code>www.cloudns.net</code></p>
+<p>托管到<code>cloudflare</code></p>
+<ol>
+<li><code>cloudns</code>主页，选择DNS托管，创建区域，注册免费域名，获得域名</li>
+<li>DNS记录，删除所有生成的配置</li>
+<li>到<code>cloudflare</code>，添加域，输入现有域，填上面得到的域名，保持默认</li>
+<li>添加<code>cloudflare</code>名称服务器，将两个DNS服务器地址填到<code>cloudns</code>的新建记录，类型选择NS</li>
+<li><code>cloudflare</code>配置完成后，域名服务会显示活动状态（active）</li>
+<li>选择电子邮件，设置路由规则，选择<code>Catch-All</code>，目标位置选择要转发到的邮箱地址</li>
+<li><code>cloudflare</code>DNS的ip地址填到<code>cloudns</code>新建记录中，类型选择A</li>
+<li><code>cloudflare</code>生成的邮件配置，包含三个MX和一个TXT，都填到<code>cloudns</code>新建记录中，类型对应一致</li>
+</ol>
+<p>总结：</p>
+<ul>
+<li>两者需要双向配置</li>
+<li><code>cloudns</code><ul>
+<li>ip A型 （Cloudflare 服务器ip）</li>
+<li>NS 两个 （Cloudflare 名称服务器）</li>
+<li>MX 三个 （Cloudflare 邮件转发）</li>
+<li>TXT 一个（Cloudflare 邮件转发）</li>
+</ul>
+</li>
+<li><code>cloudflare</code><ul>
+<li>域名</li>
+<li>目标邮箱地址</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>域名</tag>
+      </tags>
   </entry>
 </search>
